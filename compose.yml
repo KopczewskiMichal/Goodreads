@@ -6,14 +6,14 @@ services:
       - "3306:3306"
 
     env_file:
-      - "./app/src/main/resources/.env"
+      - "./src/main/resources/.env"
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 15s
       retries: 5
     networks:
       auto_network:
-        ipv4_address: 172.28.0.1
+        ipv4_address: 172.28.0.5
     volumes:
       - goodreads_data:/var/lib/mysql
   # spring:
