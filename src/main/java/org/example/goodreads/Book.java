@@ -6,7 +6,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -35,4 +37,15 @@ public class Book implements Serializable {
 
     @Transient // Pole nie będzie zapisywane w bazie
     private static final ObjectMapper objectMapper = new ObjectMapper();
+
+    @ManyToMany(mappedBy = "genres")
+    private List<Genre> genres = new ArrayList<>();
+
+    public void addGenre(Genre genre) {
+        genres.add(genre);
+        genre.getBooks().add(this);
+    }
+
+
+
 }

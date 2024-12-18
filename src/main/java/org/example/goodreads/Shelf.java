@@ -1,5 +1,6 @@
 package org.example.goodreads;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,4 +35,7 @@ public class Shelf implements Serializable {
     public void addBook(Book book) {
         books.add(book);
     }
+
+    @Transient
+    private static final ObjectMapper mapper = new ObjectMapper();
 }
