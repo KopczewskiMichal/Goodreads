@@ -19,7 +19,7 @@ import java.util.Date;
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
+    private long user_id;
     private String name;
     private String surname;
     @Column(nullable = false)

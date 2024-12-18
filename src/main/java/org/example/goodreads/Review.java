@@ -17,7 +17,7 @@ import java.io.Serializable;
 public class Review implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long opinion_id;
+    private long opinion_id;
 
     private String text;
 
@@ -31,8 +31,6 @@ public class Review implements Serializable {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
-
 
     @Transient
     private static final ObjectMapper mapper = new ObjectMapper();
