@@ -8,11 +8,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
-@Setter
-@Getter
-@ToString(includeFieldNames = true)
+@Entity
 @Table(name = "shelf")
 public class Shelf implements Serializable {
     @Id

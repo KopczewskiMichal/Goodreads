@@ -21,6 +21,7 @@ public class GoodreadsApplication {
         System.setProperty("MYSQL_URL", dbUrl);
 
         if (!isDatabaseConnected(dbUrl, dbUser, dbPassword)) {
+            System.out.println(dotenv.get("MYSQL_URL"));
             System.err.println("Nie wykryto połączenia z bazą danych!");
         } else {
             System.out.println("Poprawnie nawiązano połączenie z bazą danych.");

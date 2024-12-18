@@ -6,12 +6,9 @@ import lombok.*;
 
 import java.io.Serializable;
 
+@Data
 @Entity
-@Getter
-@Setter
-@ToString(includeFieldNames = true)
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "review")
 public class Review implements Serializable {
     @Id

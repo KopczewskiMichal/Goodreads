@@ -10,11 +10,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@AllArgsConstructor
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 @Entity
-@ToString(includeFieldNames = true)
 @Table(name= "book")
 public class Book implements Serializable {
     @Id
@@ -45,85 +43,4 @@ public class Book implements Serializable {
         genre.getBooks().add(this);
     }
 
-
-
-
-
-
-
-
-
-
-
-    public List<Genre> getGenres() {
-        return genres;
-    }
-
-
-    public Book() {
-    }
-
-    public void setGenres(List<Genre> genres) {
-        this.genres = genres;
-    }
-
-    public String getPhotoUrl() {
-        return photoUrl;
-    }
-
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
-    }
-
-    public String getPurchaseLink() {
-        return purchaseLink;
-    }
-
-    public void setPurchaseLink(String purchaseLink) {
-        this.purchaseLink = purchaseLink;
-    }
-
-    public String getDescription() {
-        return Description;
-    }
-
-    public void setDescription(String description) {
-        Description = description;
-    }
-
-    public Date getReleaseDate() {
-        return releaseDate;
-    }
-
-    public void setReleaseDate(Date releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getISBN() {
-        return ISBN;
-    }
-
-    public void setISBN(String ISBN) {
-        this.ISBN = ISBN;
-    }
-
-    public long getBook_id() {
-        return book_id;
-    }
 }

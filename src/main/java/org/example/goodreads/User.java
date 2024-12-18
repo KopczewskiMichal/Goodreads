@@ -8,12 +8,9 @@ import lombok.*;
 import java.io.Serializable;
 import java.util.Date;
 
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
-@Getter
-@Setter
 @Entity
-@ToString(includeFieldNames = true)
 @Table(name = "user")
 public class User implements Serializable {
     @Id

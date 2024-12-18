@@ -8,11 +8,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@AllArgsConstructor
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 @Entity
-@ToString(includeFieldNames = true)
 @Table(name = "genres")
 public class Genre implements Serializable {
     @Id
@@ -35,35 +33,4 @@ public class Genre implements Serializable {
         book.getGenres().add(this);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public Genre() {
-    }
-
-    public String getGenreName() {
-        return genreName;
-    }
-
-    public void setGenreName(String genreName) {
-        this.genreName = genreName;
-    }
-
-    public List<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(List<Book> books) {
-        this.books = books;
-    }
 }
