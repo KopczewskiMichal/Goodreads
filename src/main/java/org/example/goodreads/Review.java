@@ -9,7 +9,6 @@ import java.io.Serializable;
 @Entity
 @Getter
 @Setter
-@Builder
 @ToString(includeFieldNames = true)
 @NoArgsConstructor
 @AllArgsConstructor

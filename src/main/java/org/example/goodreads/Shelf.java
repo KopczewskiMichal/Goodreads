@@ -12,7 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @Setter
 @Getter
-@Builder
 @ToString(includeFieldNames = true)
 @Table(name = "shelf")
 public class Shelf implements Serializable {

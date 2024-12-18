@@ -11,9 +11,9 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
+@Entity
 @ToString(includeFieldNames = true)
-@Table(name = "Genres")
+@Table(name = "genres")
 public class Genre implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,4 +35,35 @@ public class Genre implements Serializable {
         book.getGenres().add(this);
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public Genre() {
+    }
+
+    public String getGenreName() {
+        return genreName;
+    }
+
+    public void setGenreName(String genreName) {
+        this.genreName = genreName;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
 }

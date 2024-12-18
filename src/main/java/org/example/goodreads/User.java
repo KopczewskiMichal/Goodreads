@@ -13,7 +13,6 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-@Builder
 @ToString(includeFieldNames = true)
 @Table(name = "user")
 public class User implements Serializable {
