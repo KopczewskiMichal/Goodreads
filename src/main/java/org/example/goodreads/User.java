@@ -6,6 +6,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.Date;
 
 @Data
@@ -29,4 +32,22 @@ public class User implements Serializable {
 
     @Transient
     private static final ObjectMapper mapper = new ObjectMapper();
+
+    private static String hashPassword(String password) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+
+            byte[] hashBytes = digest.digest(password.getBytes());
+
+            return Base64.getEncoder().encodeToString(hashBytes);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("SHA-256 algorithm not available", e);
+        }
+    }
+
+    public static boolean verifyPassword(String password, String hashedPassword) {
+        String hashedInput = hashPassword(password);
+
+        return hashedInput.equals(hashedPassword);
+    }
 }
