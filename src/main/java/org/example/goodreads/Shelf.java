@@ -3,6 +3,7 @@ package org.example.goodreads;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.goodreads.user.User;
 
 import java.io.Serializable;
 import java.util.ArrayList;

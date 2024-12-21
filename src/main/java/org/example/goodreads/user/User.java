@@ -1,4 +1,4 @@
-package org.example.goodreads;
+package org.example.goodreads.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,6 +12,8 @@ import java.util.Base64;
 import java.util.Date;
 
 @Data
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "user")
@@ -19,8 +21,7 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long user_id;
-    private String name;
-    private String surname;
+    private String username;
     @Column(nullable = false)
     private String passwordHash;
     @Column(nullable = false)
@@ -33,7 +34,7 @@ public class User implements Serializable {
     @Transient
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    private static String hashPassword(String password) {
+    public static String hashPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
 
@@ -45,9 +46,9 @@ public class User implements Serializable {
         }
     }
 
-    public static boolean verifyPassword(String password, String hashedPassword) {
+    public boolean verifyPassword(String password) {
         String hashedInput = hashPassword(password);
 
-        return hashedInput.equals(hashedPassword);
+        return this.passwordHash.equals(hashedInput);
     }
 }
