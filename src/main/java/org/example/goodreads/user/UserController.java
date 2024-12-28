@@ -24,9 +24,12 @@ public class UserController {
         String username = body.get("username").toString();
         String password = body.get("password").toString();
         String email = body.get("email").toString();
-
-        this.userService.registerUser(username, password, email);
+        try {
+        this.userService.registerUser(username, email, password);
         return ResponseEntity.ok("User registered successfully");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
     }
 
     @PostMapping("/validate")

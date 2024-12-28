@@ -20,7 +20,7 @@ import java.util.Date;
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long user_id;
+    private long userId;
     private String username;
     @Column(nullable = false)
     private String passwordHash;

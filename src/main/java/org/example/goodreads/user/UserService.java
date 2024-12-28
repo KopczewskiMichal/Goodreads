@@ -14,6 +14,12 @@ public class UserService {
     }
 
     void registerUser(String username, String email, String password) {
+        if (userRepository.findByEmail(email).isPresent()) {
+            throw new IllegalArgumentException("Email already registered");
+        } else if (userRepository.findByUsername(username).isPresent()) {
+            throw new IllegalArgumentException("Username already registered");
+        }
+
         String passwordHash = User.hashPassword(password);
         User newUser = User.builder()
                 .username(username)
@@ -37,10 +43,10 @@ public class UserService {
                 .orElseThrow(() -> new NoSuchElementException("User not found"));
     }
 
-    public void deleteUser(String userId) {
+    public void deleteUser(Long userId) {
         Optional<User> userOptional = this.userRepository.findByUserId(userId);
         if (userOptional.isPresent()) {
-            this.userRepository.deleteById(userOptional.get().getUser_id());
+            this.userRepository.deleteById(userOptional.get().getUserId());
         } else {
             throw new NoSuchElementException("User not found");
         }

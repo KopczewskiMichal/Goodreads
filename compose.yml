@@ -16,7 +16,7 @@ services:
     #      auto_network:
     #        ipv4_address: 172.28.0.5
     volumes:
-      - goodreads_data:/var/lib/mysql
+      - data:/var/lib/mysql
   # spring:
   #   build: './app'
   #   depends_on:
@@ -28,7 +28,7 @@ services:
   #     - auto_network
 
 volumes:
-  goodreads_data:
+  data:
     driver: local
 
 #networks:
