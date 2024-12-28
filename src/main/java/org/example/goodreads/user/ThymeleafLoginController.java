@@ -31,8 +31,7 @@ public class ThymeleafLoginController {
         try {
             String result = userService.validateUser(identifier, password);
             model.addAttribute("message", result);
-            System.out.println("Zalogowano poprawnie");
-            return "dashboard";
+//            return "dashboard";
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", "Invalid password");
         } catch (NoSuchElementException e) {
