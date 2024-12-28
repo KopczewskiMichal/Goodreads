@@ -7,47 +7,40 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
-    private final UserRepository userRepository;
-    public UserController(final UserRepository userRepository) {
-        this.userRepository = userRepository;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
+
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody Map<String, Object> body) {
-        String userName = body.get("username").toString();
+        String username = body.get("username").toString();
         String password = body.get("password").toString();
         String email = body.get("email").toString();
 
-        String passwordHash = User.hashPassword(password);
-        User newUser = User.builder()
-                .username(userName)
-                .email(email)
-                .passwordHash(passwordHash)
-                .build();
-
-        this.userRepository.save(newUser);
+        this.userService.registerUser(username, password, email);
         return ResponseEntity.ok("User registered successfully");
     }
 
     @PostMapping("/validate")
     public ResponseEntity<String> validateUser(@RequestBody Map<String, Object> body) {
-        String identifier = body.get("identifier").toString();
-        String password = body.get("password").toString();
-        
-        boolean isEmail = identifier.contains("@");
+        try {
+            String identifier = body.get("identifier").toString();
+            String password = body.get("password").toString();
 
-        return (isEmail ? userRepository.findByEmail(identifier) : userRepository.findByUsername(identifier))
-                .map(user -> {
-                    if (user.verifyPassword(password)) {
-                        return ResponseEntity.ok("Password is correct for user: " + user.getUsername());
-                    } else {
-                        return ResponseEntity.status(401).body("Invalid password");
-                    }
-                })
-                .orElse(ResponseEntity.status(404).body("User not found"));
+            String message = userService.validateUser(identifier, password);
+            return ResponseEntity.ok(message);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(401).body(e.getMessage());
+        }
     }
 }
