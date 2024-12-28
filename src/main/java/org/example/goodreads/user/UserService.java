@@ -3,6 +3,7 @@ package org.example.goodreads.user;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -34,5 +35,14 @@ public class UserService {
                     }
                 })
                 .orElseThrow(() -> new NoSuchElementException("User not found"));
+    }
+
+    public void deleteUser(String userId) {
+        Optional<User> userOptional = this.userRepository.findByUserId(userId);
+        if (userOptional.isPresent()) {
+            this.userRepository.deleteById(userOptional.get().getUser_id());
+        } else {
+            throw new NoSuchElementException("User not found");
+        }
     }
 }
