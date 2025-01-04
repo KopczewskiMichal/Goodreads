@@ -4,12 +4,14 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Date;
 
 
@@ -37,19 +39,22 @@ public class JwtUtil {
                     .setSigningKey(secret)
                     .parseClaimsJws(token)
                     .getBody();
-            System.out.println(claims.getSubject());
             return claims.getSubject();
         } catch (JwtException e) {
             throw new IllegalArgumentException("Invalid JWT token");
         }
     }
 
-    public String getUseIdFromRequest(HttpServletRequest request) {
-        String jwt = request.getHeader("Authorization");
-        if (jwt != null && jwt.startsWith("Bearer ")) {
-            jwt = jwt.replace("Bearer ", "");
-            return validateToken(jwt);
-        }
-        return null;
+    public Long getUserIdFromRequest(HttpServletRequest request) {
+        String jwt = Arrays.stream((request).getCookies() != null ? ((HttpServletRequest) request).getCookies() : new Cookie[0])
+                .filter(cookie -> "JWT".equals(cookie.getName()))
+                .map(Cookie::getValue)
+                .findFirst()
+                .orElse(null);
+        if (jwt != null) {
+            String tokenPayload = validateToken(jwt);
+            return Long.valueOf(tokenPayload.replace("UserId: ", ""));
+        } else return null;
     }
 }
+

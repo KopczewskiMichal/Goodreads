@@ -1,12 +1,15 @@
 package org.example.goodreads.user;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.example.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/user")
 public class ThymeleafUserController {
 
     private final UserService userService;
@@ -18,11 +21,12 @@ public class ThymeleafUserController {
         this.jwtUtil = jwtUtil;
     }
 
-    @GetMapping("/user")
-    public String userPage(Model model) {
-        // TODO stworzyć model html
+    @GetMapping("/")
+    public String userPage(Model model, HttpServletRequest request) {
         //TODO dodać do modelu dane użytkownika
 
+        long userId = jwtUtil.getUserIdFromRequest(request);
+        model.addAttribute("userId", userId);
         return "userPage";
     }
 }
