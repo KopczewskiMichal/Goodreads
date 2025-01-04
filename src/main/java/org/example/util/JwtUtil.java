@@ -1,10 +1,17 @@
 package org.example.util;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+
 
 @Component
 public class JwtUtil {
@@ -34,5 +41,14 @@ public class JwtUtil {
         } catch (JwtException e) {
             throw new IllegalArgumentException("Invalid JWT token");
         }
+    }
+
+    public String getUsernameFromRequest(HttpServletRequest request) {
+        String jwt = request.getHeader("Authorization");
+        if (jwt != null && jwt.startsWith("Bearer ")) {
+            jwt = jwt.replace("Bearer ", "");
+            return validateToken(jwt);
+        }
+        return null;
     }
 }

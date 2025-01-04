@@ -49,12 +49,11 @@ public class LoginApiController {
 
     @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpServletResponse response) {
-        // Usunięcie ciasteczka
         Cookie cookie = new Cookie("jwt", null);
         cookie.setHttpOnly(true);
         cookie.setSecure(false); // Zmień na `true` w środowisku produkcyjnym
         cookie.setPath("/");
-        cookie.setMaxAge(0); // Ustawienie czasu życia na 0, aby usunąć ciasteczko
+        cookie.setMaxAge(0); // Usunięcie ciasteczka przez ustawienie 0 czasu życia
         response.addCookie(cookie);
 
         return ResponseEntity.ok("Logged out successfully");
