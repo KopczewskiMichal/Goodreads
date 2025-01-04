@@ -28,6 +28,7 @@
     if (response.ok) {
       window.location.href = '/';
     } else {
+      console.error("siema, to ja dostaję problem");
       alert('Login failed: ' + await response.text());
     }
   }

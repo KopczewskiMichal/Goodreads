@@ -29,7 +29,6 @@ public class LoginApiController {
             HttpServletResponse response) {
         try {
             String username = userService.validateUser(identifier, password);
-
             String jwt = jwtUtil.generateToken(username);
 
             Cookie cookie = new Cookie("jwt", jwt);
