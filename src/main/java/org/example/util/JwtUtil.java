@@ -37,13 +37,14 @@ public class JwtUtil {
                     .setSigningKey(secret)
                     .parseClaimsJws(token)
                     .getBody();
+            System.out.println(claims.getSubject());
             return claims.getSubject();
         } catch (JwtException e) {
             throw new IllegalArgumentException("Invalid JWT token");
         }
     }
 
-    public String getUsernameFromRequest(HttpServletRequest request) {
+    public String getUseIdFromRequest(HttpServletRequest request) {
         String jwt = request.getHeader("Authorization");
         if (jwt != null && jwt.startsWith("Bearer ")) {
             jwt = jwt.replace("Bearer ", "");

@@ -35,7 +35,7 @@ public class UserService {
         return (isEmail ? userRepository.findByEmail(identifier) : userRepository.findByUsername(identifier))
                 .map(user -> {
                     if (user.verifyPassword(password)) {
-                        return "Password is correct for user: " + user.getUsername();
+                        return "UserId: " + user.getUserId();
                     } else {
                         throw new IllegalArgumentException("Invalid password");
                     }

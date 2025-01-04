@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/public/api/user")
 public class UserController {
     private final UserService userService;
 

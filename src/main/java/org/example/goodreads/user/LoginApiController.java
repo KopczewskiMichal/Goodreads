@@ -28,10 +28,10 @@ public class LoginApiController {
             @RequestParam("password") String password,
             HttpServletResponse response) {
         try {
-            String username = userService.validateUser(identifier, password);
-            String jwt = jwtUtil.generateToken(username);
+            String message = userService.validateUser(identifier, password);
+            String jwt = jwtUtil.generateToken(message);
 
-            Cookie cookie = new Cookie("jwt", jwt);
+            Cookie cookie = new Cookie("JWT", jwt);
             cookie.setHttpOnly(true);
             cookie.setSecure(false);
             cookie.setPath("/");

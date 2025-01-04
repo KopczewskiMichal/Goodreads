@@ -29,7 +29,6 @@ public class JwtAuthenticationFilter implements Filter {
             jakarta.servlet.ServletRequest request,
             jakarta.servlet.ServletResponse response,
             FilterChain chain) throws IOException, ServletException {
-
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
@@ -38,13 +37,11 @@ public class JwtAuthenticationFilter implements Filter {
                 .map(Cookie::getValue)
                 .findFirst()
                 .orElse(null);
-
         if (jwt != null) {
-            String username = jwtUtil.validateToken(jwt);
-
-            if (username != null) {
+            String tokenPayload = jwtUtil.validateToken(jwt);
+            if (tokenPayload != null) {
                 UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(username, null, null);
+                        new UsernamePasswordAuthenticationToken(tokenPayload, null, null);
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
