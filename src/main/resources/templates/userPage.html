@@ -6,9 +6,16 @@
 </head>
 <body>
     <h2>Informacje o użytkowniku</h2>
-<!--    <p>Username: <span th:text="${user.username}"></span></p>-->
-<!--    <p>Email: <span th:text="${user.email}"></span></p>-->
-    <p>UserId: <span th:text="${userId}"></span></p>
+    <p>Username: <span th:text="${user.username}"></span></p>
+    <p>Email: <span th:text="${user.email}"></span></p>
+
+    <div th:if="${user.description != null}">
+    <p>Description: <span th:text="${user.description}"></span></p>
+    </div>
+
+    <div th:if="${user.birthDate != null}">
+    <p>Birth Date: <span th:text="${user.birthDate}"></span></p>
+    </div>
 
 </body>
 </html>

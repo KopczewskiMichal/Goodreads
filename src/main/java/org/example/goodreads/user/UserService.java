@@ -51,4 +51,13 @@ public class UserService {
             throw new NoSuchElementException("User not found");
         }
     }
+
+    public User getUserById(long userId) {
+        Optional<User> userOptional = this.userRepository.findByUserId(userId);
+        if (userOptional.isPresent()) {
+            return userOptional.get();
+        } else {
+            throw new NoSuchElementException("User not found");
+        }
+    }
 }

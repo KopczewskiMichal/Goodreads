@@ -23,10 +23,9 @@ public class ThymeleafUserController {
 
     @GetMapping("/")
     public String userPage(Model model, HttpServletRequest request) {
-        //TODO dodać do modelu dane użytkownika
-
         long userId = jwtUtil.getUserIdFromRequest(request);
-        model.addAttribute("userId", userId);
+        User user = userService.getUserById(userId);
+        model.addAttribute("user", user);
         return "userPage";
     }
 }
