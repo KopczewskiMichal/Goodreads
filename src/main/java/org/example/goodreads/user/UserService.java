@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
-public class UserService {
+class UserService {
     private final UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {

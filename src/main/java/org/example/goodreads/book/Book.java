@@ -1,9 +1,10 @@
-package org.example.goodreads;
+package org.example.goodreads.book;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.goodreads.Genre;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class Book implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long book_id;
-    @Column(unique=true)
+    @Column(unique=true, nullable = false)
     private String ISBN;
     @Column(nullable = false)
     private String title;
