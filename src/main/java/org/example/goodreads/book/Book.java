@@ -13,6 +13,8 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 @Entity
 @Table(name= "book")
 public class Book implements Serializable {
@@ -28,7 +30,7 @@ public class Book implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.DATE)
     private Date releaseDate;
-    private String Description;
+    private String description;
     private String purchaseLink;
     private String photoUrl;
 

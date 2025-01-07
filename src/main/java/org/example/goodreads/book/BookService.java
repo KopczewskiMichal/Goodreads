@@ -1,8 +1,11 @@
 package org.example.goodreads.book;
 
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Service
 public class BookService {
     private final BookRepository bookRepository;
 
@@ -23,5 +26,9 @@ public class BookService {
 
     List<Book> getBookByTittle(String title) {
         return bookRepository.findByTitle(title);
+    }
+
+    public List<Book> getAllBooks() {
+        return bookRepository.findAll().stream().limit(20).toList();
     }
 }
