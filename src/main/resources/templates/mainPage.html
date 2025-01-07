@@ -5,8 +5,10 @@
     <title>Goodreads</title>
 </head>
 <body>
-  <h1>Welcome to Goodreads!</h1>
-  <a href="/books">Books</a> | <a href="/authors">Authors</a> | <a href="/login">Login</a>
+<div th:replace="~{fragments :: header}"></div>
+
+
+<h1>Main Page</h1>
 
   <div th:if="${session.errorMessage}">
     <p th:text="${session.errorMessage}"></p>
@@ -20,5 +22,8 @@
     <p>Logged in as: <span th:text="${session.user.username}"></span></p>
     <a href="/logout">Logout</a>
   </div>
+
+<div th:replace="~{fragments :: footer}"></div>
+
 </body>
 </html>

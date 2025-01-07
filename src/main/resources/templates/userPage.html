@@ -5,6 +5,8 @@
     <title>User</title>
 </head>
 <body>
+    <div th:replace="~{fragments :: header}"></div>
+    <h1>User Page</h1>
     <h2>Informacje o użytkowniku</h2>
     <p>Username: <span th:text="${user.username}"></span></p>
     <p>Email: <span th:text="${user.email}"></span></p>
@@ -17,5 +19,6 @@
     <p>Birth Date: <span th:text="${user.birthDate}"></span></p>
     </div>
 
+    <div th:replace="~{fragments :: footer}"></div>
 </body>
 </html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="header">
+    <header>
+        <a th:href="@{/}">
+            <h1>Goodreads</h1>
+        </a>
+    </header>
+    <nav>
+        <a href="/books">Books</a>
+        <a href="/login">Login</a>
+    </nav>
+</div>
+
+<div th:fragment="footer">
+    <footer>
+        <p>&copy; 2025 Kopczewski Michał</p>
+    </footer>
+</div>
+</body>
+</html>

@@ -66,7 +66,6 @@ class ThymeleafBookController {
     @GetMapping("")
     public String showAllBooks(Model model) {
         model.addAttribute("books", bookService.getAllBooks());
-        System.out.println(bookService.getAllBooks());
         return "books";
     }
 
