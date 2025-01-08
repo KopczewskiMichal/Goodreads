@@ -37,7 +37,7 @@ public class Book implements Serializable {
     @Transient
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-
+    // TODO wymagane zatwierdzenie książki przez admina
     @ManyToMany(mappedBy = "books")
     private List<Genre> genres = new ArrayList<>();
 

@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -46,15 +48,17 @@ public class LoginApiController {
         }
     }
 
-    @PostMapping("/logout")
-    public ResponseEntity<String> logout(HttpServletResponse response) {
+
+    @GetMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletResponse response) throws IOException {
         Cookie cookie = new Cookie("JWT", null);
         cookie.setHttpOnly(true);
         cookie.setSecure(false);
         cookie.setPath("/");
-        cookie.setMaxAge(0); // Usunięcie ciasteczka przez ustawienie 0 czasu życia
-        response.addCookie(cookie);
+        cookie.setMaxAge(0);
 
+        response.addCookie(cookie);
+        response.sendRedirect("/");
         return ResponseEntity.ok("Logged out successfully");
     }
 }

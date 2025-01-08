@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/user")
-public class ThymeleafUserController {
+@RequestMapping("/profile")
+public class ThymeleafProfileController {
 
     private final UserService userService;
     private final JwtUtil jwtUtil;
 
     @Autowired
-    public ThymeleafUserController(UserService userService, JwtUtil jwtUtil) {
+    public ThymeleafProfileController(UserService userService, JwtUtil jwtUtil) {
         this.userService = userService;
         this.jwtUtil = jwtUtil;
     }

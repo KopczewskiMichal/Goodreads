@@ -34,6 +34,8 @@ public class User implements Serializable {
     @Transient
     private static final ObjectMapper mapper = new ObjectMapper();
 
+    // TODO zdjęcie użytkownika
+
     public static String hashPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
