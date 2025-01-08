@@ -3,10 +3,7 @@ package org.example.goodreads.book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,12 +19,12 @@ class ThymeleafBookController {
         this.bookService = bookService;
     }
 
-    @GetMapping("/add")
+    @GetMapping("/public/add")
     public String addBook() {
         return "addBook";
     }
 
-    @PostMapping("/add")
+    @PostMapping("/public/add")
     public String addBook(@RequestParam String ISBN,
                           @RequestParam String title,
                           @RequestParam String author,
@@ -63,11 +60,16 @@ class ThymeleafBookController {
         }
     }
 
-    @GetMapping("")
+    @GetMapping("/public")
     public String showAllBooks(Model model) {
         model.addAttribute("books", bookService.getAllBooks());
         return "books";
     }
 
-
+    @GetMapping("/public/{id}")
+    public String showBookDetails(@PathVariable long id, Model model) {
+        Book book = bookService.getBookById(id);
+        model.addAttribute("book", book);
+        return "bookDetails";
+    }
 }

@@ -31,4 +31,8 @@ public class BookService {
     public List<Book> getAllBooks() {
         return bookRepository.findAll().stream().limit(20).toList();
     }
+
+    public Book getBookById(long id) {
+        return bookRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Book not found"));
+    }
 }

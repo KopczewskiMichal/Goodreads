@@ -12,6 +12,7 @@
     <div th:each="book : ${books}">
         <h2><span th:text="${book.title}"></span></h2>
         <p>Author: <span th:text="${book.author}"></span></p>
+        <a th:href="@{/books/public/{id}(id=${book.book_id})}">More info</a>
     </div>
     <a href="/">Powrót do strony głównej</a>
 <div th:replace="~{fragments :: footer}"></div>
