@@ -3,9 +3,9 @@
 <body>
 <div th:fragment="header">
     <header>
-        <a th:href="@{/}">
-            <h1>Goodreads</h1>
-        </a>
+        <h1>
+            <a th:href="@{/}">Goodreads</a>
+        </h1>
     </header>
     <nav>
         <ul>
@@ -27,66 +27,5 @@
         <p>&copy; 2025 Kopczewski Michał</p>
     </footer>
 </div>
-
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-    }
-
-    header {
-        background-color: #333;
-        color: #fff;
-        padding: 15px 20px;
-        text-align: center;
-    }
-
-    header h1 {
-        margin: 0;
-        font-size: 24px;
-    }
-
-    nav ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        display: flex;
-        justify-content: center;
-        background-color: #444;
-    }
-
-    nav ul li {
-        margin: 0 15px;
-    }
-
-    nav ul li a {
-        color: #fff;
-        text-decoration: none;
-        font-size: 16px;
-        padding: 10px 15px;
-    }
-
-    nav ul li a:hover {
-        background-color: #666;
-        border-radius: 5px;
-    }
-
-    footer {
-        background-color: #333;
-        color: #fff;
-        text-align: center;
-        padding: 10px;
-        position: fixed;
-        width: 100%;
-        bottom: 0;
-    }
-
-    footer p {
-        margin: 0;
-        font-size: 14px;
-    }
-</style>
 </body>
 </html>
