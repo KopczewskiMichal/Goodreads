@@ -32,12 +32,17 @@ public class Book implements Serializable {
     private Date releaseDate;
     private String description;
     private String purchaseLink;
-    private String photoUrl;
+
+    @Lob
+    @Column(name = "cover", nullable = true)
+    private byte[] cover;
+
+    @Column(name = "is_approved", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private boolean isApproved = false;
 
     @Transient
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    // TODO wymagane zatwierdzenie książki przez admina
     @ManyToMany(mappedBy = "books")
     private List<Genre> genres = new ArrayList<>();
 

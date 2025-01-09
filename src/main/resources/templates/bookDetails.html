@@ -12,7 +12,7 @@
   <p>Description: <span th:text="${book.description}"></span></p>
   <p>Release Date <span th:text="${book.releaseDate}"></span></p>
   <p><a th:href="@{${book.getPurchaseLink()}}">Purchase Link</a></p>
-  <img th:src="@{${book.photoUrl}}" alt="Book Cover">
+<img th:src="@{/books/public/cover(bookId=${book.getBook_id()})}" alt="Book Cover">
 
 
 <div th:replace="~{fragments :: footer}"></div>

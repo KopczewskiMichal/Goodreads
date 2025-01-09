@@ -1,10 +1,17 @@
 package org.example.goodreads.book;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,7 +38,7 @@ class ThymeleafBookController {
                           @RequestParam String releaseDate, // Data jako String
                           @RequestParam(required = false) String description,
                           @RequestParam(required = false) String purchaseLink,
-                          @RequestParam(required = false) String photoUrl,
+                          @RequestParam(required = false) byte[] cover,
                           Model model) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -44,7 +51,7 @@ class ThymeleafBookController {
                     .releaseDate(parsedReleaseDate)
                     .description(description)
                     .purchaseLink(purchaseLink)
-                    .photoUrl(photoUrl)
+                    .cover(cover)
                     .build();
 
             bookService.addBook(book);
@@ -71,5 +78,30 @@ class ThymeleafBookController {
         Book book = bookService.getBookById(id);
         model.addAttribute("book", book);
         return "bookDetails";
+    }
+
+    @GetMapping("/public/cover")
+    public ResponseEntity<byte[]> getCover(@RequestParam Long bookId) {
+        Book book = this.bookService.getBookById(bookId);
+
+        byte[] image;
+        if (book == null || book.getCover() == null) {
+            image = getDefaultImage();
+        } else {
+            image = book.getCover();
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(org.springframework.http.MediaType.IMAGE_JPEG);
+        return new ResponseEntity<>(image, headers, HttpStatus.OK);
+    }
+
+    private byte[] getDefaultImage() {
+        try {
+            Resource resource = new ClassPathResource("/images/default_cover.png");
+            return StreamUtils.copyToByteArray(resource.getInputStream());
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load default image", e);
+        }
     }
 }
