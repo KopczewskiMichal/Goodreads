@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Books</title>
-    <link rel="stylesheet" th:href="@{/css/fragments.css}"/>
+    <link rel="stylesheet" th:href="@{/css/books.css}"/>
 
 </head>
 <body>
@@ -11,11 +11,29 @@
 
     <h1>Books</h1>
 <p><a href="/books/public/add">Add Book</a></p>
-    <div th:each="book : ${books}">
-        <h2><span th:text="${book.title}"></span></h2>
-        <p>Author: <span th:text="${book.author}"></span></p>
-        <a th:href="@{/books/public/{id}(id=${book.book_id})}">More info</a>
-    </div>
+<table>
+    <thead>
+    <tr>
+        <th>Zdjęcie</th>
+        <th>Tytuł</th>
+        <th>Autor</th>
+        <th>Więcej informacji</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+        <td>
+            <div class="book-image">
+                <img th:src="@{/books/public/cover(bookId=${book.getBook_id()})}" alt="Book Cover">
+
+            </div>
+        </td>
+        <td><span th:text="${book.title}"></span></td>
+        <td><span th:text="${book.author}"></span></td>
+        <td><a th:href="@{/books/public/{id}(id=${book.book_id})}">More info</a></td>
+    </tr>
+    </tbody>
+</table>
     <a href="/">Powrót do strony głównej</a>
 <div th:replace="~{fragments :: footer}"></div>
 </body>
