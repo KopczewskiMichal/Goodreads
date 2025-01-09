@@ -1,0 +1,17 @@
+header {
+  h1 a {
+    text-decoration: none;
+    color: inherit
+  }
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+
+  li {
+    display: inline;
+  }
+}

@@ -9,6 +9,9 @@
     </header>
     <nav>
         <ul>
+            <li>
+                <a href="/books/public">Books</a>
+            </li>
             <li th:if="${#authorization.expression('isAuthenticated()')}">
                 <a href="/profile/">My Profile</a>
             </li>
