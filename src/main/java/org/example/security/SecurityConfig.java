@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/api/auth/login", "books/public/**","/public/**", "/css/**").permitAll()
+                        .requestMatchers("/", "/login", "/api/auth/login", "books/public/**","/public/**", "/css/**", "/images/default_cover.png").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling()
