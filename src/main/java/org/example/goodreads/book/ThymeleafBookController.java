@@ -59,7 +59,7 @@ class ThymeleafBookController {
             model.addAttribute("message", "Dodano książkę: " + title);
             model.addAttribute("book", book);
 
-            return "redirect:/books";
+            return "redirect:/books/public";
 
         } catch (ParseException e) {
             model.addAttribute("error", "Błąd parsowania daty: " + releaseDate);
@@ -83,14 +83,12 @@ class ThymeleafBookController {
     @GetMapping("/public/cover")
     public ResponseEntity<byte[]> getCover(@RequestParam Long bookId) {
         Book book = this.bookService.getBookById(bookId);
-
         byte[] image;
         if (book == null || book.getCover() == null) {
             image = getDefaultImage();
         } else {
             image = book.getCover();
         }
-
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(org.springframework.http.MediaType.IMAGE_JPEG);
         return new ResponseEntity<>(image, headers, HttpStatus.OK);

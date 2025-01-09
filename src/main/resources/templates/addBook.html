@@ -8,7 +8,7 @@
 <div class="container mt-5">
 
     <h1 class="text-center">Dodaj Książkę</h1>
-    <form th:action="@{/books/add}" method="post" class="mt-4">
+    <form th:action="@{/books/public/add}" method="post" class="mt-4">
         <div class="mb-3">
             <label for="ISBN" class="form-label">ISBN</label>
             <input type="text" id="ISBN" name="ISBN" class="form-control" placeholder="Wprowadź ISBN" required>
@@ -34,9 +34,10 @@
             <input type="url" id="purchaseLink" name="purchaseLink" class="form-control" placeholder="Wprowadź link zakupu">
         </div>
         <div class="mb-3">
-            <label for="photoUrl" class="form-label">URL Zdjęcia</label>
-            <input type="url" id="photoUrl" name="photoUrl" class="form-control" placeholder="Wprowadź URL zdjęcia">
+            <label for="photo" class="form-label">Wybierz zdjęcie</label>
+            <input type="file" id="photo" name="photo" class="form-control">
         </div>
+
         <button type="submit" class="btn btn-primary">Dodaj Książkę</button>
     </form>
 </div>

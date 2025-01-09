@@ -10,7 +10,7 @@
 <div th:replace="~{fragments :: header}"></div>
 
     <h1>Books</h1>
-<p><a href="/books/add">Add Book</a></p>
+<p><a href="/books/public/add">Add Book</a></p>
     <div th:each="book : ${books}">
         <h2><span th:text="${book.title}"></span></h2>
         <p>Author: <span th:text="${book.author}"></span></p>
