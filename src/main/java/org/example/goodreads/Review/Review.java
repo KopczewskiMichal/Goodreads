@@ -1,4 +1,4 @@
-package org.example.goodreads;
+package org.example.goodreads.Review;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
@@ -15,7 +15,7 @@ import java.io.Serializable;
 public class Review implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long opinion_id;
+    private long review_id;
 
     private String text;
 
