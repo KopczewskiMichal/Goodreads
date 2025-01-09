@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -63,9 +64,66 @@ class ThymeleafBookController {
 
         } catch (ParseException e) {
             model.addAttribute("error", "Błąd parsowania daty: " + releaseDate);
-            return "add-book";
+            return "addBook";
         }
     }
+
+    @PostMapping("/edit/{id}")
+    public String editBook(@PathVariable Long id,
+                           @RequestParam String title,
+                           @RequestParam String author,
+                           @RequestParam String releaseDate,
+                           @RequestParam(required = false) String description,
+                           @RequestParam(required = false) String purchaseLink,
+                           @RequestParam(required = false) MultipartFile cover,
+                           Model model) {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date parsedReleaseDate = dateFormat.parse(releaseDate);
+
+            Book book = bookService.getBookById(id);
+            if (book == null) {
+                model.addAttribute("error", "Książka o podanym ID nie istnieje.");
+                return "redirect:/books/public";
+            }
+
+            book.setTitle(title);
+            book.setAuthor(author);
+            book.setReleaseDate(parsedReleaseDate);
+            book.setDescription(description);
+            book.setPurchaseLink(purchaseLink);
+
+            if (!cover.isEmpty()) {
+                book.setCover(cover.getBytes());
+            }
+
+            bookService.updateBook(book);
+
+            model.addAttribute("message", "Książka została zaktualizowana: " + title);
+            model.addAttribute("book", book);
+
+            return "redirect:/books/public";
+
+        } catch (ParseException e) {
+            model.addAttribute("error", "Błąd parsowania daty: " + releaseDate);
+            return "editBook";
+        } catch (IOException e) {
+            model.addAttribute("error", "Błąd przesyłania pliku okładki.");
+            return "editBook";
+        }
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editBook(@PathVariable Long id, Model model) {
+        Book book = bookService.getBookById(id);
+        if (book == null) {
+            model.addAttribute("error", "Książka o podanym ID nie istnieje.");
+            return "redirect:/books";
+        }
+        model.addAttribute("book", book);
+        return "editBook";
+    }
+
 
     @GetMapping("/public")
     public String showAllBooks(Model model) {

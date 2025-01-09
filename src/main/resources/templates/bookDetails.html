@@ -6,6 +6,7 @@
 </head>
 <body>
 <div th:replace="~{fragments :: header}"></div>
+
   <h1 th:text="${book.title}"></h1>
   <p>Author: <span th:text="${book.author}"></span></p>
   <p>ISBN: <span th:text="${book.getISBN()}"></span></p>
@@ -13,6 +14,9 @@
   <p>Release Date <span th:text="${book.releaseDate}"></span></p>
   <p><a th:href="@{${book.getPurchaseLink()}}">Purchase Link</a></p>
 <img th:src="@{/books/public/cover(bookId=${book.getBook_id()})}" alt="Book Cover">
+<p th:if="${#authorization.expression('isAuthenticated()')}">
+<a th:href="@{/books/edit/{id}(id=${book.getBook_id()})}">Edytuj książkę</a>
+</p>
 
 
 <div th:replace="~{fragments :: footer}"></div>
