@@ -10,8 +10,8 @@
 
 <h1>Edit: <span th:text="${book.title}"></span></h1>
 
-<form th:action="@{/books/edit/{id}(id=${book.getBook_id()})}" method="post" enctype="multipart/form-data">
-    <input type="hidden" th:value="${book.getBook_id()}" name="id"/>
+<form th:action="@{/books/edit/{id}(id=${book.getBookId()})}" method="post" enctype="multipart/form-data">
+    <input type="hidden" th:value="${book.getBookId()}" name="id"/>
 
     <div class="mb-3">
         <label for="title" class="form-label">Tytuł</label>

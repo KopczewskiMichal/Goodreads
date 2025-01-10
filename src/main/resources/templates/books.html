@@ -24,13 +24,13 @@
     <tr th:each="book : ${books}">
         <td>
             <div class="book-image">
-                <img th:src="@{/books/public/cover(bookId=${book.getBook_id()})}" alt="Book Cover">
+                <img th:src="@{/books/public/cover(bookId=${book.getBookId()})}" alt="Book Cover">
 
             </div>
         </td>
         <td><span th:text="${book.title}"></span></td>
         <td><span th:text="${book.author}"></span></td>
-        <td><a th:href="@{/books/public/{id}(id=${book.book_id})}">More info</a></td>
+        <td><a th:href="@{/books/public/{id}(id=${book.bookId})}">More info</a></td>
     </tr>
     </tbody>
 </table>

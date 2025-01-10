@@ -13,9 +13,9 @@
   <p>Description: <span th:text="${book.description}"></span></p>
   <p>Release Date <span th:text="${book.releaseDate}"></span></p>
   <p><a th:href="@{${book.getPurchaseLink()}}">Purchase Link</a></p>
-<img th:src="@{/books/public/cover(bookId=${book.getBook_id()})}" alt="Book Cover">
+<img th:src="@{/books/public/cover(bookId=${book.getBookId()})}" alt="Book Cover">
 <p th:if="${#authorization.expression('isAuthenticated()')}">
-<a th:href="@{/books/edit/{id}(id=${book.getBook_id()})}">Edytuj książkę</a>
+<a th:href="@{/books/edit/{id}(id=${book.getBookId()})}">Edytuj książkę</a>
 </p>
 
 
