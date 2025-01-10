@@ -37,7 +37,7 @@ public class BookService {
     }
 
     public void updateBook(Book book) {
-        if (bookRepository.findById(book.getBook_id()).isPresent()) {
+        if (bookRepository.findById(book.getBookId()).isPresent()) {
             bookRepository.save(book);
         } else {
             throw new NoSuchElementException("Book not found");

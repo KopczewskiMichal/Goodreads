@@ -15,7 +15,7 @@ import java.io.Serializable;
 public class Review implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long review_id;
+    private long reviewId;
 
     private String text;
 

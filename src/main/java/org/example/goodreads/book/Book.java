@@ -19,8 +19,9 @@ import java.util.List;
 @Table(name= "book")
 public class Book implements Serializable {
     @Id
+    @Column(name="book_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long book_id;
+    private long bookId;
     @Column(unique=true, nullable = false)
     private String ISBN;
     @Column(nullable = false)
