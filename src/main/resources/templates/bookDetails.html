@@ -68,8 +68,9 @@
 
   <div th:each="review : ${book.getReviews()}">
     <div>
-      <p>Author: <span th:text="${review.getAuthor()}"></span></p>
-      <p>Content: <span th:text="${review.getContent()}"></span></p>
+      <p>Author: <span th:text="${review.getUser().getUsername()}"></span></p>
+      <p>Stars: <span th:text="${review.getStars()}"></span></p>
+      <p>Content: <span th:text="${review.getText()}"></span></p>
     </div>
   </div>
 

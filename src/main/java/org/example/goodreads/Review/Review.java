@@ -18,6 +18,8 @@ import java.time.LocalDateTime;
 public class Review implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "review_id")
+    @Setter(AccessLevel.NONE)
     private long reviewId;
 
     private String text;
