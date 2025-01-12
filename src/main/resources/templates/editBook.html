@@ -42,10 +42,6 @@
         <label for="cover" class="form-label">Okładka (zapisz obrazek)</label>
         <input type="file" id="cover" name="cover" class="form-control">
 
-        <!-- Podgląd wybranego obrazu -->
-        <div id="coverPreview">
-            <img th:if="${book.cover != null}" th:src="@{${book.coverUrl}}" alt="Book Cover Preview" style="max-width: 200px; max-height: 300px;">
-        </div>
     </div>
 
     <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
