@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title th:text="${book.title}"></title>
+  <link rel="stylesheet" th:href="@{/css/fragments.css}"/>
+
 </head>
 <body>
 <div th:replace="~{fragments :: header}"></div>
@@ -14,9 +16,65 @@
   <p>Release Date <span th:text="${book.releaseDate}"></span></p>
   <p><a th:href="@{${book.getPurchaseLink()}}">Purchase Link</a></p>
 <img th:src="@{/books/public/cover(bookId=${book.getBookId()})}" alt="Book Cover">
+
 <p th:if="${#authorization.expression('isAuthenticated()')}">
 <a th:href="@{/books/edit/{id}(id=${book.getBookId()})}">Edytuj książkę</a>
-</p>
+
+<div class="reviews">
+  <h2>Review</h2>
+
+<div class="add-review" th:if="${#authorization.expression('isAuthenticated()')}">
+    <h2>Dodaj recenzję</h2>
+  <form th:action="@{/review/add/{id}(id=${book.getBookId()})}" method="post">
+    <label for="reviewText">Treść recenzji:</label>
+    <textarea name="reviewText" id="reviewText" rows="3" cols="30" placeholder="Your review"></textarea>
+    <div class="star-rating">
+      <label>
+        <input type="radio" name="stars" value="1" required>
+        <span class="star">&#9733;</span>
+      </label>
+      <label>
+        <input type="radio" name="stars" value="2">
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+      </label>
+      <label>
+        <input type="radio" name="stars" value="3">
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+      </label>
+      <label>
+        <input type="radio" name="stars" value="4">
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+      </label>
+      <label>
+        <input type="radio" name="stars" value="5">
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+      </label>
+    </div>
+
+
+    <input type="submit" value="Send review">
+  </form>
+</div>
+
+  <div th:each="review : ${book.getReviews()}">
+    <div>
+      <p>Author: <span th:text="${review.getAuthor()}"></span></p>
+      <p>Content: <span th:text="${review.getContent()}"></span></p>
+    </div>
+  </div>
+
+
+</div>
 
 
 <div th:replace="~{fragments :: footer}"></div>

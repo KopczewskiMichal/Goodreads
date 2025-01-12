@@ -134,6 +134,11 @@ class ThymeleafBookController {
     @GetMapping("/public/{id}")
     public String showBookDetails(@PathVariable long id, Model model) {
         Book book = bookService.getBookById(id);
+
+        if (book == null) {
+            model.addAttribute("error", "Book with this Id doesn't exist.");
+            return "redirect:/books/public";
+        }
         model.addAttribute("book", book);
         return "bookDetails";
     }

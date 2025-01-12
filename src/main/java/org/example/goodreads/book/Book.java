@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import lombok.*;
-import org.example.goodreads.Genre;
+import org.example.goodreads.Review.Review;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class Book implements Serializable {
     private String purchaseLink;
 
     @Lob
-    @Column(name = "cover", nullable = true)
+    @Column(name = "cover")
     private byte[] cover;
 
     @Column(name = "is_approved", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
@@ -44,12 +44,6 @@ public class Book implements Serializable {
     @Transient
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    @ManyToMany(mappedBy = "books")
-    private List<Genre> genres = new ArrayList<>();
-
-    public void addGenre(Genre genre) {
-        genres.add(genre);
-        genre.getBooks().add(this);
-    }
-
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
 }

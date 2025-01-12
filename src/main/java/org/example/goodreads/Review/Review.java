@@ -7,10 +7,13 @@ import org.example.goodreads.book.Book;
 import org.example.goodreads.user.User;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 @Table(name = "review")
 public class Review implements Serializable {
     @Id
@@ -18,6 +21,14 @@ public class Review implements Serializable {
     private long reviewId;
 
     private String text;
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 
     @Column(nullable = false)
     private short stars;
@@ -32,4 +43,5 @@ public class Review implements Serializable {
 
     @Transient
     private static final ObjectMapper mapper = new ObjectMapper();
+
 }
