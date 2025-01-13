@@ -30,8 +30,8 @@ public class LoginApiController {
             @RequestParam("password") String password,
             HttpServletResponse response) {
         try {
-            String message = userService.validateUser(identifier, password);
-            String jwt = jwtUtil.generateToken(message);
+            long userId = userService.validateUser(identifier, password);
+            String jwt = jwtUtil.generateToken(userId);
 
             Cookie cookie = new Cookie("JWT", jwt);
             cookie.setHttpOnly(true);
@@ -59,9 +59,8 @@ public class LoginApiController {
                 return ResponseEntity.status(409).body("User with this username or password already exists");
             }
 
-            userService.registerUser(username, email, password);
-
-            String jwt = jwtUtil.generateToken(username);
+            User registeredUser = userService.registerUser(username, email, password);
+            String jwt = jwtUtil.generateToken(registeredUser.getUserId());
             System.out.println(jwt);
             Cookie cookie = new Cookie("JWT", jwt);
             cookie.setHttpOnly(true);

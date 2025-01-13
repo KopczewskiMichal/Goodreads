@@ -24,7 +24,9 @@ public class ThymeleafProfileController {
     @GetMapping("/")
     public String userPage(Model model, HttpServletRequest request) {
         long userId = jwtUtil.getUserIdFromRequest(request);
+        System.out.println(userId);
         User user = userService.getUserById(userId);
+        System.out.println(user);
         model.addAttribute("user", user);
         return "userPage";
     }
