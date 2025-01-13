@@ -1,0 +1,36 @@
+header h1 a {
+  text-decoration: none;
+  color: inherit;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+}
+nav ul li {
+  display: inline;
+}
+
+.star-rating .star {
+  font-size: 10vh;
+  cursor: pointer;
+}
+.star-rating .one {
+  color: rgb(255, 0, 0);
+}
+.star-rating .two {
+  color: rgb(255, 106, 0);
+}
+.star-rating .three {
+  color: rgb(251, 255, 120);
+}
+.star-rating .four {
+  color: rgb(255, 255, 0);
+}
+.star-rating .five {
+  color: rgb(24, 159, 14);
+}
+
+/*# sourceMappingURL=bookDetails.css.map */

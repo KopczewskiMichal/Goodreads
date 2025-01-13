@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title th:text="${book.title}"></title>
-  <link rel="stylesheet" th:href="@{/css/fragments.css}"/>
+  <link rel="stylesheet" th:href="@{/css/bookDetails.css}"/>
 
 </head>
 <body>
@@ -26,39 +26,16 @@
 <div class="add-review" th:if="${#authorization.expression('isAuthenticated()')}">
     <h2>Dodaj recenzję</h2>
   <form th:action="@{/review/add/{id}(id=${book.getBookId()})}" method="post">
-    <label for="reviewText">Treść recenzji:</label>
+    <label for="reviewText">Your review</label>
     <textarea name="reviewText" id="reviewText" rows="3" cols="30" placeholder="Your review"></textarea>
+
+    <input type="hidden" name="stars" id="stars" value="0">
     <div class="star-rating">
-      <label>
-        <input type="radio" name="stars" value="1" required>
-        <span class="star">&#9733;</span>
-      </label>
-      <label>
-        <input type="radio" name="stars" value="2">
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-      </label>
-      <label>
-        <input type="radio" name="stars" value="3">
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-      </label>
-      <label>
-        <input type="radio" name="stars" value="4">
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-      </label>
-      <label>
-        <input type="radio" name="stars" value="5">
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-        <span class="star">&#9733;</span>
-      </label>
+      <span onclick="gfg(1)" class="star">★</span>
+      <span onclick="gfg(2)" class="star">★</span>
+      <span onclick="gfg(3)" class="star">★</span>
+      <span onclick="gfg(4)" class="star">★</span>
+      <span onclick="gfg(5)" class="star">★</span>
     </div>
 
 
@@ -69,7 +46,7 @@
   <div th:each="review : ${book.getReviews()}">
     <div>
       <p>Author: <span th:text="${review.getUser().getUsername()}"></span></p>
-      <p>Stars: <span th:text="${review.getStars()}"></span></p>
+      <p><span th:each="star : ${#numbers.sequence(1, review.getStars())}">★</span></p>
       <p>Content: <span th:text="${review.getText()}"></span></p>
     </div>
   </div>
@@ -79,5 +56,30 @@
 
 
 <div th:replace="~{fragments :: footer}"></div>
+<script>
+  let stars = document.getElementsByClassName("star");
+  let hiddenStarsInput = document.getElementById("stars");
+
+  function gfg(n) {
+    remove();
+    for (let i = 0; i < n; i++) {
+      if (n == 1) cls = "one";
+      else if (n == 2) cls = "two";
+      else if (n == 3) cls = "three";
+      else if (n == 4) cls = "four";
+      else if (n == 5) cls = "five";
+      stars[i].className = "star " + cls;
+    }
+    hiddenStarsInput.value = n;
+  }
+
+  function remove() {
+    let i = 0;
+    while (i < 5) {
+      stars[i].className = "star";
+      i++;
+    }
+  }
+</script>
 </body>
 </html>
