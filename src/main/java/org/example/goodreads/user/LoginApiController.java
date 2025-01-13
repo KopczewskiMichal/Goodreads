@@ -48,6 +48,33 @@ public class LoginApiController {
         }
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<String> registerUser(
+            @RequestParam("username") String username,
+            @RequestParam("email") String email,
+            @RequestParam("password") String password,
+            HttpServletResponse response) {
+        try {
+            if (userService.userExists(username, email)) {
+                return ResponseEntity.status(409).body("User with this username or password already exists");
+            }
+
+            userService.registerUser(username, email, password);
+
+            String jwt = jwtUtil.generateToken(username);
+            System.out.println(jwt);
+            Cookie cookie = new Cookie("JWT", jwt);
+            cookie.setHttpOnly(true);
+            cookie.setSecure(false);
+            cookie.setPath("/");
+            cookie.setMaxAge(60 * 60);
+            response.addCookie(cookie);
+
+            return ResponseEntity.ok("Registration successful");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
     @GetMapping("/logout")
     public ResponseEntity<String> logout(HttpServletResponse response) throws IOException {

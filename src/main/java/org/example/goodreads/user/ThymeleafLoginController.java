@@ -12,4 +12,10 @@ public class ThymeleafLoginController {
         model.addAttribute("loginApiEndpoint", "/api/auth/login");
         return "login";
     }
+
+    @GetMapping("/register")
+    public String showRegisterPage(Model model) {
+        model.addAttribute("registrationApiEndpoint", "/api/auth/register");
+        return "register";
+    }
 }

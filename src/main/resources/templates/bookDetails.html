@@ -48,7 +48,7 @@
     <div>
       <p>Author: <span th:text="${review.getUser().getUsername()}"></span></p>
       <p><span th:each="star : ${#numbers.sequence(1, review.getStars())}">★</span></p>
-      <p>Content: <span th:text="${review.getText()}"></span></p>
+      <p th:if="${review.getText()!=''}">Content: <span th:text="${review.getText()}"></span></p>
       <form th:action="@{/review/delete/{id}(id=${review.getReviewId()})}" method="post" th:if="${#authorization.expression('isAuthenticated()')}">
         <button class="delete-button" type="submit">Delete</button>
       </form>

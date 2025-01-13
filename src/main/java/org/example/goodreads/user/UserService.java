@@ -60,4 +60,8 @@ class UserService {
             throw new NoSuchElementException("User not found");
         }
     }
+
+    public boolean userExists(String username, String email) {
+        return userRepository.findByUsername(username).isPresent() || userRepository.findByEmail(email).isPresent();
+    }
 }
