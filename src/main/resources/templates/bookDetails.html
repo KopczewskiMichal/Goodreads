@@ -19,6 +19,7 @@
 
 <p th:if="${#authorization.expression('isAuthenticated()')}">
 <a th:href="@{/books/edit/{id}(id=${book.getBookId()})}">Edytuj książkę</a>
+</p>
 
 <div class="reviews">
   <h2>Review</h2>
@@ -48,11 +49,15 @@
       <p>Author: <span th:text="${review.getUser().getUsername()}"></span></p>
       <p><span th:each="star : ${#numbers.sequence(1, review.getStars())}">★</span></p>
       <p>Content: <span th:text="${review.getText()}"></span></p>
-    </div>
+      <form th:action="@{/review/delete/{id}(id=${review.getReviewId()})}" method="post" th:if="${#authorization.expression('isAuthenticated()')}">
+        <button class="delete-button" type="submit">Delete</button>
+      </form>
+
+
+  </div>
   </div>
 
 
-</div>
 
 
 <div th:replace="~{fragments :: footer}"></div>

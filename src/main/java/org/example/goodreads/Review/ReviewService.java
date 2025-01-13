@@ -7,6 +7,7 @@ import org.example.goodreads.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -39,6 +40,15 @@ public class ReviewService {
                 .build();
 
         reviewRepository.save(review);
+    }
+
+    public void deleteReview(Long reviewId) {
+        Optional<Review> review = reviewRepository.findById(reviewId);
+        if (review.isPresent()) {
+            reviewRepository.delete(review.get());
+        } else {
+            throw new NoSuchElementException("Review not found");
+        }
     }
 
 }
