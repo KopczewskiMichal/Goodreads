@@ -19,6 +19,11 @@
     <p>Birth Date: <span th:text="${user.birthDate}"></span></p>
     </div>
 
+    <form th:action="@{/profile/delete/{id}(id=${user.getUserId()})}" method="post">
+        <button type="submit" class="delete-button">Delete User</button>
+    </form>
+
+
     <div th:replace="~{fragments :: footer}"></div>
 </body>
 </html>
