@@ -30,9 +30,7 @@ public class ThymeleafProfileController {
     @GetMapping("/")
     public String userPage(Model model, HttpServletRequest request) {
         long userId = jwtUtil.getUserIdFromRequest(request);
-        System.out.println(userId);
         User user = userService.getUserById(userId);
-        System.out.println(user);
         model.addAttribute("user", user);
         return "userPage";
     }
@@ -43,13 +41,13 @@ public class ThymeleafProfileController {
         try {
             userService.deleteUser(userId);
             redirectAttributes.addFlashAttribute("message", "User deleted successfully.");
-            return "redirect:/logout";
+            return "redirect:/api/auth/logout";
         } catch (NoSuchElementException e) {
             redirectAttributes.addFlashAttribute("error", "User not found.");
-            return "redirect:/logout";
+            return "redirect:/api/auth/logout";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "An error occurred while deleting the user.");
-            return "redirect:/logout";
+            return "redirect:/api/auth/logout";
         }
     }
 
