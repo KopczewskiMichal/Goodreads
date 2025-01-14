@@ -18,11 +18,13 @@ public class GoodreadsApplication {
         String dbPassword = dotenv.get("MYSQL_PASSWORD");
         String dbUrl = dotenv.get("MYSQL_URL");
         String jwtSecret = dotenv.get("JWT_SECRET");
+        String deletedUserPassword = dotenv.get("DELETED_USER_PASSWORD");
 
         System.setProperty("MYSQL_USER", dbUser);
         System.setProperty("MYSQL_PASSWORD", dbPassword);
         System.setProperty("MYSQL_URL", dbUrl);
         System.setProperty("JWT_SECRET", jwtSecret);
+        System.setProperty("DELETED_USER_PASSWORD", deletedUserPassword);
 
         if (!isDatabaseConnected(dbUrl, dbUser, dbPassword)) {
             System.out.println(dotenv.get("MYSQL_URL"));

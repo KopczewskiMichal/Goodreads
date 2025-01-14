@@ -7,6 +7,7 @@ import org.example.goodreads.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -51,4 +52,18 @@ public class ReviewService {
         }
     }
 
+    public void handleDeleteUser(long userId) {
+        List<Review> reviewsToUpdate = reviewRepository.findByUser_UserId(userId);
+        Optional<User> mockUser = userRepository.findByUsername("Deleted User");
+        if (mockUser.isEmpty()) {
+            throw new NoSuchElementException("Mock for deleted user doesn't exist");
+        }
+
+        if (reviewsToUpdate != null && !reviewsToUpdate.isEmpty()) {
+            for (Review review : reviewsToUpdate) {
+                review.setUser(mockUser.get());
+                reviewRepository.save(review);
+            }
+        }
+    }
 }

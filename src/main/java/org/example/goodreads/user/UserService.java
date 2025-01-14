@@ -1,5 +1,8 @@
 package org.example.goodreads.user;
 
+import jakarta.annotation.PostConstruct;
+import org.example.goodreads.Review.ReviewService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
@@ -8,10 +11,21 @@ import java.util.Optional;
 @Service
 class UserService {
     private final UserRepository userRepository;
+    private final ReviewService reviewService;
 
-    public UserService(UserRepository userRepository) {
+    @Autowired
+    public UserService(UserRepository userRepository, ReviewService reviewService) {
         this.userRepository = userRepository;
+        this.reviewService = reviewService;
     }
+
+    @PostConstruct
+    public void init() {
+        if (userRepository.findByUsername("Deleted User").isEmpty()) {
+        registerUser("Deleted User", "deletedUser@example.com", "deletedUser");
+        }
+    }
+
 
     User registerUser(String username, String email, String password) {
         if (userRepository.findByEmail(email).isPresent()) {
@@ -46,7 +60,8 @@ class UserService {
     public void deleteUser(Long userId) {
         Optional<User> userOptional = this.userRepository.findByUserId(userId);
         if (userOptional.isPresent()) {
-            this.userRepository.deleteById(userOptional.get().getUserId());
+            reviewService.handleDeleteUser(userOptional.get().getUserId());
+            userRepository.deleteById(userOptional.get().getUserId());
         } else {
             throw new NoSuchElementException("User not found");
         }
