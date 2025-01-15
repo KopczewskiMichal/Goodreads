@@ -21,6 +21,13 @@
 <a th:href="@{/books/edit/{id}(id=${book.getBookId()})}">Edytuj książkę</a>
 </p>
 
+<div class="shelves" th:if="${#authorization.expression('isAuthenticated()')}">
+
+
+
+</div>
+
+
 <div class="reviews">
   <h2>Review</h2>
 

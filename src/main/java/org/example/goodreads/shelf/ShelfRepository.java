@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface ShelfRepository extends JpaRepository<Shelf, Long> {
     Optional<Shelf> findByShelfId(long id);
     List<Shelf> findByUser_UserId(long userId);
+    List<Shelf> findByUser_UserIdAndBooks_BookId(long userId, long bookId);
 }

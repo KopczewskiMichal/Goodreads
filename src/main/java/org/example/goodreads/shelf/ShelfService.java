@@ -4,6 +4,7 @@ import org.example.goodreads.book.Book;
 import org.example.goodreads.book.BookRepository;
 import org.example.goodreads.user.User;
 import org.example.goodreads.user.UserRepository;
+import org.example.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class ShelfService {
         this.bookRepository = bookRepository;
     }
 
-    public List<Shelf> getShelfByUserId(long userId) {
+    public List<Shelf> getShelvesByUserId(long userId) {
         List<Shelf> shelfs = shelfRepository.findByUser_UserId(userId);
 
         if (! shelfs.isEmpty()) {
@@ -45,7 +46,7 @@ public class ShelfService {
         return shelfRepository.save(shelf);
     }
 
-    public Shelf addBookToShelf(long shelfId, long bookId) {
+    public Shelf addBookOnShelf(long shelfId, long bookId) {
         Optional<Shelf> shelf = shelfRepository.findByShelfId(shelfId);
         Optional<Book> book = bookRepository.findByBookId(bookId);
 
@@ -56,4 +57,16 @@ public class ShelfService {
             throw new NoSuchElementException("Either shelf or book not found for shelf ID: " + shelfId + ", book ID: " + bookId);
         }
     }
+
+    public List<Shelf> getUserShelvesWithBook(long bookId, long userId) {
+        return shelfRepository.findByUser_UserIdAndBooks_BookId(userId, bookId);
+    }
+
+    public Shelf removeBookFromShelf(long bookId, long shelfId) {
+        Shelf shelf = shelfRepository.findById(shelfId).orElseThrow(() ->
+                new NoSuchElementException("Shelf not found with id " + shelfId));
+        shelf.getBooks().removeIf(book -> book.getBookId() == bookId);
+        return shelfRepository.save(shelf);
+    }
+
 }
