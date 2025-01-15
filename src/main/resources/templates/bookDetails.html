@@ -24,13 +24,15 @@
 
 <div class="shelves" th:if="${#authorization.expression('isAuthenticated()')}">
   <h2>Shelves</h2>
+  <form id="shelfForm" th:action="@{/shelves/add-or-remove-book}" method="post">
     <h2>Add or remove book from shelf</h2>
-  <form id="shelfForm" method="get">
-    <input type="hidden" id="bookId" th:value="${book.bookId}" />
+    <input type="hidden" name="bookId" th:value="${book.bookId}" />
 
     <div id="shelvesContainer">
       <p>Loading shelves...</p>
     </div>
+
+    <button type="submit">Submit</button>
   </form>
 
 
@@ -112,27 +114,66 @@
 
 
   // Obsługa półek
-  document.addEventListener("DOMContentLoaded", function() {
-    var bookId = document.getElementById("bookId").value;
-    console.log(bookId);
-    fetch('/shelves/get-by-user-and-book/' + bookId)
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('shelfForm');
+    const shelvesContainer = document.getElementById('shelvesContainer');
+    const bookId = document.querySelector('input[name="bookId"]').value;
+
+    // Ładujemy dane półek z backendu
+    fetch(`/shelves/get-by-user-and-book/${bookId}`)
             .then(response => response.json())
             .then(data => {
-              let shelvesContainer = document.getElementById("shelvesContainer");
-              shelvesContainer.innerHTML = ''; // Clear loading text
+              shelvesContainer.innerHTML = ''; // Wyczyść placeholder
 
+              // Generowanie formularza z półkami
               data.forEach(shelf => {
-                const shelfElement = document.createElement("label");
-                shelfElement.innerHTML = `
-            <input type="checkbox" name="shelves" value="${shelf.shelfId}" ${shelf.isBookOnShelf ? "checked" : ""} />
-            ${shelf.name}
-          `;
-                shelvesContainer.appendChild(shelfElement);
+                const label = document.createElement('label');
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.name = 'shelfIds';
+                checkbox.value = shelf.shelfId;
+                checkbox.setAttribute('data-shelf-name', shelf.name);
+                checkbox.checked = shelf.isBookOnShelf;
+
+                label.appendChild(checkbox);
+                label.appendChild(document.createTextNode(shelf.name));
+                shelvesContainer.appendChild(label);
               });
             })
             .catch(error => {
-              console.error('Error fetching shelves:', error);
+              shelvesContainer.innerHTML = 'Error loading shelves';
+              console.error('Error:', error);
             });
+
+    // Zatrzymujemy domyślne wysyłanie formularza tylko przy submicie
+    form.addEventListener('submit', function (event) {
+      event.preventDefault(); // Zatrzymanie domyślnego wysyłania formularza
+
+      const shelvesData = [];
+
+      document.querySelectorAll('input[name="shelfIds"]:checked').forEach(function (checkbox) {
+        const shelfId = checkbox.value;
+        const shelfName = checkbox.getAttribute('data-shelf-name');
+        const isBookOnShelf = checkbox.checked;
+
+        // Tworzymy obiekt DTO i dodajemy do listy
+        shelvesData.push({
+          shelfId: shelfId,
+          name: shelfName,
+          isBookOnShelf: isBookOnShelf
+        });
+      });
+
+      // Serializujemy dane do JSON i wypisujemy w konsoli
+      console.log(JSON.stringify(shelvesData));
+
+      // W razie potrzeby można wysłać dane na backend
+      // fetch('/shelves/add-or-remove-book', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify(shelvesData)
+      // });
+    });
   });
 </script>
 
