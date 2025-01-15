@@ -131,7 +131,7 @@
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
                 checkbox.name = 'shelfIds';
-                checkbox.value = shelf.bookOnShelf;
+                checkbox.value = shelf.shelfId;
                 checkbox.setAttribute('data-shelf-name', shelf.name);
                 checkbox.checked = shelf.bookOnShelf;
 
@@ -150,7 +150,7 @@
 
       const shelvesData = [];
 
-      document.querySelectorAll('input[name="shelfIds"]:checked').forEach(function (checkbox) {
+      document.querySelectorAll('input[name="shelfIds"]').forEach(function (checkbox) {
         const shelfId = checkbox.value;
         const shelfName = checkbox.getAttribute('data-shelf-name');
         const isBookOnShelf = checkbox.checked;
@@ -158,7 +158,7 @@
         shelvesData.push({
           shelfId: shelfId,
           name: shelfName,
-          isBookOnShelf: isBookOnShelf
+          bookOnShelf: isBookOnShelf
         });
       });
 
