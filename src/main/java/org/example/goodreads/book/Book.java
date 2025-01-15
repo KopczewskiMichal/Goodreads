@@ -38,9 +38,6 @@ public class Book implements Serializable {
     @Column(name = "cover")
     private byte[] cover;
 
-    @Column(name = "is_approved", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private boolean isApproved = false;
-
     @Transient
     private static final ObjectMapper objectMapper = new ObjectMapper();
 

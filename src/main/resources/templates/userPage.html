@@ -23,6 +23,11 @@
         <button type="submit" class="delete-button">Delete User</button>
     </form>
 
+    <h2>My shelves</h2>
+    <div th:each="shelf : ${user.getShelves()}">
+        <p>Shelf: <span th:text="${shelf.getShelfName()}"></span></p>
+    </div>
+
 
     <div th:replace="~{fragments :: footer}"></div>
 </body>

@@ -61,7 +61,6 @@ public class LoginApiController {
 
             User registeredUser = userService.registerUser(username, email, password);
             String jwt = jwtUtil.generateToken(registeredUser.getUserId());
-            System.out.println(jwt);
             Cookie cookie = new Cookie("JWT", jwt);
             cookie.setHttpOnly(true);
             cookie.setSecure(false);

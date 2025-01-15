@@ -2,6 +2,7 @@ package org.example.goodreads.user;
 
 import jakarta.annotation.PostConstruct;
 import org.example.goodreads.Review.ReviewService;
+import org.example.goodreads.shelf.ShelfService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +13,13 @@ import java.util.Optional;
 class UserService {
     private final UserRepository userRepository;
     private final ReviewService reviewService;
+    private final ShelfService shelfService;
 
     @Autowired
-    public UserService(UserRepository userRepository, ReviewService reviewService) {
+    public UserService(UserRepository userRepository, ReviewService reviewService, ShelfService shelfService) {
         this.userRepository = userRepository;
         this.reviewService = reviewService;
+        this.shelfService = shelfService;
     }
 
     @PostConstruct
@@ -40,7 +43,10 @@ class UserService {
                 .email(email)
                 .passwordHash(passwordHash)
                 .build();
-        return this.userRepository.save(newUser);
+        User result = this.userRepository.save(newUser);
+        shelfService.createShelfForUser("Want to Read", result.getUserId());
+
+        return result;
     }
 
     public long validateUser(String identifier, String password) {
