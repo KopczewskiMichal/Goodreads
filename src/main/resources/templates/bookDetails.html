@@ -119,13 +119,12 @@
     const shelvesContainer = document.getElementById('shelvesContainer');
     const bookId = document.querySelector('input[name="bookId"]').value;
 
-    // Ładujemy dane półek z backendu
+    // Pobieranie danych półek z backendu
     fetch(`/shelves/get-by-user-and-book/${bookId}`)
             .then(response => response.json())
             .then(data => {
-              shelvesContainer.innerHTML = ''; // Wyczyść placeholder
+              shelvesContainer.innerHTML = '';
 
-              // Generowanie formularza z półkami
               data.forEach(shelf => {
                 const label = document.createElement('label');
                 const checkbox = document.createElement('input');
@@ -145,7 +144,6 @@
               console.error('Error:', error);
             });
 
-    // Zatrzymujemy domyślne wysyłanie formularza tylko przy submicie
     form.addEventListener('submit', function (event) {
       event.preventDefault(); // Zatrzymanie domyślnego wysyłania formularza
 
@@ -156,7 +154,6 @@
         const shelfName = checkbox.getAttribute('data-shelf-name');
         const isBookOnShelf = checkbox.checked;
 
-        // Tworzymy obiekt DTO i dodajemy do listy
         shelvesData.push({
           shelfId: shelfId,
           name: shelfName,
@@ -164,15 +161,13 @@
         });
       });
 
-      // Serializujemy dane do JSON i wypisujemy w konsoli
       console.log(JSON.stringify(shelvesData));
 
-      // W razie potrzeby można wysłać dane na backend
-      // fetch('/shelves/add-or-remove-book', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(shelvesData)
-      // });
+      fetch(`/shelves/add-or-remove-book?bookId=${bookId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(shelvesData)
+      });
     });
   });
 </script>
