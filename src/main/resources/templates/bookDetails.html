@@ -126,13 +126,14 @@
               shelvesContainer.innerHTML = '';
 
               data.forEach(shelf => {
+                console.log(shelf);
                 const label = document.createElement('label');
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
                 checkbox.name = 'shelfIds';
-                checkbox.value = shelf.shelfId;
+                checkbox.value = shelf.bookOnShelf;
                 checkbox.setAttribute('data-shelf-name', shelf.name);
-                checkbox.checked = shelf.isBookOnShelf;
+                checkbox.checked = shelf.bookOnShelf;
 
                 label.appendChild(checkbox);
                 label.appendChild(document.createTextNode(shelf.name));
