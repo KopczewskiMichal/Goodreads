@@ -23,23 +23,22 @@
 
 
 <div class="shelves" th:if="${#authorization.expression('isAuthenticated()')}">
-  <form th:action="@{/shelves/add-or-remove-book}" method="post">
+  <h2>Shelves</h2>
     <h2>Add or remove book from shelf</h2>
-      <form id="shelfForm" th:action="@{/shelves/add-or-remove-book}" method="post">
-        <h2>Add or remove book from shelf</h2>
-        <input type="hidden" name="bookId" th:value="${book.bookId}" />
+  <form id="shelfForm" method="get">
+    <input type="hidden" id="bookId" th:value="${book.bookId}" />
 
-        <div id="shelvesContainer">
-          <p>Loading shelves...</p>
-        </div>
-
-        <button type="submit">Submit</button>
-      </form>
+    <div id="shelvesContainer">
+      <p>Loading shelves...</p>
+    </div>
   </form>
 
 
 
+
+
 </div>
+
 
 
 <div class="reviews">
@@ -111,47 +110,29 @@
     }
   }
 
+
   // Obsługa półek
-    document.addEventListener("DOMContentLoaded", function () {
-    const shelvesContainer = document.getElementById("shelvesContainer");
-    const bookId = document.querySelector('input[name="bookId"]').value;
+  document.addEventListener("DOMContentLoaded", function() {
+    var bookId = document.getElementById("bookId").value;
+    console.log(bookId);
+    fetch('/shelves/get-by-user-and-book/' + bookId)
+            .then(response => response.json())
+            .then(data => {
+              let shelvesContainer = document.getElementById("shelvesContainer");
+              shelvesContainer.innerHTML = ''; // Clear loading text
 
-    // Pobierz półki użytkownika
-    fetch('/shelves/get-by-user', {
-    method: 'GET',
-    headers: {
-    'Accept': 'application/json',
-  },
-  })
-    .then(response => {
-    if (!response.ok) {
-    throw new Error("Failed to fetch shelves");
-  }
-    return response.json();
-  })
-    .then(shelves => {
-    shelvesContainer.innerHTML = ''; // Wyczyść kontener
-
-    // Dodaj półki do formularza
-    shelves.forEach(shelf => {
-    const label = document.createElement('label');
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.name = 'shelfIds';
-    checkbox.value = shelf.shelfId;
-
-    const span = document.createElement('span');
-    span.textContent = shelf.shelfName;
-
-    label.appendChild(checkbox);
-    label.appendChild(span);
-    shelvesContainer.appendChild(label);
-  });
-  })
-    .catch(error => {
-    console.error("Error fetching shelves:", error);
-    shelvesContainer.innerHTML = '<p>Failed to load shelves. Please try again later.</p>';
-  });
+              data.forEach(shelf => {
+                const shelfElement = document.createElement("label");
+                shelfElement.innerHTML = `
+            <input type="checkbox" name="shelves" value="${shelf.shelfId}" ${shelf.isBookOnShelf ? "checked" : ""} />
+            ${shelf.name}
+          `;
+                shelvesContainer.appendChild(shelfElement);
+              });
+            })
+            .catch(error => {
+              console.error('Error fetching shelves:', error);
+            });
   });
 </script>
 

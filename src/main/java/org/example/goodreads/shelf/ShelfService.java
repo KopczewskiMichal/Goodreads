@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ShelfService {
@@ -26,10 +27,10 @@ public class ShelfService {
     }
 
     public List<Shelf> getShelvesByUserId(long userId) {
-        List<Shelf> shelfs = shelfRepository.findByUser_UserId(userId);
+        List<Shelf> shelves = shelfRepository.findByUser_UserId(userId);
 
-        if (! shelfs.isEmpty()) {
-            return shelfs;
+        if (! shelves.isEmpty()) {
+            return shelves;
         } else {
             throw new NoSuchElementException("Shelf not found for user ID: " + userId);
         }
@@ -52,6 +53,8 @@ public class ShelfService {
 
         if (shelf.isPresent() && book.isPresent()) {
             shelf.get().addBook(book.get());
+            System.out.println("Book added");
+            System.out.println(shelf.get().getBooks());
             return shelfRepository.save(shelf.get());
         } else {
             throw new NoSuchElementException("Either shelf or book not found for shelf ID: " + shelfId + ", book ID: " + bookId);
@@ -68,5 +71,17 @@ public class ShelfService {
         shelf.getBooks().removeIf(book -> book.getBookId() == bookId);
         return shelfRepository.save(shelf);
     }
+
+    public List<DtoShelf> getShelvesByUserIdAndBookId(long userId, long bookId) {
+        List<Shelf> shelves = this.getShelvesByUserId(userId);
+        return shelves.stream()
+                .map(shelf -> new DtoShelf(
+                        shelf.getShelfId(),
+                        shelf.getShelfName(),
+                        shelf.getBooks().stream().anyMatch(book -> book.getBookId() == bookId)
+                ))
+                .collect(Collectors.toList());
+    }
+
 
 }
