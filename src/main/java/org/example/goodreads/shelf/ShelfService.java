@@ -53,8 +53,6 @@ public class ShelfService {
 
         if (shelf.isPresent() && book.isPresent()) {
             shelf.get().addBook(book.get());
-            System.out.println("Book added");
-            System.out.println(shelf.get().getBooks());
             return shelfRepository.save(shelf.get());
         } else {
             throw new NoSuchElementException("Either shelf or book not found for shelf ID: " + shelfId + ", book ID: " + bookId);

@@ -2,6 +2,8 @@ package org.example.goodreads.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import lombok.*;
@@ -38,13 +40,14 @@ public class User implements Serializable {
     @Column(columnDefinition = "BOOLEAN DEFAULT false")
     private boolean isAdmin = false;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     @Builder.Default
     private List<Shelf> shelves = new ArrayList<>();
 
 
     @Transient
+    @Getter
     private static final ObjectMapper mapper = new ObjectMapper();
 
 

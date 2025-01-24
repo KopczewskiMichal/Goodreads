@@ -59,8 +59,6 @@ public class ShelfController {
 
     @PostMapping("/add-or-remove-book")
     public String addOrRemoveBook(@RequestBody List<DtoShelf> shelves, @RequestParam("bookId") long bookId, HttpServletRequest request) {
-        System.out.println("Kontroler add-remove otrzymał zapytanie");
-        System.out.println(shelves);
         long userId = jwtUtil.getUserIdFromRequest(request);
 
         List<Shelf> currentShelves = shelfService.getUserShelvesWithBook(bookId, userId);

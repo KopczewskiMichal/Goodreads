@@ -76,7 +76,11 @@ class UserService {
     public User getUserById(long userId) {
         Optional<User> userOptional = this.userRepository.findByUserId(userId);
         if (userOptional.isPresent()) {
-            System.out.println(userOptional.get());
+            try {
+            System.out.println(User.getMapper().writeValueAsString(userOptional.get()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return userOptional.get();
         } else {
             throw new NoSuchElementException("User not found");
