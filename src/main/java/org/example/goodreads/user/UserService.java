@@ -76,11 +76,14 @@ class UserService {
     public User getUserById(long userId) {
         Optional<User> userOptional = this.userRepository.findByUserId(userId);
         if (userOptional.isPresent()) {
+            System.out.println(userOptional.get());
             return userOptional.get();
         } else {
             throw new NoSuchElementException("User not found");
         }
     }
+
+
 
     public boolean userExists(String username, String email) {
         return userRepository.findByUsername(username).isPresent() || userRepository.findByEmail(email).isPresent();

@@ -1,6 +1,7 @@
 package org.example.goodreads.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,6 +35,10 @@ public class User implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date birthDate;
 
+    @Column(columnDefinition = "BOOLEAN DEFAULT false")
+    private boolean isAdmin = false;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Shelf> shelves = new ArrayList<>();
