@@ -1,12 +1,12 @@
 package org.example.goodreads.user;
 
 import jakarta.annotation.PostConstruct;
-import org.apache.coyote.Response;
 import org.example.goodreads.Review.ReviewService;
 import org.example.goodreads.shelf.Shelf;
 import org.example.goodreads.shelf.ShelfService;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
@@ -47,8 +47,7 @@ class UserService {
                 .passwordHash(passwordHash)
                 .build();
         User result = this.userRepository.save(newUser);
-        Shelf defaultShelf = shelfService.createShelfForUser("Want to Read", result.getUserId());
-        System.out.println(defaultShelf.getShelfId());
+        shelfService.createShelfForUser("Want to Read", result.getUserId());
         return result;
     }
 
@@ -94,9 +93,46 @@ class UserService {
         }
     }
 
-
-
     public boolean userExists(String username, String email) {
         return userRepository.findByUsername(username).isPresent() || userRepository.findByEmail(email).isPresent();
+    }
+
+    User registerFromFile(String fileContent) throws IllegalArgumentException {
+        try {
+            JSONObject json = new JSONObject(fileContent);
+            String username = json.getString("username");
+            String passwordHash = json.getString("passwordHash");
+            String email = json.getString("email");
+            String description = json.optString("description", "");
+            if (userRepository.findByEmail(email).isPresent()) {
+                throw new IllegalArgumentException("Email already registered");
+            } else if (userRepository.findByUsername(username).isPresent()) {
+                throw new IllegalArgumentException("Username already registered");
+            }
+            User newUser = User.builder()
+                    .username(username)
+                    .email(email)
+                    .passwordHash(passwordHash)
+                    .description(description)
+                    .build();
+            User user = this.userRepository.save(newUser);
+            JSONArray shelvesArray = json.getJSONArray("shelves");
+            for (int i = 0; i < shelvesArray.length(); i++) {
+                JSONObject shelfJsonObj = shelvesArray.getJSONObject(i);
+                String shelfName = shelfJsonObj.getString("shelfName");
+                Shelf shelf = shelfService.createShelfForUser(shelfName, user.getUserId());
+                long shelfId = shelf.getShelfId();
+
+                JSONArray booksOnShelf = shelfJsonObj.getJSONArray("books");
+                for (int j = 0; j < booksOnShelf.length(); j++) {
+                    long bookId = json.getLong("book");
+                    shelfService.addBookOnShelf(shelfId, bookId);
+                }
+            }
+            return user;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new IllegalArgumentException("Invalid JSON file");
+        }
     }
 }

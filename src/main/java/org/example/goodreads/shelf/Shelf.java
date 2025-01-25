@@ -1,7 +1,6 @@
 package org.example.goodreads.shelf;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,7 +13,6 @@ import org.example.goodreads.user.User;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -52,12 +50,6 @@ public class Shelf implements Serializable {
     @Transient
     private static final ObjectMapper mapper = new ObjectMapper();
 
-//    @JsonGetter("bookIds")
-//    public List<Long> getBookIds() {
-//        return books.stream()
-//                .map(Book::getBookId)
-//                .collect(Collectors.toList());
-//    }
 
     @Override
     public String toString() {

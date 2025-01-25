@@ -67,7 +67,6 @@ public class Review implements Serializable {
                 ", bookId=" + book.getBookId() +
                 ", userId=" +  user.getUserId()+
                 ", userName=" + user.getUsername() +
-                ", userBirthDate=" + user.getBirthDate() +
                 '}';
     }
 }

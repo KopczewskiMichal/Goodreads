@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -71,6 +73,27 @@ public class LoginApiController {
             return ResponseEntity.ok("Registration successful");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/register-from-file")
+    public ResponseEntity<String> registerUserFromFile(
+            @RequestParam("file") MultipartFile file,
+            HttpServletResponse response) {
+        try {
+            User registeredUser = userService.registerFromFile(new String(file.getBytes(), StandardCharsets.UTF_8));
+
+            String jwt = jwtUtil.generateToken(registeredUser.getUserId());
+            Cookie cookie = new Cookie("JWT", jwt);
+            cookie.setHttpOnly(true);
+            cookie.setSecure(false);
+            cookie.setPath("/");
+            cookie.setMaxAge(60 * 60);
+            response.addCookie(cookie);
+
+            return ResponseEntity.ok("Registration from file successful");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error registering user from file: " + e.getMessage());
         }
     }
 

@@ -25,6 +25,7 @@ import java.util.List;
 @Table(name = "user")
 public class User implements Serializable {
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long userId;
     private String username;
@@ -33,9 +34,6 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String email;
     private String description;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    @Temporal(TemporalType.DATE)
-    private Date birthDate;
 
     @Column(columnDefinition = "BOOLEAN DEFAULT false")
     @JsonIgnore
