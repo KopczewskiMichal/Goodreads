@@ -122,10 +122,10 @@ class UserService {
                 String shelfName = shelfJsonObj.getString("shelfName");
                 Shelf shelf = shelfService.createShelfForUser(shelfName, user.getUserId());
                 long shelfId = shelf.getShelfId();
-
                 JSONArray booksOnShelf = shelfJsonObj.getJSONArray("books");
                 for (int j = 0; j < booksOnShelf.length(); j++) {
-                    long bookId = json.getLong("book");
+                    JSONObject bookJsonObj = booksOnShelf.getJSONObject(j);
+                    long bookId = bookJsonObj.getLong("bookId");
                     shelfService.addBookOnShelf(shelfId, bookId);
                 }
             }
