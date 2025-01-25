@@ -28,6 +28,11 @@
         <p>Shelf: <span th:text="${shelf.getShelfName()}"></span></p>
     </div>
 
+    <h2>Download Profile</h2>
+    <form action="#" th:action="@{/api/user/profile/download-profile/{id}(id=${user.getUserId()})}" method="get">
+        <button type="submit">Download</button>
+    </form>
+
 
     <div th:replace="~{fragments :: footer}"></div>
 </body>

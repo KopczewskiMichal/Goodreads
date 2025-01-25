@@ -1,9 +1,11 @@
 package org.example.goodreads.user;
 
 import jakarta.annotation.PostConstruct;
+import org.apache.coyote.Response;
 import org.example.goodreads.Review.ReviewService;
 import org.example.goodreads.shelf.ShelfService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
@@ -76,14 +78,18 @@ class UserService {
     public User getUserById(long userId) {
         Optional<User> userOptional = this.userRepository.findByUserId(userId);
         if (userOptional.isPresent()) {
-            try {
-            System.out.println(User.getMapper().writeValueAsString(userOptional.get()));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
             return userOptional.get();
         } else {
             throw new NoSuchElementException("User not found");
+        }
+    }
+
+    public String getSerializedUserData(long userId) {
+        User user = this.getUserById(userId);
+        try {
+            return User.getMapper().writeValueAsString(user);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
