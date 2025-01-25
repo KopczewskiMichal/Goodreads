@@ -65,9 +65,9 @@ public class ShelfController {
 
         for (DtoShelf dtoShelf : shelves) {
             if (dtoShelf.isBookOnShelf() && currentShelves.stream().noneMatch(s -> s.getShelfId() == dtoShelf.getShelfId())) {
-                shelfService.addBookOnShelf(bookId, dtoShelf.getShelfId());
+                shelfService.addBookOnShelf(dtoShelf.getShelfId(), bookId);
             } else if (!dtoShelf.isBookOnShelf() && currentShelves.stream().anyMatch(s -> s.getShelfId() == dtoShelf.getShelfId())) {
-                shelfService.removeBookFromShelf(bookId, dtoShelf.getShelfId());
+                shelfService.removeBookFromShelf(dtoShelf.getShelfId(), bookId);
             }
         }
 

@@ -45,7 +45,7 @@ public class Shelf implements Serializable {
     @Builder.Default
     private List<Book> books = new ArrayList<>();
 
-    public void addBook(Book book) {
+    void addBook(Book book) {
         books.add(book);
     }
 

@@ -52,12 +52,20 @@ public class ShelfService {
         Optional<Book> book = bookRepository.findByBookId(bookId);
 
         if (shelf.isPresent() && book.isPresent()) {
-            shelf.get().addBook(book.get());
-            return shelfRepository.save(shelf.get());
+            Shelf existingShelf = shelf.get();
+            Book existingBook = book.get();
+
+            if (existingShelf.getBooks().contains(existingBook)) {
+                throw new IllegalStateException("The book is already on the shelf.");
+            }
+
+            existingShelf.addBook(existingBook);
+            return shelfRepository.save(existingShelf);
         } else {
             throw new NoSuchElementException("Either shelf or book not found for shelf ID: " + shelfId + ", book ID: " + bookId);
         }
     }
+
 
     public List<Shelf> getUserShelvesWithBook(long bookId, long userId) {
         return shelfRepository.findByUser_UserIdAndBooks_BookId(userId, bookId);

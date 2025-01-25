@@ -3,6 +3,7 @@ package org.example.goodreads.user;
 import jakarta.annotation.PostConstruct;
 import org.apache.coyote.Response;
 import org.example.goodreads.Review.ReviewService;
+import org.example.goodreads.shelf.Shelf;
 import org.example.goodreads.shelf.ShelfService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -46,8 +47,8 @@ class UserService {
                 .passwordHash(passwordHash)
                 .build();
         User result = this.userRepository.save(newUser);
-        shelfService.createShelfForUser("Want to Read", result.getUserId());
-
+        Shelf defaultShelf = shelfService.createShelfForUser("Want to Read", result.getUserId());
+        System.out.println(defaultShelf.getShelfId());
         return result;
     }
 
