@@ -1,7 +1,6 @@
 package org.example.goodreads.book;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,12 +17,15 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name= "book")
+@JsonIgnoreProperties(value = {"ISBN", "title", "author", "releaseDate", "description", "purchaseLink", "cover", "reviews"}, allowGetters = false)
 public class Book implements Serializable {
     @Id
+    @JsonProperty
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="book_id")
     private long bookId;
     @Column(unique=true, nullable = false)
+    @JsonIgnore
     private String ISBN;
     @Column(nullable = false)
     private String title;

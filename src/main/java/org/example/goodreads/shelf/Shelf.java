@@ -1,8 +1,6 @@
 package org.example.goodreads.shelf;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
@@ -24,7 +22,6 @@ import java.util.stream.Collectors;
 @Builder
 @AllArgsConstructor
 @Table(name = "shelf")
-@JsonIgnoreProperties({"books"})
 public class Shelf implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
