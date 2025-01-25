@@ -38,6 +38,7 @@ public class User implements Serializable {
     private Date birthDate;
 
     @Column(columnDefinition = "BOOLEAN DEFAULT false")
+    @JsonIgnore
     private boolean isAdmin = false;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
