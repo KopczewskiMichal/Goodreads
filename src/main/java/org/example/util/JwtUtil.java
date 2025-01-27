@@ -6,6 +6,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +15,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 
+@Slf4j
 @Component
 public class JwtUtil {
 
@@ -23,9 +26,12 @@ public class JwtUtil {
     private long expiration;
 
     public String generateToken(long userId, boolean isAdmin) {
-        String subject = "UserId: " + userId +"\nisAdmin: " + isAdmin;
+        JSONObject json = new JSONObject();
+        json.put("userId", userId);
+        json.put("isAdmin", isAdmin);
+        String jsonString = json.toString();
         return Jwts.builder()
-                .setSubject(subject)
+                .setSubject(jsonString)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(SignatureAlgorithm.HS256, secret)
@@ -44,16 +50,17 @@ public class JwtUtil {
         }
     }
 
-    public Long getUserIdFromRequest(HttpServletRequest request) {
-        String jwt = Arrays.stream((request).getCookies() != null ? ((HttpServletRequest) request).getCookies() : new Cookie[0])
+    public long getUserIdFromRequest(HttpServletRequest request) {
+        String jwt = Arrays.stream((request).getCookies() != null ? (request).getCookies() : new Cookie[0])
                 .filter(cookie -> "JWT".equals(cookie.getName()))
                 .map(Cookie::getValue)
                 .findFirst()
                 .orElse(null);
         if (jwt != null) {
             String tokenPayload = validateToken(jwt);
-            return Long.valueOf(tokenPayload.replace("UserId: ", ""));
-        } else return null;
+            JSONObject payload = new JSONObject(tokenPayload);
+            return payload.getLong("userId");
+        } else throw new IllegalArgumentException("Invalid JWT token");
     }
 }
 
