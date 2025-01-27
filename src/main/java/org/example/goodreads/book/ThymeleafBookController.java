@@ -30,13 +30,13 @@ class ThymeleafBookController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/public/add")
+    @GetMapping("/add")
     public String addBook() {
         return "addBook";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/public/add")
+    @PostMapping("/add")
     public String addBook(@RequestParam String ISBN,
                           @RequestParam String title,
                           @RequestParam String author,
