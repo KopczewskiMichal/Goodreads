@@ -9,6 +9,9 @@
 <div th:replace="~{fragments :: header}"></div>
 
 <h1>Main Page</h1>
+<div th:if='${authority == "ROLE_ADMIN"}'>
+  <p><a href="/admin/">Add Book</a></p>
+</div>
 
   <div th:if="${session.errorMessage}">
     <p th:text="${session.errorMessage}"></p>
