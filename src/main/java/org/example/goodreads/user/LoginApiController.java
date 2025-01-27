@@ -32,8 +32,8 @@ public class LoginApiController {
             @RequestParam("password") String password,
             HttpServletResponse response) {
         try {
-            long userId = userService.validateUser(identifier, password);
-            String jwt = jwtUtil.generateToken(userId);
+            User user = userService.validateUser(identifier, password);
+            String jwt = jwtUtil.generateToken(user.getUserId(), user.isAdmin());
 
             Cookie cookie = new Cookie("JWT", jwt);
             cookie.setHttpOnly(true);
@@ -62,13 +62,7 @@ public class LoginApiController {
             }
 
             User registeredUser = userService.registerUser(username, email, password);
-            String jwt = jwtUtil.generateToken(registeredUser.getUserId());
-            Cookie cookie = new Cookie("JWT", jwt);
-            cookie.setHttpOnly(true);
-            cookie.setSecure(false);
-            cookie.setPath("/");
-            cookie.setMaxAge(60 * 60);
-            response.addCookie(cookie);
+            generateJwtCookie(response, registeredUser);
 
             return ResponseEntity.ok("Registration successful");
         } catch (IllegalArgumentException e) {
@@ -82,19 +76,22 @@ public class LoginApiController {
             HttpServletResponse response) {
         try {
             User registeredUser = userService.registerFromFile(new String(file.getBytes(), StandardCharsets.UTF_8));
-
-            String jwt = jwtUtil.generateToken(registeredUser.getUserId());
-            Cookie cookie = new Cookie("JWT", jwt);
-            cookie.setHttpOnly(true);
-            cookie.setSecure(false);
-            cookie.setPath("/");
-            cookie.setMaxAge(60 * 60);
-            response.addCookie(cookie);
+            generateJwtCookie(response, registeredUser);
 
             return ResponseEntity.ok("Registration from file successful");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error registering user from file: " + e.getMessage());
         }
+    }
+
+    private void generateJwtCookie(HttpServletResponse response, User registeredUser) {
+        String jwt = jwtUtil.generateToken(registeredUser.getUserId(), false);
+        Cookie cookie = new Cookie("JWT", jwt);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(false);
+        cookie.setPath("/");
+        cookie.setMaxAge(60 * 60);
+        response.addCookie(cookie);
     }
 
     @GetMapping("/logout")

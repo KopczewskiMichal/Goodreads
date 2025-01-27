@@ -22,9 +22,10 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private long expiration;
 
-    public String generateToken(long userId) {
+    public String generateToken(long userId, boolean isAdmin) {
+        String subject = "UserId: " + userId +"\nisAdmin: " + isAdmin;
         return Jwts.builder()
-                .setSubject("UserId: " + userId)
+                .setSubject(subject)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(SignatureAlgorithm.HS256, secret)

@@ -52,13 +52,13 @@ class UserService {
         return result;
     }
 
-    public long validateUser(String identifier, String password) {
+    public User validateUser(String identifier, String password) {
         boolean isEmail = identifier.contains("@");
 
         return (isEmail ? userRepository.findByEmail(identifier) : userRepository.findByUsername(identifier))
                 .map(user -> {
                     if (user.verifyPassword(password)) {
-                        return user.getUserId();
+                        return user;
                     } else {
                         throw new IllegalArgumentException("Invalid password");
                     }
