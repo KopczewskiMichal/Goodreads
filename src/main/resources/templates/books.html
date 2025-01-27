@@ -9,15 +9,18 @@
 <body>
 <div th:replace="~{fragments :: header}"></div>
 
+<p>Count of books in service: <span th:text="${booksCount}"></span></p>
+<p>Count of reviews in service: <span th:text="${reviewsCount}"></span></p>
+
     <h1>Books</h1>
 <p><a href="/books/add">Add Book</a></p>
 <table>
     <thead>
     <tr>
-        <th>Zdjęcie</th>
-        <th>Tytuł</th>
-        <th>Autor</th>
-        <th>Więcej informacji</th>
+        <th>Cover</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>More info</th>
     </tr>
     </thead>
     <tbody>

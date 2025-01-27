@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.example.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -39,8 +40,10 @@ private final JwtUtil jwtUtil;
     }
 
     @PostMapping("/delete/{id}")
-    public void deleteReview(@PathVariable("id") Long reviewId) {
+    @PreAuthorize("hasRole('ADMIN')")
+    public String deleteReview(@PathVariable("id") long reviewId) {
         reviewService.deleteReview(reviewId);
+        return "redirect:/books/public";
     }
 
 }

@@ -66,4 +66,6 @@ public class ReviewService {
             }
         }
     }
+
+    public long getAllReviewsCount() {return reviewRepository.count();}
 }

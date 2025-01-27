@@ -136,4 +136,6 @@ class UserService {
             throw new IllegalArgumentException("Invalid JSON file");
         }
     }
+
+    public long getAllUsersCount() {return userRepository.count() - 1;} // Usuniętego użytkownika nalezy pominąć
 }

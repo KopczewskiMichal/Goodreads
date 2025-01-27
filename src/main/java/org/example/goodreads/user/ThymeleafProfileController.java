@@ -37,6 +37,7 @@ public class ThymeleafProfileController {
         User user = userService.getUserById(userId);
         model.addAttribute("user", user);
         model.addAttribute("authority", RolesUtil.getRole());
+        model.addAttribute("usersCount", userService.getAllUsersCount());
         return "userPage";
     }
 

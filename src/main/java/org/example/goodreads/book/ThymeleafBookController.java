@@ -1,5 +1,6 @@
 package org.example.goodreads.book;
 
+import org.example.goodreads.Review.ReviewService;
 import org.example.util.RolesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -23,10 +24,12 @@ import java.util.Date;
 @RequestMapping("/books")
 class ThymeleafBookController {
     private final BookService bookService;
+    private final ReviewService reviewService;
 
     @Autowired
-    ThymeleafBookController(BookService bookService) {
+    ThymeleafBookController(BookService bookService, ReviewService reviewService) {
         this.bookService = bookService;
+        this.reviewService = reviewService;
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -134,6 +137,8 @@ class ThymeleafBookController {
     @GetMapping("/public")
     public String showAllBooks(Model model) {
         model.addAttribute("books", bookService.getAllBooks());
+        model.addAttribute("booksCount", bookService.getAllBooksCount());
+        model.addAttribute("reviewsCount", reviewService.getAllReviewsCount());
         return "books";
     }
 
