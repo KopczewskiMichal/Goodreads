@@ -139,6 +139,7 @@ class ThymeleafBookController {
         model.addAttribute("books", bookService.getAllBooks());
         model.addAttribute("booksCount", bookService.getAllBooksCount());
         model.addAttribute("reviewsCount", reviewService.getAllReviewsCount());
+        model.addAttribute("authority", RolesUtil.getRole());
         return "books";
     }
 

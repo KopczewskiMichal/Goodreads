@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ThymeleafMainController {
     @GetMapping("/")
     public String home(Model model) {
+        model.addAtribute("authorities")
         return "mainPage";
     }
 

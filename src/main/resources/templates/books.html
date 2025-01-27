@@ -13,7 +13,9 @@
 <p>Count of reviews in service: <span th:text="${reviewsCount}"></span></p>
 
     <h1>Books</h1>
+<div th:if='${authority == "ROLE_ADMIN"}'>
 <p><a href="/books/add">Add Book</a></p>
+</div>
 <table>
     <thead>
     <tr>

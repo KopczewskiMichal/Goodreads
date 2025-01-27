@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -138,4 +139,6 @@ class UserService {
     }
 
     public long getAllUsersCount() {return userRepository.count() - 1;} // Usuniętego użytkownika nalezy pominąć
+
+    public List<User> getAllUsers() {return userRepository.findByEmailNot("deleted@user");}
 }
