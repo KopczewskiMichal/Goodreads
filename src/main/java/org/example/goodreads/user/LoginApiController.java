@@ -110,3 +110,6 @@ public class LoginApiController {
         return ResponseEntity.ok("Logged out successfully");
     }
 }
+
+// TODO panel administracyjny i role
+// TODO statystyki
