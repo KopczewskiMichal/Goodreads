@@ -2,6 +2,7 @@ package org.example.goodreads.user;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.example.util.JwtUtil;
+import org.example.util.RolesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,13 +36,7 @@ public class ThymeleafProfileController {
         long userId = jwtUtil.getUserIdFromRequest(request);
         User user = userService.getUserById(userId);
         model.addAttribute("user", user);
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        for (GrantedAuthority authority : authentication.getAuthorities()) {
-            model.addAttribute("authority", authority.toString()); // operacja możliwa w pętli ponieważ użytkownik ma zawsze 1 rolę.
-        }
-
-
+        model.addAttribute("authority", RolesUtil.getRole());
         return "userPage";
     }
 

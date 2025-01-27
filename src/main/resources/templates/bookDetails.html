@@ -17,9 +17,10 @@
   <p><a th:href="@{${book.getPurchaseLink()}}">Purchase Link</a></p>
 <img th:src="@{/books/public/cover(bookId=${book.getBookId()})}" alt="Book Cover">
 
-<p th:if="${#authorization.expression('isAuthenticated()')}">
+<div th:if='${authority == "ROLE_ADMIN"}'>
 <a th:href="@{/books/edit/{id}(id=${book.getBookId()})}">Edytuj książkę</a>
-</p>
+<!--  TODO usuwanie książki-->
+</div>
 
 
 <div class="shelves" th:if="${#authorization.expression('isAuthenticated()')}">
@@ -34,13 +35,7 @@
 
     <button type="submit">Submit</button>
   </form>
-
-
-
-
-
 </div>
-
 
 
 <div class="reviews">
@@ -72,7 +67,7 @@
       <p>Author: <span th:text="${review.getUser().getUsername()}"></span></p>
       <p><span th:each="star : ${#numbers.sequence(1, review.getStars())}">★</span></p>
       <p th:if="${review.getText()!=''}">Content: <span th:text="${review.getText()}"></span></p>
-      <form th:action="@{/review/delete/{id}(id=${review.getReviewId()})}" method="post" th:if="${#authorization.expression('isAuthenticated()')}">
+      <form th:action="@{/review/delete/{id}(id=${review.getReviewId()})}" method="post"  th:if='${authority == "ROLE_ADMIN"}'>
         <button class="delete-button" type="submit">Delete</button>
       </form>
 

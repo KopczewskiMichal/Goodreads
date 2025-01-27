@@ -1,5 +1,6 @@
 package org.example.goodreads.book;
 
+import org.example.util.RolesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -28,13 +29,13 @@ class ThymeleafBookController {
         this.bookService = bookService;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/public/add")
     public String addBook() {
         return "addBook";
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/public/add")
     public String addBook(@RequestParam String ISBN,
                           @RequestParam String title,
@@ -71,6 +72,7 @@ class ThymeleafBookController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/edit/{id}")
     public String editBook(@PathVariable Long id,
                            @RequestParam String title,
@@ -116,6 +118,7 @@ class ThymeleafBookController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/edit/{id}")
     public String editBook(@PathVariable Long id, Model model) {
         Book book = bookService.getBookById(id);
@@ -143,6 +146,7 @@ class ThymeleafBookController {
             return "redirect:/books/public";
         }
         model.addAttribute("book", book);
+        model.addAttribute("authority", RolesUtil.getRole());
         return "bookDetails";
     }
 
