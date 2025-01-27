@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/profile")
@@ -43,8 +44,13 @@ public class ThymeleafProfileController {
     public String deleteUser(@PathVariable("id") long userId, RedirectAttributes redirectAttributes) {
         try {
             userService.deleteUser(userId);
+
+            if (Objects.equals(RolesUtil.getRole(), "ROLE_ADMIN")) {
+                return "redirect:/admin/";
+            } else {
             redirectAttributes.addFlashAttribute("message", "User deleted successfully.");
             return "redirect:/api/auth/logout";
+            }
         } catch (NoSuchElementException e) {
             redirectAttributes.addFlashAttribute("error", "User not found.");
             return "redirect:/api/auth/logout";
