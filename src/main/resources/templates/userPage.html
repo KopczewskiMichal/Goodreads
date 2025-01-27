@@ -19,6 +19,10 @@
         <button type="submit" class="delete-button">Delete User</button>
     </form>
 
+    <div th:if='${authority == "ROLE_ADMIN"}'>
+        <h2>Congratulations, You are admin</h2>
+    </div>
+
     <h2>My shelves</h2>
     <div th:each="shelf : ${user.getShelves()}">
         <p>Shelf: <span th:text="${shelf.getShelfName()}"></span></p>

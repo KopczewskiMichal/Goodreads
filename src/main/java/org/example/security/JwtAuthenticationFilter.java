@@ -7,13 +7,16 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.util.JwtUtil;
+import org.json.JSONObject;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 
 @Component
 public class JwtAuthenticationFilter implements Filter {
@@ -39,9 +42,13 @@ public class JwtAuthenticationFilter implements Filter {
                 .orElse(null);
         if (jwt != null) {
             String tokenPayload = jwtUtil.validateToken(jwt);
+            JSONObject tokenJson = new JSONObject(tokenPayload);
+            boolean isAdmin = tokenJson.getBoolean("isAdmin");
+            String role = (isAdmin) ? "ROLE_ADMIN" : "ROLE_USER";
+            SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role);
             if (tokenPayload != null) {
                 UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(tokenPayload, null, null);
+                        new UsernamePasswordAuthenticationToken(tokenPayload, null, Collections.singletonList(authority));
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
