@@ -89,5 +89,10 @@ public class ShelfService {
                 .collect(Collectors.toList());
     }
 
+    public List<Book> getBooksByShelfId(long shelfId) {
+        // Dopuszczamy pustą półkę
+        return shelfRepository.findBooksByShelfId(shelfId);
+    }
+
 
 }
