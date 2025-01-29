@@ -24,6 +24,8 @@
         <button type="submit" class="delete-button">Delete User</button>
     </form>
 
+    <p><a href="/profile/edit">Edit profile</a></p>
+
     <div th:if='${authority == "ROLE_ADMIN"}'>
         <h2>Congratulations, You are admin</h2>
     </div>

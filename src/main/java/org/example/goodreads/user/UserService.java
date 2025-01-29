@@ -95,6 +95,22 @@ class UserService {
         }
     }
 
+    public void updateUserPassword (long userId, String password) {
+        Optional<User> userOptional = this.userRepository.findByUserId(userId);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            String passwordHash = User.hashPassword(password);
+            user.setPasswordHash(passwordHash);
+            this.userRepository.save(user);
+        } else {
+            throw new NoSuchElementException("User not found");
+        }
+    }
+
+    public void updateUser(UserDto userDto) {
+
+    }
+
     public boolean userExists(String username, String email) {
         return userRepository.findByUsername(username).isPresent() || userRepository.findByEmail(email).isPresent();
     }
@@ -136,6 +152,10 @@ class UserService {
             System.out.println(e.getMessage());
             throw new IllegalArgumentException("Invalid JSON file");
         }
+    }
+
+    public UserDto getDtoFromUserId(long userId) {
+        return new UserDto(getUserById(userId));
     }
 
     public long getAllUsersCount() {return userRepository.count() - 1;} // Usuniętego użytkownika nalezy pominąć

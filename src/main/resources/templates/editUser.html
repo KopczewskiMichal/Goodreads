@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="~{fragments :: header}"></div>
+
+<h2>Edit User</h2>
+<form th:action="@{/profile/edit}" method="post" th:object="${userDto}">
+    <label for="username">Username:</label>
+    <input type="text" id="username" th:field="*{username}" required />
+    <p style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" th:field="*{email}" required />
+    <p style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+
+    <label for="description">Description:</label>
+    <textarea id="description" th:field="*{description}"></textarea>
+    <p style="color:red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
+
+    <h3>Change Password (optional)</h3>
+
+    <label for="password">New Password:</label>
+    <input type="password" id="password" th:field="*{password}" />
+    <p style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+
+    <label for="confirmPassword">Confirm New Password:</label>
+    <input type="password" id="confirmPassword" th:field="*{confirmPassword}" />
+    <p style="color:red" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></p>
+
+    <button type="submit">Save Changes</button>
+</form>
+
+<p th:if="${error}" th:text="${error}" style="color: red;"></p>
+
+<div th:replace="~{fragments :: footer}"></div>
+</body>
+</html>
