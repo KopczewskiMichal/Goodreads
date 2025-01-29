@@ -57,6 +57,13 @@
             </tbody>
         </table>
     </div>
+    <h2>Add new shelf</h2>
+    <form th:action="@{/profile/add-shelf}" method="post">
+        <label for="shelfName">Shelf name:</label>
+        <input type="text" name="shelfName" id="shelfName" required>
+        <button type="submit">Wyślij</button>
+    </form>
+
 
     <h2>Download Profile</h2>
     <form action="#" th:action="@{/api/user/profile/download-profile/{id}(id=${user.getUserId()})}" method="get">

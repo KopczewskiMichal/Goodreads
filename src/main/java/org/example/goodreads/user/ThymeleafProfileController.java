@@ -2,6 +2,7 @@ package org.example.goodreads.user;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.example.goodreads.shelf.ShelfService;
 import org.example.util.JwtUtil;
 import org.example.util.RolesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,13 @@ public class ThymeleafProfileController {
 
     private final UserService userService;
     private final JwtUtil jwtUtil;
+    private final ShelfService shelfService;
 
     @Autowired
-    public ThymeleafProfileController(UserService userService, JwtUtil jwtUtil) {
+    public ThymeleafProfileController(UserService userService, JwtUtil jwtUtil, ShelfService shelfService) {
         this.userService = userService;
         this.jwtUtil = jwtUtil;
+        this.shelfService = shelfService;
     }
 
     @GetMapping("/")
@@ -90,7 +93,12 @@ public class ThymeleafProfileController {
         return "redirect:/profile/";
     }
 
-
+    @PostMapping("/add-shelf")
+    public String addShelf(@RequestParam("shelfName") String shelfName,
+                            HttpServletRequest request) {
+        shelfService.createShelfForUser(shelfName, jwtUtil.getUserIdFromRequest(request));
+        return "redirect:/profile/";
+    }
 
 
 }
