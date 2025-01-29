@@ -112,5 +112,11 @@ public class ThymeleafProfileController {
         return "redirect:/profile/";
     }
 
+    @GetMapping("/delete-shelf/{shelf-id}")
+    public String deleteShelf(@PathVariable("shelf-id") long shelfId) {
+        shelfService.deleteShelfById(shelfId);
+        return "redirect:/profile/";
+    }
+
 
 }

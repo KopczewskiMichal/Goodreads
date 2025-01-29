@@ -72,7 +72,6 @@ public class ShelfService {
         }
     }
 
-
     public List<Shelf> getUserShelvesWithBook(long bookId, long userId) {
         return shelfRepository.findByUser_UserIdAndBooks_BookId(userId, bookId);
     }
@@ -100,5 +99,7 @@ public class ShelfService {
         return shelfRepository.findBooksByShelfId(shelfId);
     }
 
-
+    public void deleteShelfById(long shelfId) {
+        shelfRepository.deleteById(shelfId);
+    }
 }
