@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>User</title>
+    <link rel="stylesheet" th:href="@{/css/books.css}"/>
+
 </head>
 <body>
     <div th:replace="~{fragments :: header}"></div>
@@ -28,7 +30,30 @@
 
     <h2>My shelves</h2>
     <div th:each="shelf : ${user.getShelves()}">
-        <p>Shelf: <span th:text="${shelf.getShelfName()}"></span></p>
+        <h3 th:text="${shelf.getShelfName()}"></h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Cover</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>More info</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="book : ${shelf.getBooks()}">
+                <td>
+                    <div class="book-image">
+                        <img th:src="@{/books/public/cover(bookId=${book.getBookId()})}" alt="Book Cover">
+
+                    </div>
+                </td>
+                <td><span th:text="${book.title}"></span></td>
+                <td><span th:text="${book.author}"></span></td>
+                <td><a th:href="@{/books/public/{id}(id=${book.bookId})}">More info</a></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 
     <h2>Download Profile</h2>
