@@ -37,8 +37,14 @@ public class ShelfService {
     }
 
     public Shelf createShelfForUser(String shelfName, long userId) {
+        if (shelfName.isEmpty()) {
+            throw new IllegalArgumentException("Shelf name cannot be empty.");
+        }
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("User not found for user ID: " + userId));
+        if (shelfRepository.existsByUserAndShelfName(user, shelfName)) {
+            throw new IllegalStateException("A shelf with the same name already exists for this user.");
+        }
 
         Shelf shelf = Shelf.builder()
                 .shelfName(shelfName)
