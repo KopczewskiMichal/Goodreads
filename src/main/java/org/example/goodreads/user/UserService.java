@@ -108,7 +108,16 @@ class UserService {
     }
 
     public void updateUser(UserDto userDto) {
-
+        Optional<User> userOptional = this.userRepository.findByUserId(userDto.getId());
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setUsername(userDto.getUsername());
+            user.setEmail(userDto.getEmail());
+            user.setDescription(userDto.getDescription());
+            this.userRepository.save(user);
+        } else {
+            throw new NoSuchElementException("User not found");
+        }
     }
 
     public boolean userExists(String username, String email) {

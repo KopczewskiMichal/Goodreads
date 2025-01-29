@@ -69,30 +69,27 @@ public class ThymeleafProfileController {
     }
 
     @PostMapping("/edit")
-    public String updateUser(@ModelAttribute("user") @Valid UserDto userDto,
+    public String updateUser(@ModelAttribute("userDto") @Valid UserDto userDto,
                              BindingResult bindingResult, Model model, HttpServletRequest request) {
-        userDto.setId(jwtUtil.getUserIdFromRequest(request)); // zabezpieczenie przed edycją innego użytkownika jeśli hacker jego ID
+        userDto.setId(jwtUtil.getUserIdFromRequest(request)); // zabezpieczenie przed edycją innego użytkownika
+
         model.addAttribute("userDto", userDto);
         if (bindingResult.hasErrors()) {
             return "editUser";
         }
 
         if (userDto.getPassword() != null && !userDto.getPassword().isEmpty()) {
-            if (!userDto.getPassword().equals(userDto.getConfirmPassword())) {
-                model.addAttribute("error", "Passwords do not match.");
-                return "editUser";
-            }
             if (userDto.getPassword().length() < 8) {
                 model.addAttribute("error", "Password must be at least 8 characters long.");
+                userService.updateUserPassword(userDto.getId(), userDto.getPassword());
                 return "editUser";
             }
-            userService.updateUserPassword(userDto.getId(), userDto.getPassword());
         }
 
         userService.updateUser(userDto);
-        System.out.println("Zaktualizowano profil");
-        return "redirect:/profile?success";
+        return "redirect:/profile/";
     }
+
 
 
 
