@@ -61,8 +61,10 @@
     <form th:action="@{/profile/add-shelf}" method="post">
         <label for="shelfName">Shelf name:</label>
         <input type="text" name="shelfName" id="shelfName" required>
+        <p style="color:red" th:if="${error}" th:text="${error}"></p>
         <button type="submit">Wyślij</button>
     </form>
+
 
 
     <h2>Download Profile</h2>

@@ -95,7 +95,18 @@ public class ThymeleafProfileController {
 
     @PostMapping("/add-shelf")
     public String addShelf(@RequestParam("shelfName") String shelfName,
-                            HttpServletRequest request) {
+                           HttpServletRequest request,
+                           Model model) {
+        if (shelfName == null || shelfName.trim().isEmpty()) {
+            model.addAttribute("error", "Shelf name cannot be empty");
+            long userId = jwtUtil.getUserIdFromRequest(request);
+            User user = userService.getUserById(userId);
+            model.addAttribute("user", user);
+            model.addAttribute("authority", RolesUtil.getRole());
+            model.addAttribute("usersCount", userService.getAllUsersCount());
+            return "userPage";
+        }
+
         shelfService.createShelfForUser(shelfName, jwtUtil.getUserIdFromRequest(request));
         return "redirect:/profile/";
     }
