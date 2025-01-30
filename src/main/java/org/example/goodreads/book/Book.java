@@ -47,4 +47,14 @@ public class Book implements Serializable {
     @JsonManagedReference
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
+
+    public Book(BookDto bookDto) {
+        this.ISBN = bookDto.getISBN();
+        this.title = bookDto.getTitle();
+        this.author = bookDto.getAuthor();
+        this.releaseDate = bookDto.getReleaseDate();
+        this.description = bookDto.getDescription();
+        this.purchaseLink = bookDto.getPurchaseLink();
+        this.cover = bookDto.getCover();
+    }
 }

@@ -1,5 +1,6 @@
 package org.example.goodreads.book;
 
+import jakarta.validation.Valid;
 import org.example.goodreads.Review.ReviewService;
 import org.example.util.RolesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StreamUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,94 +34,41 @@ class ThymeleafBookController {
         this.reviewService = reviewService;
     }
 
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/add")
-    public String addBook() {
+    public String addBookForm(Model model) {
+        model.addAttribute("bookDto", new BookDto());  // Inicjalizacja pustego DTO
         return "addBook";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add")
-    public String addBook(@RequestParam String ISBN,
-                          @RequestParam String title,
-                          @RequestParam String author,
-                          @RequestParam String releaseDate, // Data jako String
-                          @RequestParam(required = false) String description,
-                          @RequestParam(required = false) String purchaseLink,
-                          @RequestParam(required = false) byte[] cover,
-                          Model model) {
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date parsedReleaseDate = dateFormat.parse(releaseDate);
-
-            Book book = Book.builder()
-                    .ISBN(ISBN)
-                    .title(title)
-                    .author(author)
-                    .releaseDate(parsedReleaseDate)
-                    .description(description)
-                    .purchaseLink(purchaseLink)
-                    .cover(cover)
-                    .build();
-
-            bookService.addBook(book);
-
-            model.addAttribute("message", "Dodano książkę: " + title);
-            model.addAttribute("book", book);
-
-            return "redirect:/books/public";
-
-        } catch (ParseException e) {
-            model.addAttribute("error", "Błąd parsowania daty: " + releaseDate);
+    public String addBook(@Valid @ModelAttribute("bookDto") BookDto bookDto, BindingResult bindingResult, @RequestParam("cover") MultipartFile cover, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("error", "Errors in form.");
             return "addBook";
         }
-    }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/edit/{id}")
-    public String editBook(@PathVariable Long id,
-                           @RequestParam String title,
-                           @RequestParam String author,
-                           @RequestParam String releaseDate,
-                           @RequestParam(required = false) String description,
-                           @RequestParam(required = false) String purchaseLink,
-                           @RequestParam(required = false) MultipartFile cover,
-                           Model model) {
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date parsedReleaseDate = dateFormat.parse(releaseDate);
-
-            Book book = bookService.getBookById(id);
-            if (book == null) {
-                model.addAttribute("error", "Książka o podanym ID nie istnieje.");
-                return "redirect:/books/public";
-            }
-
-            book.setTitle(title);
-            book.setAuthor(author);
-            book.setReleaseDate(parsedReleaseDate);
-            book.setDescription(description);
-            book.setPurchaseLink(purchaseLink);
+            Book book = new Book(bookDto);
 
             if (!cover.isEmpty()) {
                 book.setCover(cover.getBytes());
             }
 
-            bookService.updateBook(book);
+            bookService.addBook(book);
 
-            model.addAttribute("message", "Książka została zaktualizowana: " + title);
+            model.addAttribute("message", "Added Book: " + bookDto.getTitle());
             model.addAttribute("book", book);
 
             return "redirect:/books/public";
-
-        } catch (ParseException e) {
-            model.addAttribute("error", "Błąd parsowania daty: " + releaseDate);
-            return "editBook";
-        } catch (IOException e) {
-            model.addAttribute("error", "Błąd przesyłania pliku okładki.");
-            return "editBook";
+        } catch (Exception e) {
+            model.addAttribute("error", "Error occurred while adding book");
+            return "addBook";
         }
     }
+
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/edit/{id}")
