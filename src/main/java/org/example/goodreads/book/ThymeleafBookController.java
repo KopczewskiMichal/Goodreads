@@ -44,30 +44,48 @@ class ThymeleafBookController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add")
-    public String addBook(@Valid @ModelAttribute("bookDto") BookDto bookDto, BindingResult bindingResult, @RequestParam("cover") MultipartFile cover, Model model) {
+    public String addBook(@Valid @ModelAttribute BookDto bookDto,
+                          BindingResult bindingResult,
+                          @RequestParam(required = false) MultipartFile cover,
+                          Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("error", "Errors in form.");
+            System.out.println(bindingResult);
             return "addBook";
         }
 
         try {
-            Book book = new Book(bookDto);
 
-            if (!cover.isEmpty()) {
-                book.setCover(cover.getBytes());
+            byte[] coverBytes = null;
+            if (cover != null && !cover.isEmpty()) {
+                coverBytes = cover.getBytes();
             }
+
+            Book book = Book.builder()
+                    .ISBN(bookDto.getISBN())
+                    .title(bookDto.getTitle())
+                    .author(bookDto.getAuthor())
+                    .releaseDate(bookDto.getReleaseDate())
+                    .description(bookDto.getDescription())
+                    .purchaseLink(bookDto.getPurchaseLink())
+                    .cover(coverBytes)
+                    .build();
 
             bookService.addBook(book);
 
-            model.addAttribute("message", "Added Book: " + bookDto.getTitle());
+            model.addAttribute("message", "Dodano książkę: " + bookDto.getTitle());
             model.addAttribute("book", book);
 
             return "redirect:/books/public";
+
         } catch (Exception e) {
-            model.addAttribute("error", "Error occurred while adding book");
+            model.addAttribute("error", "Błąd podczas dodawania książki.");
             return "addBook";
         }
     }
+
+
+
+
 
 
     @PreAuthorize("hasRole('ADMIN')")
