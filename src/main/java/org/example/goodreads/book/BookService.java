@@ -49,7 +49,7 @@ public class BookService {
         book.setReleaseDate(bookDto.getReleaseDate());
         book.setDescription(bookDto.getDescription());
         book.setPurchaseLink(bookDto.getPurchaseLink());
-        if (cover != null) {
+        if (cover != null && !cover.isEmpty()) {
             book.setCover(cover.getBytes());
         }
         bookRepository.save(book);
