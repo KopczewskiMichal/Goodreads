@@ -66,5 +66,9 @@ public class BookService {
         bookRepository.deleteById(bookId);
     }
 
+    public List<Book> findBooksByTitleContaining(String title) {
+        return bookRepository.findByTitleContainingIgnoreCase(title);
+    }
+
 }
 

@@ -14,11 +14,9 @@ import java.io.ByteArrayInputStream;
 @RequestMapping("/api/user/profile")
 public class ProfileApiController {
     private final UserService userService;
-    private final JwtUtil jwtUtil;
     @Autowired
-    public ProfileApiController(UserService userService, JwtUtil jwtUtil) {
+    public ProfileApiController(UserService userService) {
         this.userService = userService;
-        this.jwtUtil = jwtUtil;
     }
 
     @GetMapping("download-profile/{id}")

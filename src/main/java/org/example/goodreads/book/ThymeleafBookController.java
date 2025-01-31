@@ -112,8 +112,6 @@ class ThymeleafBookController {
     }
 
 
-
-
     @GetMapping("/public")
     public String showAllBooks(Model model) {
         model.addAttribute("books", bookService.getAllBooks());
@@ -122,6 +120,22 @@ class ThymeleafBookController {
         model.addAttribute("authority", RolesUtil.getRole());
         return "books";
     }
+
+    @GetMapping("/public/search")
+    public String searchBooksByTitle(@RequestParam(value = "title", required = false) String title, Model model) {
+        if (title != null && !title.isEmpty()) {
+            model.addAttribute("books", bookService.findBooksByTitleContaining(title));
+        } else {
+            model.addAttribute("books", bookService.getAllBooks());
+        }
+
+        model.addAttribute("booksCount", bookService.getAllBooksCount());
+        model.addAttribute("reviewsCount", reviewService.getAllReviewsCount());
+        model.addAttribute("authority", RolesUtil.getRole());
+        return "books";
+    }
+
+
 
     @GetMapping("/public/{id}")
     public String showBookDetails(@PathVariable long id, Model model) {

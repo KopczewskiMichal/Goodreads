@@ -14,7 +14,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
-class UserService {
+public class UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
