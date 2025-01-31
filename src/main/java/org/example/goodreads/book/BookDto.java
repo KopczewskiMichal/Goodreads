@@ -1,10 +1,7 @@
 package org.example.goodreads.book;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,6 +22,7 @@ public class BookDto {
     @NotBlank(message = "Author is required")
     private String author;
 
+    @Past(message = "Release date must be in past")
     @NotNull(message = "Release date is required")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -35,7 +33,4 @@ public class BookDto {
 
     @URL(message = "Invalid URL format")
     private String purchaseLink;
-
-    private byte[] cover;
-
 }

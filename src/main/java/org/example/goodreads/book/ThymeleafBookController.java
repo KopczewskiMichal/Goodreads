@@ -38,7 +38,7 @@ class ThymeleafBookController {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/add")
     public String addBookForm(Model model) {
-        model.addAttribute("bookDto", new BookDto());  // Inicjalizacja pustego DTO
+        model.addAttribute("bookDto", new BookDto());
         return "addBook";
     }
 
@@ -49,12 +49,12 @@ class ThymeleafBookController {
                           @RequestParam(required = false) MultipartFile cover,
                           Model model) {
         if (bindingResult.hasErrors()) {
-            System.out.println(bindingResult);
+            model.addAttribute("bookDto", bookDto);
+            model.addAttribute("org.springframework.validation.BindingResult.bookDto", bindingResult);
             return "addBook";
         }
 
         try {
-
             byte[] coverBytes = null;
             if (cover != null && !cover.isEmpty()) {
                 coverBytes = cover.getBytes();
@@ -82,6 +82,8 @@ class ThymeleafBookController {
             return "addBook";
         }
     }
+
+
 
 
 

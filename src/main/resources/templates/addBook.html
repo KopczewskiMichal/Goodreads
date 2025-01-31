@@ -11,38 +11,53 @@
 <div class="container mt-5">
 
     <h1 class="text-center">Add Book</h1>
-    <form th:action="@{/books/add}" method="post" class="mt-4" enctype="multipart/form-data">
+    <form th:action="@{/books/add}" method="post" enctype="multipart/form-data" class="mt-4" th:object="${bookDto}">
         <div class="mb-3">
             <label for="ISBN" class="form-label">ISBN</label>
-            <input type="text" id="ISBN" name="ISBN" class="form-control" placeholder="Wprowadź ISBN" required th:value="${bookDto.ISBN}">
+            <input type="text" id="ISBN" th:field="*{ISBN}" class="form-control" placeholder="ISBN">
+            <div class="text-danger" th:if="${#fields.hasErrors('ISBN')}" th:errors="*{ISBN}"></div>
         </div>
+
         <div class="mb-3">
-            <label for="title" class="form-label">Tytuł</label>
-            <input type="text" id="title" name="title" class="form-control" placeholder="Wprowadź tytuł" required th:value="${bookDto.title}">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" id="title" th:field="*{title}" class="form-control" placeholder="Title">
+            <div class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
         </div>
+
         <div class="mb-3">
-            <label for="author" class="form-label">Autor</label>
-            <input type="text" id="author" name="author" class="form-control" placeholder="Wprowadź autora" required th:value="${bookDto.author}">
+            <label for="author" class="form-label">Author</label>
+            <input type="text" id="author" th:field="*{author}" class="form-control" placeholder="Author">
+            <div class="text-danger" th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></div>
         </div>
+
         <div class="mb-3">
-            <label for="releaseDate" class="form-label">Data Wydania</label>
-            <input type="date" id="releaseDate" name="releaseDate" class="form-control" required th:value="${#dates.format(bookDto.releaseDate, 'yyyy-MM-dd')}">
+            <label for="releaseDate" class="form-label">Release Date</label>
+            <input type="date" id="releaseDate" th:field="*{releaseDate}" class="form-control">
+            <div class="text-danger" th:if="${#fields.hasErrors('releaseDate')}" th:errors="*{releaseDate}"></div>
         </div>
+
         <div class="mb-3">
-            <label for="description" class="form-label">Opis</label>
-            <textarea id="description" name="description" class="form-control" rows="4" placeholder="Wprowadź opis książki" th:value="${bookDto.description}"></textarea>
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" th:field="*{description}" class="form-control" rows="4" placeholder="Enter description"></textarea>
+            <div class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
         </div>
+
         <div class="mb-3">
-            <label for="purchaseLink" class="form-label">Link Zakupu</label>
-            <input type="url" id="purchaseLink" name="purchaseLink" class="form-control" placeholder="Wprowadź link zakupu" th:value="${bookDto.purchaseLink}">
+            <label for="purchaseLink" class="form-label">Purchase Link</label>
+            <input type="url" id="purchaseLink" th:field="*{purchaseLink}" class="form-control" placeholder="Enter purchase link">
+            <div class="text-danger" th:if="${#fields.hasErrors('purchaseLink')}" th:errors="*{purchaseLink}"></div>
         </div>
+
         <div class="mb-3">
-            <label for="cover" class="form-label">Wybierz zdjęcie</label>
+            <label for="cover" class="form-label">Cover</label>
             <input type="file" id="cover" name="cover" class="form-control">
         </div>
 
-        <button type="submit" class="btn btn-primary">Dodaj Książkę</button>
+        <button type="submit" class="btn btn-primary">Add Book</button>
     </form>
+
+
+
 
 
 

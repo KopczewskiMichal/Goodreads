@@ -55,6 +55,5 @@ public class Book implements Serializable {
         this.releaseDate = bookDto.getReleaseDate();
         this.description = bookDto.getDescription();
         this.purchaseLink = bookDto.getPurchaseLink();
-        this.cover = bookDto.getCover();
     }
 }
