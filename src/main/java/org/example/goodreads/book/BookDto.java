@@ -3,13 +3,16 @@ package org.example.goodreads.book;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
 @Data
+@NoArgsConstructor
 public class BookDto {
+    private long bookId;
 
     @NotBlank(message = "ISBN is required")
     @Pattern(regexp = "^[0-9-]+$", message = "ISBN must contain only digits and '-'")
@@ -33,4 +36,14 @@ public class BookDto {
 
     @URL(message = "Invalid URL format")
     private String purchaseLink;
+
+    public BookDto(Book book) {
+        this.bookId = book.getBookId();
+        this.ISBN = book.getISBN();
+        this.title = book.getTitle();
+        this.author = book.getAuthor();
+        this.releaseDate = book.getReleaseDate();
+        this.description = book.getDescription();
+        this.purchaseLink = book.getPurchaseLink();
+    }
 }

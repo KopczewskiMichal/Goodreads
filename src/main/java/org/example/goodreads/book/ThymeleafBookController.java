@@ -83,24 +83,40 @@ class ThymeleafBookController {
         }
     }
 
-
-
-
-
-
-
-
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/edit/{id}")
     public String editBook(@PathVariable Long id, Model model) {
         Book book = bookService.getBookById(id);
         if (book == null) {
-            model.addAttribute("error", "Książka o podanym ID nie istnieje.");
+            model.addAttribute("error", "Book with the given ID does not exist.");
             return "redirect:/books";
         }
-        model.addAttribute("book", book);
+        BookDto bookDto = new BookDto(book);
+        model.addAttribute("bookDto", bookDto);
+        model.addAttribute("bookId", id);
         return "editBook";
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/edit")
+    public String updateBook(@ModelAttribute("bookDto") @Valid BookDto bookDto, BindingResult bindingResult, @RequestParam("cover") MultipartFile coverFile, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("bookDto", bookDto);
+            return "editBook";
+        }
+
+        try {
+            bookService.updateBook(bookDto, coverFile);
+        } catch (Exception e) {
+            model.addAttribute("error", "An error occurred while updating the book.");
+            System.out.println(e.getMessage());
+            return "editBook";
+        }
+
+        return "redirect:/books";
+    }
+
+
 
 
     @GetMapping("/public")
