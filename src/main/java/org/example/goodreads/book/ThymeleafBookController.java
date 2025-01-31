@@ -18,21 +18,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @Controller
 @RequestMapping("/books")
 class ThymeleafBookController {
-    private final BookService bookService;
-    private final ReviewService reviewService;
+    @Autowired
+    private BookService bookService;
 
     @Autowired
-    ThymeleafBookController(BookService bookService, ReviewService reviewService) {
-        this.bookService = bookService;
-        this.reviewService = reviewService;
-    }
+    private ReviewService reviewService;
+
 
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -153,6 +148,13 @@ class ThymeleafBookController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(org.springframework.http.MediaType.IMAGE_JPEG);
         return new ResponseEntity<>(image, headers, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/delete")
+    public String deleteBook(@RequestParam("bookId") Long bookId) {
+        bookService.deleteBookById(bookId);
+        return "redirect:/books/public";
     }
 
     private byte[] getDefaultImage() {

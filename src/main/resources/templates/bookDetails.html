@@ -18,8 +18,12 @@
 <img th:src="@{/books/public/cover(bookId=${book.getBookId()})}" alt="Book Cover">
 
 <div th:if='${authority == "ROLE_ADMIN"}'>
-<a th:href="@{/books/edit/{id}(id=${book.getBookId()})}">Edytuj książkę</a>
-<!--  TODO usuwanie książki-->
+<a th:href="@{/books/edit/{id}(id=${book.getBookId()})}">Edit Book</a>
+  <form th:action="@{/books/delete}" method="post">
+    <input type="hidden" name="bookId" th:value="${book.bookId}">
+    <button type="submit" class="btn btn-danger">Delete</button>
+  </form>
+
 </div>
 
 
@@ -114,7 +118,7 @@
     const shelvesContainer = document.getElementById('shelvesContainer');
     const bookId = document.querySelector('input[name="bookId"]').value;
 
-    // Pobieranie danych półek z backendu
+    // Pobieranie danych półek
     fetch(`/shelves/get-by-user-and-book/${bookId}`)
             .then(response => response.json())
             .then(data => {
@@ -141,7 +145,7 @@
             });
 
     form.addEventListener('submit', function (event) {
-      event.preventDefault(); // Zatrzymanie domyślnego wysyłania formularza
+      event.preventDefault();
 
       const shelvesData = [];
 

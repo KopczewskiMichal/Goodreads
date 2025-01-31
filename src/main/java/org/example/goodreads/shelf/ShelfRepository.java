@@ -1,8 +1,10 @@
 package org.example.goodreads.shelf;
 
+import jakarta.transaction.Transactional;
 import org.example.goodreads.book.Book;
 import org.example.goodreads.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -18,4 +20,6 @@ public interface ShelfRepository extends JpaRepository<Shelf, Long> {
     List<Book> findBooksByShelfId(@Param("shelfId") long shelfId);
 
     boolean existsByUserAndShelfName(User user, String shelfName);
+    List<Shelf> findByBooksBookId(Long bookId);
+
 }

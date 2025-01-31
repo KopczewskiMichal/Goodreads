@@ -1,5 +1,9 @@
 package org.example.goodreads.book;
 
+import jakarta.transaction.Transactional;
+import org.example.goodreads.shelf.Shelf;
+import org.example.goodreads.shelf.ShelfRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,15 +13,12 @@ import java.util.NoSuchElementException;
 
 @Service
 public class BookService {
-    private final BookRepository bookRepository;
+    @Autowired
+    private BookRepository bookRepository;
 
-    public BookService(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
-    }
+    @Autowired
+    private ShelfRepository shelfRepository;
 
-    public Book findById(long id) {
-        return bookRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Book not found"));
-    }
 
     void addBook(Book book) {
         if (bookRepository.findByISBN(book.getISBN()).isPresent()) throw new IllegalArgumentException("Book with this ISBN already exists");
@@ -53,6 +54,16 @@ public class BookService {
             book.setCover(cover.getBytes());
         }
         bookRepository.save(book);
+    }
+
+    @Transactional
+    public void deleteBookById(Long bookId) {
+        List<Shelf> shelvesWithBook = shelfRepository.findByBooksBookId(bookId);
+
+        shelvesWithBook.stream()
+                .peek(shelf -> shelf.getBooks().removeIf(book -> book.getBookId() == bookId)) // usuwamy książkę ze półki
+                .forEach(shelfRepository::save);
+        bookRepository.deleteById(bookId);
     }
 
 }

@@ -15,16 +15,13 @@ import java.util.Optional;
 
 @Service
 class UserService {
-    private final UserRepository userRepository;
-    private final ReviewService reviewService;
-    private final ShelfService shelfService;
-
     @Autowired
-    public UserService(UserRepository userRepository, ReviewService reviewService, ShelfService shelfService) {
-        this.userRepository = userRepository;
-        this.reviewService = reviewService;
-        this.shelfService = shelfService;
-    }
+    private UserRepository userRepository;
+    @Autowired
+    private ReviewService reviewService;
+    @Autowired
+    private ShelfService shelfService;
+
 
     @PostConstruct
     public void init() {
