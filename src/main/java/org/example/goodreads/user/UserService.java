@@ -46,7 +46,7 @@ public class UserService {
                 .build();
         User result = this.userRepository.save(newUser);
         shelfService.createShelfForUser("Want to Read", result.getUserId());
-        shelfService.createShelfForUser("Readed", result.getUserId());
+        shelfService.createShelfForUser("Completed", result.getUserId());
         return result;
     }
 

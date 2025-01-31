@@ -140,6 +140,10 @@ class ThymeleafBookController {
     @GetMapping("/public/{id}")
     public String showBookDetails(@PathVariable long id, Model model) {
         Book book = bookService.getBookById(id);
+        model.addAttribute("totalShelvesWithBook", bookService.countShelvesContainingBook(id));
+        model.addAttribute("completedShelves", bookService.countShelvesContainingBookWithName(id, "Completed"));
+        model.addAttribute("wantToReadShelves", bookService.countShelvesContainingBookWithName(id, "Want to Read"));
+
 
         if (book == null) {
             model.addAttribute("error", "Book with this Id doesn't exist.");

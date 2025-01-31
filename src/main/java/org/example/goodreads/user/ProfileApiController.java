@@ -5,7 +5,6 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.example.util.JwtUtil;
 
 import java.io.ByteArrayInputStream;
 

@@ -23,6 +23,23 @@
     <input type="hidden" name="bookId" th:value="${book.bookId}">
     <button type="submit" class="btn btn-danger">Delete</button>
   </form>
+</div>
+
+<div class="stats">
+  <div class="mb-3">
+    <p>Total Shelves with this Book:</p>
+    <span th:text="${totalShelvesWithBook}"></span>
+  </div>
+  <div class="mb-3">
+    <p>Amount of People Who Have Read This Book:</p>
+    <span th:text="${completedShelves}"></span>
+  </div>
+
+  <div class="mb-3">
+    <p>Amount of People Who Want to Read This Book:</p>
+    <span th:text="${wantToReadShelves}"></span>
+  </div>
+
 
 </div>
 
@@ -172,6 +189,6 @@
   });
 </script>
 
-  </script>
+
 </body>
 </html>

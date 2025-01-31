@@ -70,5 +70,13 @@ public class BookService {
         return bookRepository.findByTitleContainingIgnoreCase(title);
     }
 
+    public long countShelvesContainingBook(Long bookId) {
+        return shelfRepository.countShelvesContainingBook(bookId);
+    }
+
+    public long countShelvesContainingBookWithName(Long bookId, String shelfName) {
+        return shelfRepository.countShelvesContainingBookWithName(bookId, shelfName);
+    }
+
 }
 

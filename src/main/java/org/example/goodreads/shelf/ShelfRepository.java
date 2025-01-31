@@ -22,4 +22,9 @@ public interface ShelfRepository extends JpaRepository<Shelf, Long> {
     boolean existsByUserAndShelfName(User user, String shelfName);
     List<Shelf> findByBooksBookId(Long bookId);
 
+    @Query("SELECT COUNT(s) FROM Shelf s JOIN s.books b WHERE b.bookId = :bookId")
+    long countShelvesContainingBook(@Param("bookId") Long bookId);
+
+    @Query("SELECT COUNT(s) FROM Shelf s JOIN s.books b WHERE b.bookId = :bookId AND s.shelfName = :shelfName")
+    long countShelvesContainingBookWithName(@Param("bookId") Long bookId, @Param("shelfName") String shelfName);
 }
