@@ -89,7 +89,7 @@ class ThymeleafBookController {
         Book book = bookService.getBookById(id);
         if (book == null) {
             model.addAttribute("error", "Book with the given ID does not exist.");
-            return "redirect:/books";
+            return "redirect:/books/public";
         }
         BookDto bookDto = new BookDto(book);
         model.addAttribute("bookDto", bookDto);
@@ -113,7 +113,7 @@ class ThymeleafBookController {
             return "editBook";
         }
 
-        return "redirect:/books";
+        return "redirect:/books/public";
     }
 
 

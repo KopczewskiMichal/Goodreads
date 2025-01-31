@@ -16,6 +16,8 @@
 </div>
 
 <form th:action="@{/books/edit}" method="post" enctype="multipart/form-data" class="mt-4" th:object="${bookDto}">
+    <input type="hidden" th:field="*{bookId}" />
+
     <div class="mb-3">
         <label for="ISBN" class="form-label">ISBN</label>
         <input type="text" id="ISBN" th:field="*{ISBN}" class="form-control" placeholder="ISBN">
