@@ -4,6 +4,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.example.goodreads.user.User;
+import org.example.goodreads.user.UserService;
+import org.example.util.JwtUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -13,6 +17,11 @@ import java.io.IOException;
 
 @Component
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -21,20 +30,18 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
         String jwtToken = generateJwtToken(oauth2User);
 
-        Cookie cookie = new Cookie("jwt", jwtToken);
+        Cookie cookie = new Cookie("JWT", jwtToken);
         cookie.setHttpOnly(true);
-        cookie.setSecure(true);
+        cookie.setSecure(false);
         cookie.setPath("/");
         cookie.setMaxAge(60 * 60);
-
         response.addCookie(cookie);
 
         super.onAuthenticationSuccess(request, response, authentication);
     }
 
     private String generateJwtToken(OAuth2User oauth2User) {
-        System.out.println(oauth2User.getAttributes());
-
-        return "jwt-token-mock";
+        User user = userService.handleOauth2Login(oauth2User.getName());
+        return jwtUtil.generateToken(user.getUserId(), user.isAdmin());
     }
 }
