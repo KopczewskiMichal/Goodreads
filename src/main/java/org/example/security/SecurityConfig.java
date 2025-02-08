@@ -42,13 +42,25 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/register","/api/auth/**", "books/public/**","/public/**", "/css/**", "/images/default_cover.png").permitAll()
+                        .requestMatchers("/", "/login", "/register", "/api/auth/**", "/login/oauth2/code/**", "/oauth2/**", "books/public/**", "/public/**", "/css/**", "/images/default_cover.png").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler()) // Obsługa błędu 403
                 .authenticationEntryPoint(authenticationEntryPoint()) // Obsługa błędu 401
                 .and()
+                .formLogin(form -> form
+                        .loginPage("/login") // Strona logowania
+                        .loginProcessingUrl("/api/auth/login") // Endpoint do przetwarzania logowania
+                        .defaultSuccessUrl("/", true) // Przekierowanie po udanym logowaniu
+                        .failureUrl("/login?error=true") // Przekierowanie po nieudanym logowaniu
+                        .permitAll()
+                )
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/login") // Strona logowania (może być ta sama co dla formularza)
+                        .defaultSuccessUrl("/", true)
+                        .failureUrl("/login?error=true")
+                )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
