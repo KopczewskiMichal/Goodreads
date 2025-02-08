@@ -34,7 +34,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter, OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler) throws Exception {
         return http
                 .csrf().disable()
                 .cors().and()
@@ -46,20 +46,21 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling()
-                .accessDeniedHandler(accessDeniedHandler()) // Obsługa błędu 403
-                .authenticationEntryPoint(authenticationEntryPoint()) // Obsługa błędu 401
+                .accessDeniedHandler(accessDeniedHandler())
+                .authenticationEntryPoint(authenticationEntryPoint())
                 .and()
                 .formLogin(form -> form
-                        .loginPage("/login") // Strona logowania
-                        .loginProcessingUrl("/api/auth/login") // Endpoint do przetwarzania logowania
-                        .defaultSuccessUrl("/", true) // Przekierowanie po udanym logowaniu
-                        .failureUrl("/login?error=true") // Przekierowanie po nieudanym logowaniu
+                        .loginPage("/login")
+                        .loginProcessingUrl("/api/auth/login")
+                        .defaultSuccessUrl("/", true)
+                        .failureUrl("/login?error=true")
                         .permitAll()
                 )
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/login") // Strona logowania (może być ta sama co dla formularza)
                         .defaultSuccessUrl("/", true)
                         .failureUrl("/login?error=true")
+                        .successHandler(oAuth2LoginSuccessHandler)
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

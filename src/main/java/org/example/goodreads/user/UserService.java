@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import org.example.goodreads.Review.ReviewService;
 import org.example.goodreads.shelf.Shelf;
 import org.example.goodreads.shelf.ShelfService;
+import org.example.util.RandomStringGenerator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,17 @@ public class UserService {
                     }
                 })
                 .orElseThrow(() -> new NoSuchElementException("User not found"));
+    }
+
+    public User handleOauth2Login (String name) {
+        User user = userRepository.findByUsername(name).orElse(null);
+        if (user == null) {
+            String email = String.join(RandomStringGenerator.generateRandomString(10), "@tmp.org");
+            String password = RandomStringGenerator.generateRandomString(16);
+             return registerUser(name, email, password);
+        } else {
+            return user;
+        }
     }
 
     public void deleteUser(Long userId) {
