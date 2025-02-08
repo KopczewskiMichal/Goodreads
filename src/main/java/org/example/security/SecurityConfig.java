@@ -55,7 +55,7 @@ public class SecurityConfig {
                         .loginProcessingUrl("/api/auth/login")
                         .defaultSuccessUrl("/", true)
                         .failureUrl("/login?error=true")
-                        .permitAll()
+//                        .permitAll()
                 )
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/login") // Strona logowania (może być ta sama co dla formularza)

@@ -68,9 +68,9 @@ public class UserService {
     public User handleOauth2Login (String name) {
         User user = userRepository.findByUsername(name).orElse(null);
         if (user == null) {
-            String email = String.join(RandomStringGenerator.generateRandomString(10), "@tmp.org");
+            String email = RandomStringGenerator.generateRandomString(10).concat("@tmp.org");
             String password = RandomStringGenerator.generateRandomString(16);
-             return registerUser(name, email, password);
+            return registerUser(name, email, password);
         } else {
             return user;
         }
