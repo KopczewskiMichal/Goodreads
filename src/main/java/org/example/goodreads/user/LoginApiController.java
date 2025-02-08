@@ -108,5 +108,3 @@ public class LoginApiController {
     }
 }
 
-// TODO panel administracyjny i role
-// TODO statystyki

@@ -14,6 +14,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.Map;
 
 @Component
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -41,7 +42,8 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     }
 
     private String generateJwtToken(OAuth2User oauth2User) {
-        User user = userService.handleOauth2Login(oauth2User.getName());
+        Map<String, Object> attributes = oauth2User.getAttributes();
+        User user = userService.handleOauth2Login((String) attributes.get("name"));
         return jwtUtil.generateToken(user.getUserId(), user.isAdmin());
     }
 }
