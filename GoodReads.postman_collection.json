@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"admin\",\r\n    \"email\": \"i.am.admin@gmai.com\",\r\n    \"password\": \"admin\"\r\n}",
+					"raw": "{\r\n    \"username\": \"admin\",\r\n    \"email\": \"i.am.admin@gmail.com\",\r\n    \"password\": \"admin\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -38,23 +38,59 @@
 			"request": {
 				"method": "POST",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"identifier\": \"admin\",\r\n    \"password\": \"admin\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
-					"raw": "{{base_url}}/user/validate",
+					"raw": "{{base_url}}/login?identifier=admin&password=admin",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"user",
-						"validate"
+						"login"
+					],
+					"query": [
+						{
+							"key": "identifier",
+							"value": "admin"
+						},
+						{
+							"key": "password",
+							"value": "admin"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DownloadProfile",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}",
+					"host": [
+						"{{base_url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/auth/logout",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"logout"
 					]
 				}
 			},

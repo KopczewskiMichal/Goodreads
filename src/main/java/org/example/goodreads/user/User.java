@@ -25,7 +25,6 @@ import java.util.List;
 @Table(name = "user")
 public class User implements Serializable {
     @Id
-    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long userId;
     private String username;
