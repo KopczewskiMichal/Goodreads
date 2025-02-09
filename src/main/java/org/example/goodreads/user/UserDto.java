@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.validation.constraints.*;
 
@@ -12,6 +13,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserDto {
     private Long id;
 
@@ -25,8 +27,10 @@ public class UserDto {
     @Size(max = 255, message = "Description cannot exceed 255 characters")
     private String description;
 
+    @NotBlank(message = "Password is required")
     private String password;
 
+    @NotBlank(message = "Confirm password is required")
     private String confirmPassword;
 
 

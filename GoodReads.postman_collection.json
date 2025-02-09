@@ -83,14 +83,36 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/auth/logout",
+					"raw": "{{base_url}}/oauth2/authorization/github",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"api",
-						"auth",
-						"logout"
+						"oauth2",
+						"authorization",
+						"github"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GithubLogin",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/oauth2/authorization/github",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"oauth2",
+						"authorization",
+						"github"
 					]
 				}
 			},
