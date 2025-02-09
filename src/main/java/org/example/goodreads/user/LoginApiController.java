@@ -100,7 +100,7 @@ public class LoginApiController {
         response.addCookie(cookie);
     }
 
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpServletResponse response) throws IOException {
         Cookie cookie = new Cookie("JWT", null);
         cookie.setHttpOnly(true);
