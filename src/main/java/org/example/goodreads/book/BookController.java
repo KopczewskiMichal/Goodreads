@@ -149,6 +149,25 @@ class BookController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/api/add")
+    public ResponseEntity<?> addBook(@RequestBody @Valid BookDto bookDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest().body(errors);
+        }
+
+        try {
+            bookService.addBook(new Book(bookDto));
+            return ResponseEntity.ok("Book data updated successfully");
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Error updating book: " + e.getMessage());
+        }
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/upload-cover/{bookId}")
     public ResponseEntity<String> uploadBookCover(@PathVariable long bookId,
                                                   @RequestParam("cover") MultipartFile coverFile) {
