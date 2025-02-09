@@ -1,5 +1,6 @@
 package org.example.goodreads.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -27,11 +28,15 @@ public class UserDto {
     @Size(max = 255, message = "Description cannot exceed 255 characters")
     private String description;
 
-    @NotBlank(message = "Password is required")
     private String password;
 
-    @NotBlank(message = "Confirm password is required")
     private String confirmPassword;
+
+    @JsonIgnore
+    @AssertTrue(message = "Passwords must match")
+    public boolean isPasswordsMatch() {
+        return password != null && password.equals(confirmPassword);
+    }
 
 
     UserDto (User user) {
@@ -39,5 +44,7 @@ public class UserDto {
         this.username = user.getUsername();
         this.email = user.getEmail();
         this.description = user.getDescription();
+        this.password = "";
+        this.confirmPassword = "";
     }
 }

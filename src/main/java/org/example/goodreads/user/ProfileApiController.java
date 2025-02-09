@@ -1,16 +1,22 @@
 package org.example.goodreads.user;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+import org.example.goodreads.shelf.ShelfService;
 import org.example.util.JwtUtil;
+import org.example.util.RolesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 
@@ -21,9 +27,11 @@ public class ProfileApiController {
     private JwtUtil jwtUtil;
     @Autowired
     private UserService userService;
+    @Autowired
+    private ShelfService shelfService;
 
 
-    @GetMapping("download-profile/{id}")
+    @GetMapping("download-profile/{id}") // używane do wczytania backupu profilu
     public ResponseEntity<InputStreamResource> downloadProfile(@PathVariable("id") long userId) {
         byte[] contentBytes = userService.getSerializedUserData(userId).getBytes();
 
@@ -33,6 +41,21 @@ public class ProfileApiController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=myGoodreadsProfile.json")
                 .contentType(org.springframework.http.MediaType.TEXT_PLAIN)
                 .body(new InputStreamResource(byteArrayInputStream));
+    }
+
+    @GetMapping()
+    public ResponseEntity<Map<String, Object>> userPage(HttpServletRequest request) {
+        long userId = jwtUtil.getUserIdFromRequest(request);
+        User user = userService.getUserById(userId);
+        String role = RolesUtil.getRole();
+        long usersCount = userService.getAllUsersCount();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("user", user);
+        response.put("role", role);
+        response.put("usersCount", usersCount);
+
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping()
@@ -57,6 +80,40 @@ public class ProfileApiController {
         }
     }
 
+    @GetMapping("/user-dto") // Jedyny sens istnienia tego to żeby nie pisać JSON od nowa do edycji
+    public ResponseEntity<UserDto> getUserDto(HttpServletRequest request) {
+        long userId = jwtUtil.getUserIdFromRequest(request);
+        User user = userService.getUserById(userId);
+        return ResponseEntity.ok(new UserDto(user));
+    }
 
+    @PostMapping("/edit")
+    public ResponseEntity<Map<String, Object>> updateUser(@RequestBody @Valid UserDto userDto,
+                                                          BindingResult bindingResult, HttpServletRequest request) {
+
+        userDto.setId(jwtUtil.getUserIdFromRequest(request)); // Zabezpieczenie przed edycją innego użytkownika
+
+        if (bindingResult.hasErrors()) {
+            Map<String, Object> errors = new HashMap<>();
+            errors.put("errors", bindingResult.getAllErrors());
+            return ResponseEntity.badRequest().body(errors);
+        }
+
+        if (userDto.getPassword() != null && !userDto.getPassword().isEmpty()) {
+            if (userDto.getPassword().length() < 8) {
+                Map<String, Object> errorResponse = new HashMap<>();
+                errorResponse.put("error", "Password must be at least 8 characters long.");
+                return ResponseEntity.badRequest().body(errorResponse);
+            } else {
+                userService.updateUserPassword(userDto.getId(), userDto.getPassword());
+            }
+        }
+
+        userService.updateUser(userDto);
+
+        Map<String, Object> successResponse = new HashMap<>();
+        successResponse.put("message", "User updated successfully");
+        return ResponseEntity.ok(successResponse);
+    }
 
 }

@@ -40,7 +40,7 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/auth/login?identifier=SpokoGosc3&password=FajneTajneHaslo",
+					"raw": "{{base_url}}/api/auth/login?identifier=SpokoGosc3&password=Bajkopisarz",
 					"host": [
 						"{{base_url}}"
 					],
@@ -56,7 +56,7 @@
 						},
 						{
 							"key": "password",
-							"value": "FajneTajneHaslo"
+							"value": "Bajkopisarz"
 						}
 					]
 				}
@@ -190,7 +190,48 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/user/profile/delete-as-admin/31",
+					"raw": "{{base_url}}/api/user/profile",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetOwnProfile",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/user/profile",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UserDTO",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/user/profile/user-dto",
 					"host": [
 						"{{base_url}}"
 					],
@@ -198,8 +239,36 @@
 						"api",
 						"user",
 						"profile",
-						"delete-as-admin",
-						"31"
+						"user-dto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EditProfile",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 35,\r\n    \"username\": \"SpokoGosc3\",\r\n    \"email\": \"Bajkopisarz3@gmail.com\",\r\n    \"description\": null,\r\n    \"password\": \"Bajkopisarz\",\r\n    \"confirmPassword\": \"Bajkopisarz\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/user/profile/edit",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"profile",
+						"edit"
 					]
 				}
 			},
