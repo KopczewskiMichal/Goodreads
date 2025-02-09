@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class BookService {
@@ -41,19 +42,32 @@ public class BookService {
         return bookRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Book not found"));
     }
 
-    public void updateBook(BookDto bookDto, MultipartFile cover) throws IOException {
+    public void BulkUpdateBook(BookDto bookDto, MultipartFile cover) throws IOException {
+        updateBook(bookDto);
         Book book = bookRepository.findById(bookDto.getBookId())
                 .orElseThrow(() -> new NoSuchElementException("Book not found"));
+        if (cover != null && !cover.isEmpty()) {
+            book.setCover(cover.getBytes());
+        }
+        bookRepository.save(book);
+    }
 
+    public void updateBook(BookDto bookDto) {
+        Book book = bookRepository.findById(bookDto.getBookId())
+                .orElseThrow(() -> new NoSuchElementException("Book not found"));
         book.setTitle(bookDto.getTitle());
         book.setAuthor(bookDto.getAuthor());
         book.setReleaseDate(bookDto.getReleaseDate());
         book.setDescription(bookDto.getDescription());
         book.setPurchaseLink(bookDto.getPurchaseLink());
-        if (cover != null && !cover.isEmpty()) {
-            book.setCover(cover.getBytes());
-        }
         bookRepository.save(book);
+    }
+
+    public void updateBookCover(long bookId, MultipartFile coverFile) throws IOException {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new NoSuchElementException("Book not found"));
+            book.setCover(coverFile.getBytes());
+            bookRepository.save(book);
     }
 
     @Transactional
@@ -77,6 +91,5 @@ public class BookService {
     public long countShelvesContainingBookWithName(Long bookId, String shelfName) {
         return shelfRepository.countShelvesContainingBookWithName(bookId, shelfName);
     }
-
 }
 

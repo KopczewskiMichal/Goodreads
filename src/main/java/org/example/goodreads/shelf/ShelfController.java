@@ -17,17 +17,10 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/shelves")
 public class ShelfController {
-    private final ShelfService shelfService;
-    private final JwtUtil jwtUtil;
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
-
-
     @Autowired
-    ShelfController(ShelfService shelfService, JwtUtil jwtUtil) {
-        this.shelfService = shelfService;
-        this.jwtUtil = jwtUtil;
-    }
+    private ShelfService shelfService;
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @GetMapping("/get-by-user")
     @ResponseBody

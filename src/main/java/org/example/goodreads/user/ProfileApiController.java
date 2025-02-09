@@ -2,7 +2,6 @@ package org.example.goodreads.user;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import org.example.goodreads.shelf.Shelf;
 import org.example.goodreads.shelf.ShelfService;
 import org.example.util.JwtUtil;
 import org.example.util.RolesUtil;
@@ -12,14 +11,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 
 @RestController
@@ -140,7 +137,7 @@ public class ProfileApiController {
             shelfService.deleteShelfById(shelfId);
             return ResponseEntity.ok("Shelf " + shelfId + " successfully deleted");
             } else {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("It isn't yor shelf");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Shelf doesn't exists or it isn't yours.");
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

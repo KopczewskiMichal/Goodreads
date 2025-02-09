@@ -1,5 +1,6 @@
 package org.example.goodreads.book;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import org.example.goodreads.Review.ReviewService;
 import org.example.util.RolesUtil;
@@ -14,20 +15,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StreamUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/books")
-class ThymeleafBookController {
+class BookController {
     @Autowired
     private BookService bookService;
-
     @Autowired
     private ReviewService reviewService;
-
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -92,6 +96,20 @@ class ThymeleafBookController {
         return "editBook";
     }
 
+    @GetMapping("/public/get-as-dto/{id}") // Pobranie jako DTO do późniejszej edycji itp.
+    public ResponseEntity<String> getAsDto(@PathVariable Long id){
+        try {
+            Book book = bookService.getBookById(id);
+            if (book == null) {
+                return new ResponseEntity<>("Book not found", HttpStatus.NOT_FOUND);
+            }
+            BookDto bookDto = new BookDto(book);
+            return new ResponseEntity<>(bookDto.toJson(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Book not found", HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/edit")
     public String updateBook(@ModelAttribute("bookDto") @Valid BookDto bookDto, BindingResult bindingResult, @RequestParam("cover") MultipartFile coverFile, Model model) {
@@ -101,7 +119,7 @@ class ThymeleafBookController {
         }
 
         try {
-            bookService.updateBook(bookDto, coverFile);
+            bookService.BulkUpdateBook(bookDto, coverFile);
         } catch (Exception e) {
             model.addAttribute("error", "An error occurred while updating the book.");
             System.out.println(e.getMessage());
@@ -109,6 +127,37 @@ class ThymeleafBookController {
         }
 
         return "redirect:/books/public";
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/api/edit")
+    public ResponseEntity<?> updateBook(@RequestBody @Valid BookDto bookDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest().body(errors);
+        }
+
+        try {
+            bookService.updateBook(bookDto);
+            return ResponseEntity.ok("Book data updated successfully");
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Error updating book: " + e.getMessage());
+        }
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/upload-cover/{bookId}")
+    public ResponseEntity<String> uploadBookCover(@PathVariable long bookId,
+                                                  @RequestParam("cover") MultipartFile coverFile) {
+        try {
+            bookService.updateBookCover(bookId, coverFile);
+            return ResponseEntity.ok("Cover uploaded successfully");
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Error uploading cover: " + e.getMessage());
+        }
     }
 
 
@@ -119,6 +168,18 @@ class ThymeleafBookController {
         model.addAttribute("reviewsCount", reviewService.getAllReviewsCount());
         model.addAttribute("authority", RolesUtil.getRole());
         return "books";
+    }
+
+    @GetMapping("/public/all-books")
+    public ResponseEntity<String> getAllBooks() {
+        List<BookDto> books = bookService.getAllBooks().stream()
+                .map(BookDto::new)
+                .toList();
+        try {
+            return ResponseEntity.ok(objectMapper.writeValueAsString(books));
+        } catch (JsonProcessingException e) {
+            return ResponseEntity.internalServerError().body("Error converting to JSON");
+        }
     }
 
     @GetMapping("/public/search")
