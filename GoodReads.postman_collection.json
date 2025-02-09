@@ -40,7 +40,7 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/auth/login?identifier=SpokoGosc3&password=Bajkopisarz",
+					"raw": "{{base_url}}/api/auth/login?identifier=SpokoGosc3&password=FajneTajneHaslo",
 					"host": [
 						"{{base_url}}"
 					],
@@ -56,7 +56,7 @@
 						},
 						{
 							"key": "password",
-							"value": "Bajkopisarz"
+							"value": "FajneTajneHaslo"
 						}
 					]
 				}
@@ -98,7 +98,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/api/user/profile/download-profile/7",
+					"raw": "{{base_url}}/api/user/profile/download-profile/36",
 					"host": [
 						"{{base_url}}"
 					],
@@ -107,7 +107,7 @@
 						"user",
 						"profile",
 						"download-profile",
-						"7"
+						"36"
 					]
 				}
 			},
@@ -269,6 +269,34 @@
 						"user",
 						"profile",
 						"edit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RegisterFromFile",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": 36,\r\n    \"username\": \"SpokoGosc3\",\r\n    \"passwordHash\": \"KzQA9vVtaNLeTG3qbHJzr6x5bmBIzUPicswTwFdaFG0=\",\r\n    \"email\": \"Bajkopisarz3@gmail.com\",\r\n    \"description\": null,\r\n    \"shelves\": [\r\n        {\r\n            \"shelfId\": 54,\r\n            \"shelfName\": \"Want to Read\",\r\n            \"books\": []\r\n        },\r\n        {\r\n            \"shelfId\": 55,\r\n            \"shelfName\": \"Completed\",\r\n            \"books\": []\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/auth/register-from-json",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"register-from-json"
 					]
 				}
 			},

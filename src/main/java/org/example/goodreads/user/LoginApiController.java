@@ -113,7 +113,7 @@ public class LoginApiController {
         return ResponseEntity.ok("Logged out successfully");
     }
 
-    @PostMapping("/json-register")
+    @PostMapping("/json-register") // standardowa rejestracja ale podając json
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserDto userDto, BindingResult bindingResult, HttpServletResponse response) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
@@ -134,6 +134,20 @@ public class LoginApiController {
             return ResponseEntity.ok("Registration successful");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Collections.singletonMap("error", e.getMessage()));
+        }
+    }
+
+    @PostMapping("/register-from-json")
+    public ResponseEntity<String> registerUserFromJsonString(
+            @RequestBody String content,
+            HttpServletResponse response) {
+        try {
+            User registeredUser = userService.registerFromFile(content);
+            generateJwtCookie(response, registeredUser);
+
+            return ResponseEntity.ok("Registration from file successful");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error registering user from JSON: " + e.getMessage());
         }
     }
 
