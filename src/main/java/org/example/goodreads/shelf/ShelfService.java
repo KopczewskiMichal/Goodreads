@@ -102,4 +102,9 @@ public class ShelfService {
     public void deleteShelfById(long shelfId) {
         shelfRepository.deleteById(shelfId);
     }
+
+    public boolean doesShelfBelongsToUser(long shelfId, long userId) {
+        Shelf shelf = shelfRepository.findById(shelfId).orElse(null);
+        return shelf!= null && shelf.getUser().getUserId() == userId;
+    }
 }

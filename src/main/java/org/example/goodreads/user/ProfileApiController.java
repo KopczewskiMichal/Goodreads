@@ -2,6 +2,7 @@ package org.example.goodreads.user;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.example.goodreads.shelf.Shelf;
 import org.example.goodreads.shelf.ShelfService;
 import org.example.util.JwtUtil;
 import org.example.util.RolesUtil;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -114,6 +116,34 @@ public class ProfileApiController {
         Map<String, Object> successResponse = new HashMap<>();
         successResponse.put("message", "User updated successfully");
         return ResponseEntity.ok(successResponse);
+    }
+
+    @PostMapping("/add-shelf")
+    public ResponseEntity<String> addShelf(@RequestParam("shelfName") String shelfName,
+                           HttpServletRequest request) {
+        try {
+            shelfService.createShelfForUser(shelfName, jwtUtil.getUserIdFromRequest(request));
+        } catch (RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+        return ResponseEntity.ok("Shelf " + shelfName + " successfully created");
+    }
+
+    @DeleteMapping("/delete-shelf/{shelf-id}")
+    public ResponseEntity<String> deleteShelf(@PathVariable("shelf-id") long shelfId,
+                                                   HttpServletRequest request) {
+        long userId = jwtUtil.getUserIdFromRequest(request);
+        try {
+            if (shelfService.doesShelfBelongsToUser(shelfId, userId)) {
+            shelfService.deleteShelfById(shelfId);
+            return ResponseEntity.ok("Shelf " + shelfId + " successfully deleted");
+            } else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("It isn't yor shelf");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
 }
