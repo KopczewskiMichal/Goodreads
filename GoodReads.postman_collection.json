@@ -7,90 +7,145 @@
 	},
 	"item": [
 		{
-			"name": "RegisterUser",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"SpokoGosc3\",\r\n    \"email\": \"Bajkopisarz3@gmail.com\",\r\n    \"password\": \"FajneTajneHaslo\",\r\n    \"confirmPassword\": \"FajneTajneHaslo\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "Login&Register",
+			"item": [
+				{
+					"name": "RegisterUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"SpokoGosc3\",\r\n    \"email\": \"Bajkopisarz3@gmail.com\",\r\n    \"password\": \"FajneTajneHaslo\",\r\n    \"confirmPassword\": \"FajneTajneHaslo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/json-register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"json-register"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{base_url}}/api/auth/json-register",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"auth",
-						"json-register"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Login",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/api/auth/login?identifier=SpokoGosc3&password=FajneTajneHaslo",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"auth",
-						"login"
-					],
-					"query": [
-						{
-							"key": "identifier",
-							"value": "SpokoGosc3"
-						},
-						{
-							"key": "password",
-							"value": "FajneTajneHaslo"
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/auth/login?identifier=SpokoGosc3&password=FajneTajneHaslo",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							],
+							"query": [
+								{
+									"key": "identifier",
+									"value": "SpokoGosc3"
+								},
+								{
+									"key": "password",
+									"value": "FajneTajneHaslo"
+								}
+							]
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Login As Admin",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/api/auth/login?identifier=admin&password=admin",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"auth",
-						"login"
-					],
-					"query": [
-						{
-							"key": "identifier",
-							"value": "admin"
-						},
-						{
-							"key": "password",
-							"value": "admin"
+					},
+					"response": []
+				},
+				{
+					"name": "Login As Admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/auth/login?identifier=admin&password=admin",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							],
+							"query": [
+								{
+									"key": "identifier",
+									"value": "admin"
+								},
+								{
+									"key": "password",
+									"value": "admin"
+								}
+							]
 						}
-					]
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/auth/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RegisterFromFile",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 36,\r\n    \"username\": \"SpokoGosc3\",\r\n    \"passwordHash\": \"KzQA9vVtaNLeTG3qbHJzr6x5bmBIzUPicswTwFdaFG0=\",\r\n    \"email\": \"Bajkopisarz3@gmail.com\",\r\n    \"description\": null,\r\n    \"shelves\": [\r\n        {\r\n            \"shelfId\": 54,\r\n            \"shelfName\": \"Want to Read\",\r\n            \"books\": []\r\n        },\r\n        {\r\n            \"shelfId\": 55,\r\n            \"shelfName\": \"Completed\",\r\n            \"books\": []\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/register-from-json",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register-from-json"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
 			"name": "DownloadProfile",
@@ -108,28 +163,6 @@
 						"profile",
 						"download-profile",
 						"36"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Logout",
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/api/auth/logout",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"auth",
-						"logout"
 					]
 				}
 			},
@@ -275,30 +308,36 @@
 			"response": []
 		},
 		{
-			"name": "RegisterFromFile",
+			"name": "CreateShelf",
 			"request": {
 				"method": "POST",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"userId\": 36,\r\n    \"username\": \"SpokoGosc3\",\r\n    \"passwordHash\": \"KzQA9vVtaNLeTG3qbHJzr6x5bmBIzUPicswTwFdaFG0=\",\r\n    \"email\": \"Bajkopisarz3@gmail.com\",\r\n    \"description\": null,\r\n    \"shelves\": [\r\n        {\r\n            \"shelfId\": 54,\r\n            \"shelfName\": \"Want to Read\",\r\n            \"books\": []\r\n        },\r\n        {\r\n            \"shelfId\": 55,\r\n            \"shelfName\": \"Completed\",\r\n            \"books\": []\r\n        }\r\n    ]\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
-					"raw": "{{base_url}}/api/auth/register-from-json",
+					"raw": "{{base_url}}/api/user/profile/add-shelf?shelfName=Naleśniki",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"api",
-						"auth",
-						"register-from-json"
+						"user",
+						"profile",
+						"add-shelf"
+					],
+					"query": [
+						{
+							"key": "shelfName",
+							"value": "Naleśniki"
+						}
 					]
 				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteShelf",
+			"request": {
+				"method": "GET",
+				"header": []
 			},
 			"response": []
 		}

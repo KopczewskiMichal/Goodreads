@@ -33,8 +33,9 @@ public class ProfileApiController {
     private ShelfService shelfService;
 
 
-    @GetMapping("download-profile/{id}") // używane do wczytania backupu profilu
-    public ResponseEntity<InputStreamResource> downloadProfile(@PathVariable("id") long userId) {
+    @GetMapping("download-profile") // używane do wczytania backupu profilu
+    public ResponseEntity<InputStreamResource> downloadProfile(HttpServletRequest request) {
+        long userId = jwtUtil.getUserIdFromRequest(request);
         byte[] contentBytes = userService.getSerializedUserData(userId).getBytes();
 
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(contentBytes);
