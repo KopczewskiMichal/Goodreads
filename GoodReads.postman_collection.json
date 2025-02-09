@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"admin\",\r\n    \"email\": \"i.am.admin@gmail.com\",\r\n    \"password\": \"admin\"\r\n}",
+					"raw": "{\r\n    \"username\": \"SpokoGosc3\",\r\n    \"email\": \"Bajkopisarz3@gmail.com\",\r\n    \"password\": \"FajneTajneHaslo\",\r\n    \"confirmPassword\": \"FajneTajneHaslo\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -21,13 +21,14 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/user/register",
+					"raw": "{{base_url}}/api/auth/json-register",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"user",
-						"register"
+						"api",
+						"auth",
+						"json-register"
 					]
 				}
 			},
@@ -39,11 +40,42 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/login?identifier=admin&password=admin",
+					"raw": "{{base_url}}/api/auth/login?identifier=SpokoGosc3&password=FajneTajneHaslo",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
+						"api",
+						"auth",
+						"login"
+					],
+					"query": [
+						{
+							"key": "identifier",
+							"value": "SpokoGosc3"
+						},
+						{
+							"key": "password",
+							"value": "FajneTajneHaslo"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login As Admin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/auth/login?identifier=admin&password=admin",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"auth",
 						"login"
 					],
 					"query": [
@@ -66,9 +98,16 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}",
+					"raw": "{{base_url}}/api/user/profile/download-profile/7",
 					"host": [
 						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"profile",
+						"download-profile",
+						"7"
 					]
 				}
 			},
@@ -80,17 +119,17 @@
 				"auth": {
 					"type": "noauth"
 				},
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/oauth2/authorization/github",
+					"raw": "{{base_url}}/api/auth/logout",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"oauth2",
-						"authorization",
-						"github"
+						"api",
+						"auth",
+						"logout"
 					]
 				}
 			},
@@ -113,6 +152,54 @@
 						"oauth2",
 						"authorization",
 						"github"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteUserAsAdmin",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/user/profile/delete-as-admin/31",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"profile",
+						"delete-as-admin",
+						"31"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteOwnProfile",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/user/profile/delete-as-admin/31",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"profile",
+						"delete-as-admin",
+						"31"
 					]
 				}
 			},

@@ -79,8 +79,12 @@ public class UserService {
     public void deleteUser(Long userId) {
         Optional<User> userOptional = this.userRepository.findByUserId(userId);
         if (userOptional.isPresent()) {
+            if(userOptional.get().isAdmin()) {
+                throw new IllegalStateException("Cannot delete admin user");
+            } else {
             reviewService.handleDeleteUser(userOptional.get().getUserId());
             userRepository.deleteById(userOptional.get().getUserId());
+            }
         } else {
             throw new NoSuchElementException("User not found");
         }
