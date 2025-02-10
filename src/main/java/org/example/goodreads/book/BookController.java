@@ -255,6 +255,13 @@ class BookController {
         return "redirect:/books/public";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/api/delete/{id}")
+    public ResponseEntity<String> deleteFromApi(@PathVariable("id") long bookId) {
+        bookService.deleteBookById(bookId);
+        return ResponseEntity.ok("Book deleted successfully");
+    }
+
     private byte[] getDefaultImage() {
         try {
             Resource resource = new ClassPathResource("/images/default_cover.png");
