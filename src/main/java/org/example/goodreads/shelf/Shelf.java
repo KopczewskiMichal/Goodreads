@@ -1,6 +1,7 @@
 package org.example.goodreads.shelf;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -48,6 +49,7 @@ public class Shelf implements Serializable {
     }
 
     @Transient
+    @JsonIgnore
     private static final ObjectMapper mapper = new ObjectMapper();
 
 

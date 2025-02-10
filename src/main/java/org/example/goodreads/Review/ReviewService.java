@@ -67,5 +67,15 @@ public class ReviewService {
         }
     }
 
+    public List<Review> getReviewsByBookId(Long bookId) {
+        return reviewRepository.findByBook_BookId(bookId);
+    }
+
+    public Optional<Review> getReviewById(long reviewId) {
+        return reviewRepository.findByReviewId(reviewId);
+
+    }
+
+
     public long getAllReviewsCount() {return reviewRepository.count();}
 }

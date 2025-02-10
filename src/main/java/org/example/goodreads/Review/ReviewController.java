@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/review")
@@ -21,6 +22,19 @@ private final JwtUtil jwtUtil;
     public ReviewController(ReviewService reviewService, JwtUtil jwtUtil) {
         this.reviewService = reviewService;
         this.jwtUtil = jwtUtil;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Review> getReview(@PathVariable("id") long reviewId) {
+        Optional<Review> res = reviewService.getReviewById(reviewId);
+        if (res.isPresent()) {
+            return ResponseEntity.ok(res.get());
+        } else return (ResponseEntity<Review>) ResponseEntity.notFound();
+    }
+
+    @GetMapping("/public/get-by-bookId/{bookId}")
+    public ResponseEntity<?> getByBookId(@PathVariable("bookId") long bookId) {
+        return ResponseEntity.ok(reviewService.getReviewsByBookId(bookId));
     }
 
     @PostMapping("/add/{id}")
@@ -41,9 +55,15 @@ private final JwtUtil jwtUtil;
 
     @PostMapping("/delete/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public String deleteReview(@PathVariable("id") long reviewId) {
+    public ResponseEntity<String> deleteReview(@PathVariable("id") long reviewId) {
         reviewService.deleteReview(reviewId);
-        return "redirect:/books/public";
+        return ResponseEntity.ok().body("Review deleted");
     }
 
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<String> deleteReviewApi(@PathVariable("id") long reviewId) {
+        reviewService.deleteReview(reviewId);
+        return ResponseEntity.ok().body("Review deleted");
+    }
 }

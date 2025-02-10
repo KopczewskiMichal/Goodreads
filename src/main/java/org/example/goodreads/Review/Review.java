@@ -52,21 +52,10 @@ public class Review implements Serializable {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @JsonIgnore
     @Transient
     private static final ObjectMapper mapper = new ObjectMapper();
     ObjectMapper objectMapper = new ObjectMapper();
 
 
-    @Override
-    public String toString() {
-        return "Review{" +
-                "reviewId=" + reviewId +
-                ", text='" + text + '\'' +
-                ", createdAt=" + createdAt +
-                ", stars=" + stars +
-                ", bookId=" + book.getBookId() +
-                ", userId=" +  user.getUserId()+
-                ", userName=" + user.getUsername() +
-                '}';
-    }
 }

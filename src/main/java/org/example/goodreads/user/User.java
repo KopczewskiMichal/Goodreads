@@ -44,6 +44,7 @@ public class User implements Serializable {
     private List<Shelf> shelves = new ArrayList<>();
 
 
+    @JsonIgnore
     @Transient
     @Getter
     private static final ObjectMapper mapper = new ObjectMapper();
