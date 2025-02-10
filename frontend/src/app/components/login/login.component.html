@@ -1,1 +1,13 @@
-<p>login works!</p>
+<h2>Login</h2>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <label>
+    Username or email:
+    <input formControlName="identifier" />
+  </label>
+  <label>
+    Hasło:
+    <input type="password" formControlName="password" />
+  </label>
+  <button type="submit">Zaloguj</button>
+</form>
+<p *ngIf="message">{{ message }}</p>
