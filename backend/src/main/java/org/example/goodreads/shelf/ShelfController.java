@@ -1,19 +1,13 @@
 package org.example.goodreads.shelf;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
-import org.example.goodreads.book.Book;
-import org.example.goodreads.book.BookRepository;
-import org.example.goodreads.user.UserRepository;
 import org.example.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/shelves")
