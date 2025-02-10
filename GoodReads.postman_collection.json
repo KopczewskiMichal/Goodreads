@@ -144,202 +144,566 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "GithubLogin",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/oauth2/authorization/github",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"oauth2",
+								"authorization",
+								"github"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
 		{
-			"name": "DownloadProfile",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/api/user/profile/download-profile/36",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"user",
-						"profile",
-						"download-profile",
-						"36"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GithubLogin",
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/oauth2/authorization/github",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"oauth2",
-						"authorization",
-						"github"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "DeleteUserAsAdmin",
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/api/user/profile/delete-as-admin/31",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"user",
-						"profile",
-						"delete-as-admin",
-						"31"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "DeleteOwnProfile",
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/api/user/profile",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"user",
-						"profile"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetOwnProfile",
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/api/user/profile",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"user",
-						"profile"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "UserDTO",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/api/user/profile/user-dto",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"user",
-						"profile",
-						"user-dto"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "EditProfile",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"id\": 35,\r\n    \"username\": \"SpokoGosc3\",\r\n    \"email\": \"Bajkopisarz3@gmail.com\",\r\n    \"description\": null,\r\n    \"password\": \"Bajkopisarz\",\r\n    \"confirmPassword\": \"Bajkopisarz\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "Profile",
+			"item": [
+				{
+					"name": "DownloadProfile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/profile/download-profile/36",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"profile",
+								"download-profile",
+								"36"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{base_url}}/api/user/profile/edit",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"user",
-						"profile",
-						"edit"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "CreateShelf",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/api/user/profile/add-shelf?shelfName=Naleśniki",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"user",
-						"profile",
-						"add-shelf"
-					],
-					"query": [
-						{
-							"key": "shelfName",
-							"value": "Naleśniki"
+				{
+					"name": "DeleteUserAsAdmin",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/profile/delete-as-admin/31",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"profile",
+								"delete-as-admin",
+								"31"
+							]
 						}
-					]
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteOwnProfile",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/profile",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetOwnProfile",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/profile",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UserDTO",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/profile/user-dto",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"profile",
+								"user-dto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditProfile",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 35,\r\n    \"username\": \"SpokoGosc3\",\r\n    \"email\": \"Bajkopisarz3@gmail.com\",\r\n    \"description\": null,\r\n    \"password\": \"Bajkopisarz\",\r\n    \"confirmPassword\": \"Bajkopisarz\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/user/profile/edit",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"profile",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateShelf",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/profile/add-shelf?shelfName=Naleśniki",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"profile",
+								"add-shelf"
+							],
+							"query": [
+								{
+									"key": "shelfName",
+									"value": "Naleśniki"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteShelf",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/profile/delete-shelf/58",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"profile",
+								"delete-shelf",
+								"58"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "DeleteShelf",
-			"request": {
-				"method": "GET",
-				"header": []
-			},
-			"response": []
+			"name": "Books",
+			"item": [
+				{
+					"name": "AllBooks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/books/public/all-books",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"books",
+								"public",
+								"all-books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetBook",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/books/public/get-as-dto/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"books",
+								"public",
+								"get-as-dto",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCover",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/books/public/cover?bookId=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"books",
+								"public",
+								"cover"
+							],
+							"query": [
+								{
+									"key": "bookId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UploadCover",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "cover",
+									"type": "file",
+									"src": "/C:/Users/kopcz/Downloads/81n682DOVAL.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/books/upload-cover/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"books",
+								"upload-cover",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditBookData",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bookId\": 1,\r\n    \"title\": \"The Great Gatsby\",\r\n    \"author\": \"F. Scott Fitzgerald\",\r\n    \"releaseDate\": \"1925-04-09\",\r\n    \"description\": \"The Great Gatsby, F. Scott Fitzgerald’s third book, stands as the supreme achievement of his career. \",\r\n    \"purchaseLink\": \"https://www.amazon.com/-/es/Great-Gatsby-M-Tarner/dp/0333791037\",\r\n    \"isbn\": \"9780333791035\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/books/api/edit",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"books",
+								"api",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddBook",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bookId\": 1,\r\n    \"title\": \"Random Tittle \",\r\n    \"author\": \"F. Scott Fitzgerald\",\r\n    \"releaseDate\": \"1925-04-09\",\r\n    \"description\": \"The Great Gatsby, F. Scott Fitzgerald’s third book, stands as the supreme achievement of his career. \",\r\n    \"purchaseLink\": \"https://www.amazon.com/-/es/Great-Gatsby-M-Tarner/dp/0333791037\",\r\n    \"isbn\": \"978033391035\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/books/api/add",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"books",
+								"api",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteBook",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/books/api/delete/6",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"books",
+								"api",
+								"delete",
+								"6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reviews",
+			"item": [
+				{
+					"name": "AddReview",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/review/add/1?reviewText=Cool Book&stars=5",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"review",
+								"add",
+								"1"
+							],
+							"query": [
+								{
+									"key": "reviewText",
+									"value": "Cool Book"
+								},
+								{
+									"key": "stars",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteReview",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/review/delete/50",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"review",
+								"delete",
+								"50"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetRequestByBookId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/review/get-by-bookId/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"review",
+								"get-by-bookId",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shelves",
+			"item": [
+				{
+					"name": "GetShelvesByUser",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/shelves/get-by-user",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"shelves",
+								"get-by-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetShelvesByUserAndBook",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/shelves/get-by-user-and-book/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"shelves",
+								"get-by-user-and-book",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddOnShelf",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/shelves/api/add-on-shelf?shelfId=59&bookId=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"shelves",
+								"api",
+								"add-on-shelf"
+							],
+							"query": [
+								{
+									"key": "shelfId",
+									"value": "59"
+								},
+								{
+									"key": "bookId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddOnShelf Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/shelves/api/remove-from-shelf?shelfId=59&bookId=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"shelves",
+								"api",
+								"remove-from-shelf"
+							],
+							"query": [
+								{
+									"key": "shelfId",
+									"value": "59"
+								},
+								{
+									"key": "bookId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
