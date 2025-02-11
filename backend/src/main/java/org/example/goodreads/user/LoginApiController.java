@@ -51,7 +51,6 @@ public class LoginApiController {
             response.addCookie(cookie);
 
             return ResponseEntity.ok("{\n" +
-                    "  \"jwt\": \"" + jwt + ",\",\n" +
                     "  \"id\": \"" + userId + ",\",\n" +
                     "  \"isAdmin\": \"" + isAdmin + "\"\n" +
                     "}");

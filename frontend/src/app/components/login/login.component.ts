@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, FormBuilder, Validators} from '@angular/forms';
+import { Router } from '@angular/router';
 import { environment } from './../../../environments/environment';
 import { AuthService } from '../../services/auth/auth.service';
 
@@ -14,6 +15,7 @@ import { AuthService } from '../../services/auth/auth.service';
 
 export class LoginComponent {
   private formBuilder = inject(FormBuilder);
+  private router = inject(Router);
   public loginForm!: FormGroup;
   public message = "";
   public apiUrl: string = environment.apiUrl;
@@ -31,7 +33,7 @@ export class LoginComponent {
       const { identifier, password} = this.loginForm.value;
 
       this.authService.login(identifier, password).subscribe({
-        next: () => this.message = "Zalogowano pomyślnie!",
+        next: () => this.router.navigate(['user']),
         error: (error) => this.message = `Błąd logowania: ${error.message}`
       });
     } else {

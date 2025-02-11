@@ -4,12 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
-interface DecodedToken {
-  readonly userId: number;
-  readonly role: string;
-  readonly exp: number;
-}
-
 @Injectable({
   providedIn: 'root'
 })
@@ -20,10 +14,10 @@ export class AuthService {
   public login(identifier: string, password: string): Observable<any> {
     const url = `${this.apiUrl}/api/auth/login?identifier=${identifier}&password=${password}`;
 
-    return this.http.post(url, {},  { withCredentials: true }).pipe(
+    return this.http.post<{isAdmin: boolean; id: number}>(url, {},  { withCredentials: true }).pipe(
       map((response) => {
         
-        console.log(response);
+        console.log(response.isAdmin, response.id);
         
         return response;
       }),
