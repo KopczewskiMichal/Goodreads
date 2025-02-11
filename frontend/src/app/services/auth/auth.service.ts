@@ -39,6 +39,15 @@ export class AuthService {
       })
     );
   }
+
+  public logout(): void {
+    console.log('Logout');
+    this.http.post(`${this.apiUrl}/api/auth/logout`, {}, { withCredentials: true, responseType: "text" }).subscribe(() => {
+      this.userSubject.next(null);
+      localStorage.removeItem('user');
+      this.isAdmin = false;
+    });
+  }
   
 
   public get currentUser(): User | null {

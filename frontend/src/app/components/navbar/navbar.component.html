@@ -2,6 +2,10 @@
 <nav>
   <ul>
     <li> <button (click)="navigateToHome()">Home</button></li>
-    <li> <button (click)="navigateToLogin()">Login</button></li>
+    @if (this.authService.isLoggedIn) {
+      <li> <button (click)="logout()">Logout</button></li>
+    } @else {
+      <li> <button (click)="navigateToLogin()">Login</button></li>
+    }
   </ul>
 </nav>

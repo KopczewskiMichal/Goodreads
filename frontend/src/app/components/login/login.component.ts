@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, FormBuilder, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from './../../../environments/environment';
@@ -13,7 +13,7 @@ import { AuthService } from '../../services/auth/auth.service';
   styleUrl: './login.component.scss'
 })
 
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
   private router = inject(Router);
   public loginForm!: FormGroup;
