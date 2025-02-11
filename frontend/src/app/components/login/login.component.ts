@@ -27,6 +27,7 @@ export class LoginComponent {
 
   public onSubmit(): void {
     if (this.loginForm.valid) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const { identifier, password} = this.loginForm.value;
 
       this.authService.login(identifier, password).subscribe({

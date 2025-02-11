@@ -39,6 +39,8 @@ public class LoginApiController {
             HttpServletResponse response) {
         try {
             User user = userService.validateUser(identifier, password);
+            long userId = user.getUserId();
+            boolean isAdmin = user.isAdmin();
             String jwt = jwtUtil.generateToken(user.getUserId(), user.isAdmin());
 
             Cookie cookie = new Cookie("JWT", jwt);
@@ -49,8 +51,9 @@ public class LoginApiController {
             response.addCookie(cookie);
 
             return ResponseEntity.ok("{\n" +
-                    "  \"message\": \"Login successful\",\n" +
-                    "  \"status\": \"success\"\n" +
+                    "  \"jwt\": \"" + jwt + ",\",\n" +
+                    "  \"id\": \"" + userId + ",\",\n" +
+                    "  \"isAdmin\": \"" + isAdmin + "\"\n" +
                     "}");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("Invalid password");
