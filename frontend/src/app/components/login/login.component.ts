@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, FormBuilder, Validators} from '@angular/forms';
+import { environment } from './../../../environments/environment';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -9,10 +11,13 @@ import { FormGroup, ReactiveFormsModule, FormBuilder, Validators} from '@angular
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
+
 export class LoginComponent {
   private formBuilder = inject(FormBuilder);
   public loginForm!: FormGroup;
   public message = "";
+  public apiUrl: string = environment.apiUrl;
+  private authService = inject(AuthService);
   public ngOnInit(): void {
     this.loginForm = this.formBuilder.nonNullable.group({
       identifier: ['', Validators.required],
@@ -22,7 +27,12 @@ export class LoginComponent {
 
   public onSubmit(): void {
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
+      const { identifier, password} = this.loginForm.value;
+
+      this.authService.login(identifier, password).subscribe({
+        next: () => this.message = "Zalogowano pomyślnie!",
+        error: (error) => this.message = `Błąd logowania: ${error.message}`
+      });
     } else {
       this.message = "Please fill all fields";
     }

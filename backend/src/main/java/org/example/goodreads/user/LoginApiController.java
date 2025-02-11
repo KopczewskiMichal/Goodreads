@@ -48,7 +48,10 @@ public class LoginApiController {
             cookie.setMaxAge(60 * 60);
             response.addCookie(cookie);
 
-            return ResponseEntity.ok("Login successful");
+            return ResponseEntity.ok("{\n" +
+                    "  \"message\": \"Login successful\",\n" +
+                    "  \"status\": \"success\"\n" +
+                    "}");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("Invalid password");
         } catch (NoSuchElementException e) {
