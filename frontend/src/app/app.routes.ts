@@ -27,5 +27,4 @@ export const routes: Routes = [
     path: "**",
     redirectTo: "not-found",
   },
-//   { path: '**', redirectTo: 'not-found' }
 ];

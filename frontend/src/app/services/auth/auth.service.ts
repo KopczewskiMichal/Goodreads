@@ -10,7 +10,7 @@ import { User } from './../models/user.model';
   providedIn: 'root'
 })
 export class AuthService {
-  public apiUrl: string = environment.apiUrl;
+  private apiUrl: string = environment.apiUrl;
   private http = inject(HttpClient);
 
   private userSubject = new BehaviorSubject<User | null>(null);
