@@ -4,10 +4,10 @@
   <p>Added: {{ formatDate(review.createdAt) }}</p>
 
   <div class="stars">
-    @for (index of [].constructor(review.stars); track index) {
+    @for (index of [].constructor(review.stars); track $index) {
       <i class="fa-solid fa-star"></i>
     }
-    @for (index of [].constructor(5 - review.stars); track index) {
+    @for (index of [].constructor(5 - review.stars); track $index) {
       <i class="fa-regular fa-star"></i>
     }
   </div>

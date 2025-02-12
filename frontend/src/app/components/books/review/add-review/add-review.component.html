@@ -1,0 +1,30 @@
+<form [formGroup]="reviewsForm" (ngSubmit)="onSubmit()">
+  <div formArrayName="reviews">
+    @for (review of reviews.controls; track i; let i = $index) {
+      <div [formGroupName]="i">
+        <textarea formControlName="reviewText" rows="4" cols="50"></textarea>
+        @if (review.get('reviewText')?.invalid && review.get('reviewText')?.touched) {
+          <div>
+            @if (review.get('reviewText')?.errors?.['required']) {
+              <p class="form-error">Review text is required.</p>
+            }
+          </div>
+        }
+
+        <input formControlName="stars" type="number" min="1" max="5" placeholder="Stars">
+        @if (review.get('stars')?.invalid && review.get('stars')?.touched) {
+          <div>
+            @if (review.get('stars')?.errors?.['required']) {
+              <p class="form-error">Stars are required.</p>
+            }
+            @if (review.get('stars')?.errors?.['min'] || review.get('stars')?.errors?.['max']) {
+              <p class="form-error">Stars must be between 1 and 5.</p>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+  <button type="button" (click)="addReview()">Add Review</button>
+  <button type="submit" [disabled]="reviewsForm.invalid">Submit</button>
+</form>

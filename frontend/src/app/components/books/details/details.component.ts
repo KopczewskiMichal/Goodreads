@@ -5,11 +5,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { BookComponent } from "../book/book.component";
 import { Review } from '../../../services/models/review.model';
 import { ReviewComponent } from '../review/review.component';
+import { AddReviewComponent } from '../review/add-review/add-review.component';
 
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [BookComponent, ReviewComponent],
+  imports: [BookComponent, ReviewComponent, AddReviewComponent],
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss'
 })

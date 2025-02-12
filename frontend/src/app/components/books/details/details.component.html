@@ -4,6 +4,9 @@
     <h2>Description</h2>
     <p>{{book.description}}</p>
   }
+  
+  <app-add-review></app-add-review>
+  
   @if (reviews.length > 0) {
     <h2>Reviews</h2>
     @for (review of reviews; track review) {
