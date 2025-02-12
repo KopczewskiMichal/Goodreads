@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { Book } from '../../services/models/book.model';
 import { BookService } from '../../services/book/book.service';
 import { BookComponent } from '../books/book/book.component';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class HomeComponent implements OnInit{
   public books: Book[] = [];
   private bookService = inject(BookService);
   public errorMessage: string = '';
-
+  private router = inject(Router);
 
 
   public ngOnInit(): void {
@@ -32,5 +33,10 @@ export class HomeComponent implements OnInit{
         console.error('Błąd pobierania książek:', err);
       }
     });
+  }
+
+  public goToDetails(book: Book): void {
+    this.bookService.setSelectedBook(book);
+    this.router.navigate(['book', book.bookId]);
   }
 }

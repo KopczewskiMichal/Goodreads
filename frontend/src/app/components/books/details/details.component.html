@@ -1,0 +1,7 @@
+@if (book) {
+  <app-book [book]="this.book"></app-book>
+  @if (book.description) {
+    <h2>Description</h2>
+    <p>{{book.description}}</p>
+  }
+}

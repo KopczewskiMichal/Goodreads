@@ -1,5 +1,5 @@
 <div class="book-list">
   @for (book of books; track book) {
-    <app-book [book]="book"></app-book>
+    <app-book [book]="book" (click)="this.goToDetails(book)"></app-book>
   }
 </div>

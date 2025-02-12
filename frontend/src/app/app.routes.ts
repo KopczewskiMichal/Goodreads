@@ -20,6 +20,10 @@ export const routes: Routes = [
     canActivateChild: [AUTH_GUARD_CHILD]
   },
   {
+    path: "book",
+    loadChildren: () => import('./components/books/books.routes').then((r)=> r.BOOK_ROUTES)
+  },
+  {
     path: "not-found",
     component: NotFoundComponent
   },
