@@ -3,7 +3,7 @@ export interface Book {
   readonly isbn: string;
   readonly title: string;
   readonly author: string;
-  readonly releaseDate: string;
+  readonly releaseDate: Date;
   readonly description: string;
   readonly pucharseLink: string;
 }

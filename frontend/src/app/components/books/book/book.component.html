@@ -4,5 +4,6 @@
     <h2>{{ book.title }}</h2>
     <p>{{ book.author }}</p>
     <p>ISBN: {{ book.isbn }}</p>
+    <p>Released: {{ book.releaseDate | date: 'yyyy-MM-dd'}}</p>
   </div>
 </div>
