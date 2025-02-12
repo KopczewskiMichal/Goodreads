@@ -21,26 +21,30 @@ export class DetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
 
   public ngOnInit(): void {
-    this.book = this.bookService.getSelectedBook();
-
-    if (!this.book) {
-      const id = this.route.snapshot.paramMap.get('id') as string;
-      if (id) {
-        this.book = this.bookService.getSelectedBook();
-        // eslint-disable-next-line max-depth
-        if (!this.book) {
-          this.bookService.getSingleBook(+id).subscribe({
-            next: (book: Book) => this.book = book,
-            error: () => this.router.navigate(['not-found'])
-          });
-          this.bookService.getBookReviews(+id).subscribe({
-            next: (reviews: Review[]) => this.reviews = reviews
-          });
-        }
-      } else {
-        this.router.navigate(['not-found']);
-      }
-
+    const id = this.route.snapshot.paramMap.get('id') as string;
+    if (id) {
+      this.loadBookAndReviews(+id);
+    } else {
+      this.router.navigate(['not-found']);
     }
+  }
+
+  private loadBookAndReviews(id: number): void {
+    this.bookService.getSingleBook(id).subscribe({
+      next: (book: Book) => {
+        this.book = book;
+        this.loadReviews(id);
+      },
+      error: () => this.router.navigate(['not-found'])
+    });
+  }
+
+  private loadReviews(id: number): void {
+    this.bookService.getBookReviews(id).subscribe({
+      next: (reviews: Review[]) => {
+        this.reviews = reviews;
+      },
+      error: () => this.router.navigate(['not-found'])
+    });
   }
 }
