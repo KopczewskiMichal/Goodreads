@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, Input} from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ReviewService } from '../../../../services/review/review.service';
+import { ActivatedRoute } from '@angular/router';
+
 
 
 @Component({
@@ -11,14 +14,22 @@ import { FormGroup, FormBuilder, FormArray, Validators, ReactiveFormsModule } fr
   styleUrl: './add-review.component.scss'
 })
 export class AddReviewComponent implements OnInit{
+  @Input() public bookId!: number;
   public reviewsForm!: FormGroup;
   public fb = inject(FormBuilder);
+  private reviewService = inject(ReviewService);
+  private route = inject(ActivatedRoute);
 
   public ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      this.bookId = Number(params.get('id')); // Rzutowanie na liczbę
+      console.log('Book ID:', this.bookId);
+    });
     this.reviewsForm = this.fb.group({
       reviews: this.fb.array([this.createReview()])
     });
   }
+
 
   public createReview(): FormGroup {
     return this.fb.group({
@@ -43,7 +54,15 @@ export class AddReviewComponent implements OnInit{
 
   public onSubmit(): void {
     if (this.reviewsForm.valid) {
-      console.log(this.reviewsForm.value);
+      console.log(this.reviewsForm.value.reviews);
+      this.reviewService.addMultipleReviews(this.bookId, this.reviewsForm.value.reviews)
+        .subscribe({
+          next: () => {
+            console.log('Review Added');
+            this.reviewsForm.reset();
+          },
+          error: (err) => console.error('Błąd dodawania recenzji:', err)
+        });
     }
   }
 }

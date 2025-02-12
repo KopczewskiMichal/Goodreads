@@ -22,9 +22,10 @@
             }
           </div>
         }
+        <button type="button" (click)="removeReview(i)">Remove</button>
       </div>
     }
   </div>
-  <button type="button" (click)="addReview()">Add Review</button>
+  <button type="button" (click)="addReview()">Add more reviews</button>
   <button type="submit" [disabled]="reviewsForm.invalid">Submit</button>
 </form>

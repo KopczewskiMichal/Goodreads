@@ -6,6 +6,8 @@ import { BookComponent } from "../book/book.component";
 import { Review } from '../../../services/models/review.model';
 import { ReviewComponent } from '../review/review.component';
 import { AddReviewComponent } from '../review/add-review/add-review.component';
+import { AuthService } from '../../../services/auth/auth.service';
+import { ReviewService } from '../../../services/review/review.service';
 
 @Component({
   selector: 'app-details',
@@ -20,6 +22,8 @@ export class DetailsComponent implements OnInit {
   private bookService = inject(BookService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  public authService = inject(AuthService);
+  private reviewService = inject(ReviewService);
 
   public ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id') as string;
@@ -41,7 +45,7 @@ export class DetailsComponent implements OnInit {
   }
 
   private loadReviews(id: number): void {
-    this.bookService.getBookReviews(id).subscribe({
+    this.reviewService.getBookReviews(id).subscribe({
       next: (reviews: Review[]) => {
         this.reviews = reviews;
       },

@@ -5,7 +5,9 @@
     <p>{{book.description}}</p>
   }
   
-  <app-add-review></app-add-review>
+  @if(authService.isLoggedIn){
+    <app-add-review>{{book.bookId}}</app-add-review>
+  }
   
   @if (reviews.length > 0) {
     <h2>Reviews</h2>
