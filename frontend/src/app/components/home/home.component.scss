@@ -1,0 +1,11 @@
+.book-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+
+  app-book {
+    flex: 1 1 calc(50% - 16px);
+    max-width: 400px;
+  }
+}

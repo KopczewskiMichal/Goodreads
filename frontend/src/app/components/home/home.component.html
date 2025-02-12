@@ -1,4 +1,5 @@
-<p>home works!</p>
-@for (book of books; track book) {
-  <app-book [book]="book"></app-book>
-}
+<div class="book-list">
+  @for (book of books; track book) {
+    <app-book [book]="book"></app-book>
+  }
+</div>
