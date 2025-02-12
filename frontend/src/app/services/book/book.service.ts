@@ -13,8 +13,7 @@ export class BookService {
   private apiUrl = environment.apiUrl;
 
 
-
-  getAllBooks(): Observable<Book[]> {
+  public getAllBooks(): Observable<Book[]> {
     return this.http.get<Book[]>(this.apiUrl + "/books/public/all-books")
   }
 

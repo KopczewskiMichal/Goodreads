@@ -1,1 +1,6 @@
-<p>book works!</p>
+<div class="book">
+  <img [src]="apiUrl + '/books/public/cover?bookId=' + book.bookId" alt="Book Cover">
+  <h2>{{ book.title }}</h2>
+  <p>{{ book.author }}</p>
+  <p>ISBN: {{ book.isbn }}</p>
+</div>

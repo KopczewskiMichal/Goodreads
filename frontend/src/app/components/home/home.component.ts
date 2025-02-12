@@ -1,12 +1,13 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Book } from '../../services/models/book.model';
 import { BookService } from '../../services/book/book.service';
+import { BookComponent } from '../books/book/book.component';
 
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [],
+  imports: [BookComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -23,9 +24,8 @@ export class HomeComponent implements OnInit{
 
   private loadBooks(): void {
     this.bookService.getAllBooks().subscribe({
-      next: (data: Book[]) => {
-        this.books = data; 
-        console.log(this.books);
+      next: (books: Book[]) => {
+        this.books = books; 
       },
       error: (err) => {
         this.errorMessage = 'Nie udało się pobrać książek';
