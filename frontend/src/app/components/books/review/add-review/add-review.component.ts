@@ -22,10 +22,14 @@ export class AddReviewComponent implements OnInit{
 
   @Output() private reviewAdded = new EventEmitter<void>();
 
+  private defaultValues = {
+    reviewText: '',
+    stars: 3
+  };
+
   public ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.bookId = Number(params.get('id'));
-      console.log('Book ID:', this.bookId);
     });
     this.reviewsForm = this.fb.group({
       reviews: this.fb.array([this.createReview()])
@@ -35,8 +39,8 @@ export class AddReviewComponent implements OnInit{
 
   public createReview(): FormGroup {
     return this.fb.group({
-      reviewText: ['', Validators.required], 
-      stars: [3, [Validators.required, Validators.min(1), Validators.max(5)]]
+      reviewText: [this.defaultValues.reviewText, Validators.required], 
+      stars: [this.defaultValues.stars, [Validators.required, Validators.min(1), Validators.max(5)]]
     });
   }
 
@@ -56,11 +60,13 @@ export class AddReviewComponent implements OnInit{
 
   public onSubmit(): void {
     if (this.reviewsForm.valid) {
-      console.log(this.reviewsForm.value.reviews);
       this.reviewService.addMultipleReviews(this.bookId, this.reviewsForm.value.reviews)
         .subscribe({
           next: () => {
-            this.reviewsForm.reset();
+            this.reviewsForm.setControl('reviews', this.fb.array([this.createReview()]));
+            this.reviewsForm.reset({
+              reviews: [this.defaultValues]
+            });
             this.reviewAdded.emit();
           },
           error: (err) => console.error('Błąd dodawania recenzji:', err)

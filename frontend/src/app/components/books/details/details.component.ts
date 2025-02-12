@@ -45,7 +45,6 @@ export class DetailsComponent implements OnInit {
   }
 
   public loadReviews(id: number): void {
-    console.log("Sieeema");
     this.reviewService.getBookReviews(id).subscribe({
       next: (reviews: Review[]) => {
         this.reviews = reviews;

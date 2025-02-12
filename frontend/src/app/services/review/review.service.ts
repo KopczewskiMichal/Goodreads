@@ -35,7 +35,6 @@ export class ReviewService {
 
   public addMultipleReviews(bookId: number, reviews: { reviewText: string; stars: number }[]): Observable<string[]> {
     const reviewObservables = reviews.map((review) => this.addSingleReview(bookId, review));
-    console.log('Wysyłanie recenzji...');
     
     return forkJoin(reviewObservables);
   }
