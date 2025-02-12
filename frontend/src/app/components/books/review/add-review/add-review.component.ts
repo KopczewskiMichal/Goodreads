@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, Input} from '@angular/core';
+import { Component, inject, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ReviewService } from '../../../../services/review/review.service';
 import { ActivatedRoute } from '@angular/router';
@@ -20,9 +20,11 @@ export class AddReviewComponent implements OnInit{
   private reviewService = inject(ReviewService);
   private route = inject(ActivatedRoute);
 
+  @Output() private reviewAdded = new EventEmitter<void>();
+
   public ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      this.bookId = Number(params.get('id')); // Rzutowanie na liczbę
+      this.bookId = Number(params.get('id'));
       console.log('Book ID:', this.bookId);
     });
     this.reviewsForm = this.fb.group({
@@ -58,8 +60,8 @@ export class AddReviewComponent implements OnInit{
       this.reviewService.addMultipleReviews(this.bookId, this.reviewsForm.value.reviews)
         .subscribe({
           next: () => {
-            console.log('Review Added');
             this.reviewsForm.reset();
+            this.reviewAdded.emit();
           },
           error: (err) => console.error('Błąd dodawania recenzji:', err)
         });

@@ -6,7 +6,7 @@
   }
   
   @if(authService.isLoggedIn){
-    <app-add-review>{{book.bookId}}</app-add-review>
+    <app-add-review (reviewAdded)="loadReviews(book.bookId)">{{book.bookId}}</app-add-review>
   }
   
   @if (reviews.length > 0) {

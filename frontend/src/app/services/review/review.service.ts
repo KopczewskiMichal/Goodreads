@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from './../../../environments/environment';
 import { Review } from '../models/review.model';
@@ -17,10 +17,18 @@ export class ReviewService {
   }
   
   public addSingleReview(bookId: number, review: { reviewText: string; stars: number }): Observable<string> {
-    return this.http.post(`${this.apiUrl}/review/add/${bookId}`, review, { responseType: 'text', withCredentials: true }).pipe(
+    const params = new HttpParams()
+      .set('reviewText', review.reviewText)
+      .set('stars', review.stars.toString());
+
+    return this.http.post(`${this.apiUrl}/review/add/${bookId}`, null, {
+      responseType: 'text',
+      withCredentials: true,
+      params: params,
+    }).pipe(
       catchError((error) => {
         console.error('Error adding review:', error);
-        throw error; 
+        throw error;
       })
     );
   }
