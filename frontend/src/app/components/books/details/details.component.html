@@ -1,7 +1,13 @@
 @if (book) {
-  <app-book [book]="this.book"></app-book>
+  <app-book [book]="book"></app-book>
   @if (book.description) {
     <h2>Description</h2>
     <p>{{book.description}}</p>
+  }
+  @if (reviews.length > 0) {
+    <h2>Reviews</h2>
+    @for (review of reviews; track review) {
+      <app-review [review]="review"></app-review>
+    }
   }
 }

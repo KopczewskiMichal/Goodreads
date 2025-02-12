@@ -27,7 +27,7 @@ public class Review implements Serializable {
 
     private String text;
 
-    @JsonIgnore
+//    @JsonIgnore
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -52,7 +52,4 @@ public class Review implements Serializable {
     @JsonIgnore
     @Transient
     private static final ObjectMapper mapper = new ObjectMapper();
-    ObjectMapper objectMapper = new ObjectMapper();
-
-
 }

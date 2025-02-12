@@ -3,16 +3,19 @@ import { Book } from '../../../services/models/book.model';
 import { BookService } from '../../../services/book/book.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BookComponent } from "../book/book.component";
+import { Review } from '../../../services/models/review.model';
+import { ReviewComponent } from '../review/review.component';
 
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [BookComponent],
+  imports: [BookComponent, ReviewComponent],
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss'
 })
 export class DetailsComponent implements OnInit {
   public book: Book | null = null;
+  public reviews: Review[] = [];
   private bookService = inject(BookService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
@@ -29,6 +32,9 @@ export class DetailsComponent implements OnInit {
           this.bookService.getSingleBook(+id).subscribe({
             next: (book: Book) => this.book = book,
             error: () => this.router.navigate(['not-found'])
+          });
+          this.bookService.getBookReviews(+id).subscribe({
+            next: (reviews: Review[]) => this.reviews = reviews
           });
         }
       } else {
