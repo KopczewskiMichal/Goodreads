@@ -33,11 +33,23 @@ export class BookService {
     return this.http.post<Book>(this.apiUrl + "/books/api/add", book, {withCredentials: true});
   }
 
-  public updateBook(book: Book): Observable<Book> {
-    return this.http.post<Book>(this.apiUrl + "/books/api/edit", book, {withCredentials: true});
+  public updateBook(book: Book): Observable<string> {
+    return this.http.post<string>(this.apiUrl + "/books/api/edit", book, {withCredentials: true, responseType: 'text' as 'json'});
   }
 
   public deleteBook(id: number): Observable<void> {
     return this.http.delete<void>(this.apiUrl + "/books/api/delete/" + id, {withCredentials: true});
   }
+
+  public reloadSelectedBook(): void {
+    if (!this.selectedBook) {
+      return;
+    }
+  
+    this.getSingleBook(this.selectedBook.bookId).subscribe({
+      next: (book) => this.selectedBook = book,
+      error: (err) => console.error("Failed to reload book:", err)
+    });
+  }
+  
 }

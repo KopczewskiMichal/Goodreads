@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location} from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { BookService } from './../../../services/book/book.service';
@@ -19,6 +19,7 @@ export class BookFormComponent implements OnInit {
   private fb = inject(FormBuilder);
   private bookService = inject(BookService);
   private datePipe = inject(DatePipe);
+  private location = inject(Location);
 
   public bookForm!: FormGroup;
   public isEditMode = false;
@@ -71,14 +72,17 @@ export class BookFormComponent implements OnInit {
 
       if (this.isEditMode) {
         this.bookService.updateBook(bookData).subscribe({
-          next: () => console.log('Book updated successfully'),
+          next: () => {
+            this.bookService.reloadSelectedBook();
+            this.location.back();
+          },
           error: (err: HttpErrorResponse) => console.error('Error updating book:', err)
         });
       } else {
         this.bookService.addBook(bookData).subscribe({
-          next: () => console.log('Book added successfully'),
           error: (err: HttpErrorResponse) => console.error('Error adding book:', err)
         });
+        this.location.back();
       }
     }
   }

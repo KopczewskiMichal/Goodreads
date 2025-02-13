@@ -8,7 +8,10 @@
 
   @if (this.authService.isAdmin) {
     <button (click)="goToEditBook()">Edit Book</button>
-    <button (click)="deleteBook()">Delete Book</button>
+    <button (click)="openBookDialog()">Delete Book</button>
+    @if (isBookDialogOpen) {
+      <app-dialog (confirm)="handleConfirmDeleteBook($event)"></app-dialog>
+    }
   }
   
   @if(authService.isLoggedIn){
@@ -18,9 +21,9 @@
   @if (reviews.length > 0) {
     <h2>Reviews</h2>
     @for (review of reviews; track review) {
-      <app-review [review]="review" (delete)="openDialog(review.reviewId)"></app-review>
-      @if (isDialogOpen) {
-        <app-dialog (confirm)="handleConfirmDelete($event)"></app-dialog>
+      <app-review [review]="review" (delete)="openCommentDialog(review.reviewId)"></app-review>
+      @if (isCommentDialogOpen) {
+        <app-dialog (confirm)="handleConfirmDeleteComment($event)"></app-dialog>
       }
     }
   }

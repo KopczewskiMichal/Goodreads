@@ -25,7 +25,8 @@ export class DetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   public authService = inject(AuthService);
   private reviewService = inject(ReviewService);
-  public isDialogOpen: boolean = false;
+  public isCommentDialogOpen: boolean = false;
+  public isBookDialogOpen: boolean = false;
   public selectedReviewId: number | null = null;
 
   public ngOnInit(): void {
@@ -73,22 +74,32 @@ export class DetailsComponent implements OnInit {
         next: () => {
           this.router.navigate(['home']);
         },
-        error: () => this.router.navigate(['not-found'])
+        error: () => this.router.navigate(['home'])
       });
     }
   }
 
-  public openDialog(reviewId: number): void {
+  public openCommentDialog(reviewId: number): void {
     this.selectedReviewId = reviewId;
-    this.isDialogOpen = true;
+    this.isCommentDialogOpen = true;
+  }
+  public openBookDialog(): void {
+    this.isBookDialogOpen = true;
   }
 
-  public handleConfirmDelete(confirmed: boolean): void {
-    this.isDialogOpen = false; 
+  public handleConfirmDeleteComment(confirmed: boolean): void {
+    this.isCommentDialogOpen = false; 
     if (confirmed && this.selectedReviewId !== null) {
       this.deleteReview(this.selectedReviewId); 
     }
     this.selectedReviewId = null; 
+  }
+
+  public handleConfirmDeleteBook(confirmed: boolean): void {
+    this.isBookDialogOpen = false; 
+    if (confirmed ) {
+      this.deleteBook();
+    }
   }
 
 
