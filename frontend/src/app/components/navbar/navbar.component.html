@@ -1,5 +1,5 @@
-<p>navbar works!</p>
 <nav>
+  <h1>Goodreads</h1>
   <ul>
     <li> <button (click)="navigateToHome()">Home</button></li>
     @if (this.authService.isLoggedIn) {
@@ -8,4 +8,8 @@
       <li> <button (click)="navigateToLogin()">Login</button></li>
     }
   </ul>
+  @if (this.authService.isAdmin) {
+    <h2>Logged as Admin</h2>
+    <button (click)="goToAddBook()">AddBook</button>
+  }
 </nav>

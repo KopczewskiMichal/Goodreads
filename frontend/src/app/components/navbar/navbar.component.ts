@@ -11,7 +11,7 @@ import { AuthService } from './../../services/auth/auth.service';
 })
 export class NavbarComponent {
   public authService = inject(AuthService);
-  public constructor (private router: Router) {}
+  private router = inject(Router);
 
   public navigateToHome(): void {
     this.router.navigate(['home']);
@@ -23,5 +23,13 @@ export class NavbarComponent {
   public logout(): void {
     this.authService.logout();
     this.router.navigate(['login']);
+  }
+
+  public goToAddBook(): void {
+    if (!this.authService.isAdmin) {
+      this.router.navigate(['login']);
+    } else {
+      this.router.navigate(['book', 'form']);
+    }
   }
 }
