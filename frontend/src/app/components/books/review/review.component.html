@@ -11,4 +11,8 @@
       <i class="fa-regular fa-star"></i>
     }
   </div>
+
+  @if (this.authService.isAdmin) {
+    <button (click)="deleteReview()">Delete Review</button>
+  }
 </div>

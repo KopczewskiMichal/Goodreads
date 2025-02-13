@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from './../../../environments/environment';
 import { Review } from '../models/review.model';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable, forkJoin, of } from 'rxjs';
 import { catchError} from 'rxjs/operators';
 
 @Injectable({
@@ -39,7 +39,9 @@ export class ReviewService {
     return forkJoin(reviewObservables);
   }
 
-  public deleteReview(reviewId: number): Observable<string> {
-    return this.http.delete(`${this.apiUrl}/review/delete/${reviewId}`, { withCredentials: true});
+  public deleteReview(reviewId: number): Observable<number> {
+    return this.http.delete(`${this.apiUrl}/review/delete/${reviewId}`, { withCredentials: true, responseType:'text'}).pipe(
+      catchError((err) => of(err.status))
+    );
   }
 }

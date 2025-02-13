@@ -18,7 +18,7 @@
   @if (reviews.length > 0) {
     <h2>Reviews</h2>
     @for (review of reviews; track review) {
-      <app-review [review]="review" (delete)=""></app-review>
+      <app-review [review]="review" (delete)="deleteReview(review.reviewId)"></app-review>
     }
   }
 }

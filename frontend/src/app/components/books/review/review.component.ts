@@ -1,6 +1,7 @@
 import { Component, inject, Input, Output, EventEmitter } from '@angular/core';
 import { Review } from '../../../services/models/review.model';
 import { DatePipe } from '@angular/common';
+import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-review',
@@ -14,6 +15,7 @@ export class ReviewComponent {
   @Input() public review!: Review;
   @Output() private delete = new EventEmitter<void>();
   public datePipe = inject(DatePipe);
+  public authService: AuthService = inject(AuthService);
 
   public formatDate(date: Date): string | null {
     return this.datePipe.transform(date, 'dd.MM.yyyy HH:mm');
