@@ -37,4 +37,7 @@ export class BookService {
     return this.http.post<Book>(this.apiUrl + "/books/api/edit", book, {withCredentials: true});
   }
 
+  public deleteBook(id: number): Observable<void> {
+    return this.http.delete<void>(this.apiUrl + "/books/api/delete/" + id, {withCredentials: true});
+  }
 }

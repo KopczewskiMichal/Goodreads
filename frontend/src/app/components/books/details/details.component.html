@@ -8,7 +8,7 @@
 
   @if (this.authService.isAdmin) {
     <button (click)="goToEditBook()">Edit Book</button>
-    <!-- <button (click)="deleteBook(book.bookId)">Delete Book</button> -->
+    <button (click)="deleteBook()">Delete Book</button>
   }
   
   @if(authService.isLoggedIn){

@@ -61,4 +61,17 @@ export class DetailsComponent implements OnInit {
       this.router.navigate(['book', 'form']);
     }
   }
+
+  public deleteBook(): void {
+    if (!this.authService.isAdmin) {
+      this.router.navigate(['login']);
+    } else {
+      this.bookService.deleteBook(this.book!.bookId).subscribe({
+        next: () => {
+          this.router.navigate(['home']);
+        },
+        error: () => this.router.navigate(['not-found'])
+      });
+    }
+  }
 }
