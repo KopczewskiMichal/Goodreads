@@ -2,53 +2,52 @@
   <div>
     <label for="isbn">ISBN:</label>
     <input id="isbn" formControlName="isbn" type="text">
-    <p class="form-error" *ngIf="bookForm.get('isbn')?.hasError('required') && bookForm.get('isbn')?.touched">
-      ISBN is required.
-    </p>
+    @if (bookForm.get('isbn')?.hasError('required') && bookForm.get('isbn')?.touched) {
+      <p class="form-error">ISBN is required.</p>
+    }
   </div>
 
   <div>
     <label for="title">Title:</label>
     <input id="title" formControlName="title" type="text">
-    <p class="form-error" *ngIf="bookForm.get('title')?.hasError('required') && bookForm.get('title')?.touched">
-      Title is required.
-    </p>
+    @if (bookForm.get('title')?.hasError('required') && bookForm.get('title')?.touched) {
+      <p class="form-error">Title is required.</p>
+    }
   </div>
 
   <div>
     <label for="author">Author:</label>
     <input id="author" formControlName="author" type="text">
-    <p class="form-error" *ngIf="bookForm.get('author')?.hasError('required') && bookForm.get('author')?.touched">
-      Author is required.
-    </p>
+    @if (bookForm.get('author')?.hasError('required') && bookForm.get('author')?.touched) {
+      <p class="form-error">Author is required.</p>
+    }
   </div>
 
   <div>
     <label for="releaseDate">Release Date:</label>
     <input id="releaseDate" formControlName="releaseDate" type="date">
-    <p class="form-error" *ngIf="bookForm.get('releaseDate')?.hasError('required') && bookForm.get('releaseDate')?.touched">
-      Release date is required.
-    </p>
-    <p class="form-error" *ngIf="bookForm.get('releaseDate')?.hasError('futureDate') && bookForm.get('releaseDate')?.touched">
-      Release date cannot be in the future.
-    </p>
-    
+    @if (bookForm.get('releaseDate')?.hasError('required') && bookForm.get('releaseDate')?.touched) {
+      <p class="form-error">Release date is required.</p>
+    }
+    @if (bookForm.get('releaseDate')?.hasError('futureDate') && bookForm.get('releaseDate')?.touched) {
+      <p class="form-error">Release date cannot be in the future.</p>
+    }
   </div>
 
   <div>
     <label for="description">Description:</label>
     <textarea id="description" formControlName="description"></textarea>
-    <p class="form-error" *ngIf="bookForm.get('description')?.hasError('maxlength') && bookForm.get('description')?.touched">
-      Description cannot exceed 255 characters.
-    </p>
+    @if (bookForm.get('description')?.hasError('maxlength') && bookForm.get('description')?.touched) {
+      <p class="form-error">Description cannot exceed 255 characters.</p>
+    }
   </div>
 
   <div>
     <label for="pucharseLink">Purchase Link:</label>
     <input id="pucharseLink" formControlName="pucharseLink" type="url">
-    <p class="form-error" *ngIf="bookForm.get('pucharseLink')?.hasError('pattern') && bookForm.get('pucharseLink')?.touched">
-      Please enter a valid URL.
-    </p>
+    @if (bookForm.get('pucharseLink')?.hasError('pattern') && bookForm.get('pucharseLink')?.touched) {
+      <p class="form-error">Please enter a valid URL.</p>
+    }
   </div>
 
   <button type="submit" [disabled]="bookForm.invalid">

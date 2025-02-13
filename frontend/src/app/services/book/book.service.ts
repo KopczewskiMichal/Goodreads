@@ -34,7 +34,7 @@ export class BookService {
   }
 
   public updateBook(book: Book): Observable<Book> {
-    return this.http.put<Book>(this.apiUrl + "/books/api/edit", book, {withCredentials: true});
+    return this.http.post<Book>(this.apiUrl + "/books/api/edit", book, {withCredentials: true});
   }
 
 }
