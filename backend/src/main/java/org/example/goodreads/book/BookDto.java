@@ -30,7 +30,7 @@ public class BookDto {
     @Past(message = "Release date must be in past")
     @NotNull(message = "Release date is required")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
     private Date releaseDate;
 
     @Size(max = 255, message = "Description cannot exceed 255 characters")

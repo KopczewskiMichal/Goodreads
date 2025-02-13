@@ -54,7 +54,7 @@ export class BookFormComponent implements OnInit {
   private initializeForm(selectedBook: Book | null): void {
     this.bookForm = this.fb.group<BookForm>({
       isbn: new FormControl<string | null>(selectedBook?.isbn || this.defaultValues.isbn, {
-        validators: [Validators.required]
+        validators: [Validators.required, Validators.minLength(10), Validators.maxLength(13)]
       }),
       title:  new FormControl<string | null>(selectedBook?.title || this.defaultValues.title, {
         validators: [Validators.required]
