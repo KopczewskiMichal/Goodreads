@@ -4,6 +4,8 @@
     <li> <button (click)="navigateToHome()">Home</button></li>
     @if (this.authService.isLoggedIn) {
       <li> <button (click)="logout()">Logout</button></li>
+      <li> <button (click)="navigateToProfile()">Profile</button></li>
+      <p>Username: {{authService.currentUser?.username}}</p>
     } @else {
       <li> <button (click)="navigateToLogin()">Login</button></li>
     }

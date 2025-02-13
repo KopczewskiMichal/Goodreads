@@ -1,30 +1,32 @@
-@if (book) {
-  <app-book [book]="book"></app-book>
-  @if (book.description) {
-    <h2>Description</h2>
-    <p>{{book.description}}</p>
-  }
-
-
-  @if (this.authService.isAdmin) {
-    <button (click)="goToEditBook()">Edit Book</button>
-    <button (click)="openBookDialog()">Delete Book</button>
-    @if (isBookDialogOpen) {
-      <app-dialog (confirm)="handleConfirmDeleteBook($event)"></app-dialog>
+<div class="book-container">
+  @if (book) {
+    <app-book [book]="book"></app-book>
+    @if (book.description) {
+      <h2>Description</h2>
+      <p>{{book.description}}</p>
     }
-  }
-  
-  @if(authService.isLoggedIn){
-    <app-add-review (reviewAdded)="loadReviews(book.bookId)">{{book.bookId}}</app-add-review>
-  }
-  
-  @if (reviews.length > 0) {
-    <h2>Reviews</h2>
-    @for (review of reviews; track review) {
-      <app-review [review]="review" (delete)="openCommentDialog(review.reviewId)"></app-review>
-      @if (isCommentDialogOpen) {
-        <app-dialog (confirm)="handleConfirmDeleteComment($event)"></app-dialog>
+    
+    
+    @if (this.authService.isAdmin) {
+      <button (click)="goToEditBook()">Edit Book</button>
+      <button (click)="openBookDialog()">Delete Book</button>
+      @if (isBookDialogOpen) {
+        <app-dialog (confirm)="handleConfirmDeleteBook($event)"></app-dialog>
+      }
+    }
+    
+    @if(authService.isLoggedIn){
+      <app-add-review (reviewAdded)="loadReviews(book.bookId)">{{book.bookId}}</app-add-review>
+    }
+    
+    @if (reviews.length > 0) {
+      <h2>Reviews</h2>
+      @for (review of reviews; track review) {
+        <app-review [review]="review" (delete)="openCommentDialog(review.reviewId)"></app-review>
+        @if (isCommentDialogOpen) {
+          <app-dialog (confirm)="handleConfirmDeleteComment($event)"></app-dialog>
+        }
       }
     }
   }
-}
+</div>

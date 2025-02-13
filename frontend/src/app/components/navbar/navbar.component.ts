@@ -25,5 +25,7 @@ export class NavbarComponent {
     this.router.navigate(['login']);
   }
 
-
+  public navigateToProfile(): void {
+    this.router.navigate(['user','profile']);
+  }
 }
