@@ -8,29 +8,29 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
 
-.dialog {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
+  .dialog {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
 
-.dialog button {
-  margin: 0 10px;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
+    button {
+      margin: 0 10px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
 
-.dialog button:first-child {
-  background-color: #ccc;
-}
+      &:first-child {
+        background-color: #fff;
+      }
 
-.dialog button:last-child {
-  background-color: #007bff;
-  color: white;
+      &:last-child {
+        background-color: #8b5e3c;
+        color: white;
+      }
+    }
+  }
 }

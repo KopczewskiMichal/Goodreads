@@ -1,1 +1,5 @@
-<p>profile works!</p>
+<div class="user-container">
+  <p>Username: {{ this.authService.currentUser?.username}}</p>
+  <p>Email: {{ this.authService.currentUser?.email }}</p>
+  <p>Description: {{ this.authService.currentUser?.description }}</p>
+</div>

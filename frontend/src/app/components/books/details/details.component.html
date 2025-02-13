@@ -15,12 +15,12 @@
       }
     }
     
+    <h2>Reviews</h2>
     @if(authService.isLoggedIn){
       <app-add-review (reviewAdded)="loadReviews(book.bookId)">{{book.bookId}}</app-add-review>
     }
     
     @if (reviews.length > 0) {
-      <h2>Reviews</h2>
       @for (review of reviews; track review) {
         <app-review [review]="review" (delete)="openCommentDialog(review.reviewId)"></app-review>
         @if (isCommentDialogOpen) {
