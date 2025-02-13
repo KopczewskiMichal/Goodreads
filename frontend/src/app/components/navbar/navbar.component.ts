@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from './../../services/auth/auth.service';
 
 @Component({
@@ -12,6 +12,7 @@ import { AuthService } from './../../services/auth/auth.service';
 export class NavbarComponent {
   public authService = inject(AuthService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   public navigateToHome(): void {
     this.router.navigate(['home']);
@@ -31,5 +32,9 @@ export class NavbarComponent {
     } else {
       this.router.navigate(['book', 'form']);
     }
+  }
+
+  public isAddBookPage(): boolean {
+    return this.route.snapshot.firstChild?.routeConfig?.path === 'form';
   }
 }

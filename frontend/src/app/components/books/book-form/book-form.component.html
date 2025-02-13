@@ -1,0 +1,33 @@
+<form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="isbn">ISBN:</label>
+    <input id="isbn" formControlName="isbn" type="text">
+  </div>
+
+  <div>
+    <label for="title">Tytuł:</label>
+    <input id="title" formControlName="title" type="text">
+  </div>
+
+  <div>
+    <label for="author">Autor:</label>
+    <input id="author" formControlName="author" type="text">
+  </div>
+
+  <div>
+    <label for="releaseDate">Data wydania:</label>
+    <input id="releaseDate" formControlName="releaseDate" type="date">
+  </div>
+
+  <div>
+    <label for="description">Opis:</label>
+    <textarea id="description" formControlName="description"></textarea>
+  </div>
+
+  <div>
+    <label for="pucharseLink">Link do zakupu:</label>
+    <input id="pucharseLink" formControlName="pucharseLink" type="url">
+  </div>
+
+  <button type="submit" [disabled]="bookForm.invalid">{{ isEditMode ? 'Zaktualizuj książkę' : 'Dodaj książkę' }}</button>
+</form>

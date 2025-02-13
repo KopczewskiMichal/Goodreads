@@ -29,4 +29,12 @@ export class BookService {
     return this.selectedBook;
   }
 
+  public addBook(book: Book): Observable<Book> {
+    return this.http.post<Book>(this.apiUrl + "/books/api/add", book, {withCredentials: true});
+  }
+
+  public updateBook(book: Book): Observable<Book> {
+    return this.http.put<Book>(this.apiUrl + "/books/api/edit", book, {withCredentials: true});
+  }
+
 }
