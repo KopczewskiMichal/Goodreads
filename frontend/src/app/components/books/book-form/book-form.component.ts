@@ -6,6 +6,7 @@ import { Book } from './../../../services/models/book.model';
 import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { pastDateValidator } from '../../../validators/past-date.validator';
+import { Router } from '@angular/router';
 
 
 interface BookForm {
@@ -28,8 +29,8 @@ interface BookForm {
 export class BookFormComponent implements OnInit {
   private fb = inject(NonNullableFormBuilder);
   private bookService = inject(BookService);
-  private datePipe = inject(DatePipe);
   private location = inject(Location);
+  private router = inject(Router);
 
   public bookForm!: FormGroup<BookForm>;
   public isEditMode = false;
@@ -93,9 +94,11 @@ export class BookFormComponent implements OnInit {
         });
       } else {
         this.bookService.addBook(bookData).subscribe({
+          next: () => {
+            this.router.navigate(['home']);
+          },
           error: (err: HttpErrorResponse) => console.error('Error adding book:', err)
         });
-        this.location.back();
       }
     }
   }
