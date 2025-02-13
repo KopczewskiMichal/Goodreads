@@ -1,11 +1,21 @@
 import { CommonModule, Location} from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, NonNullableFormBuilder, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { BookService } from './../../../services/book/book.service';
 import { Book } from './../../../services/models/book.model';
 import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { pastDateValidator } from '../../../validators/past-date.validator';
+
+
+interface BookForm {
+  isbn: FormControl<string | null>
+  title: FormControl<string | null>
+  author: FormControl<string | null >
+  releaseDate: FormControl<Date | null>
+  description: FormControl<string | null>
+  pucharseLink: FormControl<string | null>
+};
 
 @Component({
   selector: 'app-book-form',
@@ -16,12 +26,12 @@ import { pastDateValidator } from '../../../validators/past-date.validator';
   providers: [DatePipe]
 })
 export class BookFormComponent implements OnInit {
-  private fb = inject(FormBuilder);
+  private fb = inject(NonNullableFormBuilder);
   private bookService = inject(BookService);
   private datePipe = inject(DatePipe);
   private location = inject(Location);
 
-  public bookForm!: FormGroup;
+  public bookForm!: FormGroup<BookForm>;
   public isEditMode = false;
 
   public defaultValues: Book = {
@@ -37,38 +47,41 @@ export class BookFormComponent implements OnInit {
   public ngOnInit(): void {
     const selectedBook = this.bookService.getSelectedBook();
     this.isEditMode = !!selectedBook;
-
     this.initializeForm(selectedBook);
   }
 
   // eslint-disable-next-line complexity
   private initializeForm(selectedBook: Book | null): void {
-    this.bookForm = this.fb.group({
-      isbn: [selectedBook?.isbn || this.defaultValues.isbn, Validators.required],
-      title: [selectedBook?.title || this.defaultValues.title, Validators.required],
-      author: [selectedBook?.author || this.defaultValues.author, Validators.required],
-      releaseDate: [
-        this.datePipe.transform(selectedBook?.releaseDate || this.defaultValues.releaseDate, 'yyyy-MM-dd'),
-        [Validators.required, pastDateValidator()]
-      ],
-      description: [
-        selectedBook?.description || this.defaultValues.description,
-        [Validators.maxLength(255)]
-      ],
-      pucharseLink: [selectedBook?.pucharseLink || this.defaultValues.pucharseLink]
+    this.bookForm = this.fb.group<BookForm>({
+      isbn: new FormControl<string | null>(selectedBook?.isbn || this.defaultValues.isbn, {
+        validators: [Validators.required]
+      }),
+      title:  new FormControl<string | null>(selectedBook?.title || this.defaultValues.title, {
+        validators: [Validators.required]
+      }),
+      author:  new FormControl<string | null>(selectedBook?.author || this.defaultValues.author, {
+        validators: [Validators.required]
+      }),
+      releaseDate:  new FormControl<Date | null>(selectedBook?.releaseDate || this.defaultValues.releaseDate, {
+        validators: [Validators.required, pastDateValidator]
+      }),
+      
+      description: new FormControl<string | null>(this.defaultValues.title, {
+        validators: [Validators.required, Validators.maxLength(255)]
+      }),
+      pucharseLink:  new FormControl<string | null>(this.defaultValues.title, {
+        validators: []
+      }),
     });
   }
 
   public onSubmit(): void {
     if (this.bookForm.valid) {
-      const releaseDate = new Date(this.bookForm.value.releaseDate);
-      const formattedReleaseDate = releaseDate.toISOString().replace("Z", "+0000");
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const bookData: Book = {
         bookId: this.isEditMode ? this.bookService.getSelectedBook()!.bookId : 0,
-        ...this.bookForm.value,
-        releaseDate: formattedReleaseDate
-      };
+        ...this.bookForm.value, releaseDate: new Date(this.bookForm.value.releaseDate!)
+      } as Book;
 
       if (this.isEditMode) {
         this.bookService.updateBook(bookData).subscribe({

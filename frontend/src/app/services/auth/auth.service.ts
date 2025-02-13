@@ -27,7 +27,10 @@ export class AuthService {
     const userDetailsUrl = `${this.apiUrl}/api/user/profile/user-dto`;
   
     return this.http.post<{ id: number, isAdmin: boolean }>(url, {}, { withCredentials: true }).pipe(
-      tap((response) => this.isAdmin = response.isAdmin),
+      tap((response) => {
+        this.isAdmin = response.isAdmin;
+        localStorage.setItem('isAdmin', JSON.stringify(this.isAdmin));
+      }),
       switchMap(() => this.http.get<User>(userDetailsUrl, { withCredentials: true })),
       tap((user) => {
         this.userSubject.next(user);
@@ -63,5 +66,6 @@ export class AuthService {
     if (userData) {
       this.userSubject.next(JSON.parse(userData));
     }
+    this.isAdmin = localStorage.getItem('isAdmin') === 'true';
   }
 }
