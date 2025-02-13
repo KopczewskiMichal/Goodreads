@@ -8,11 +8,12 @@ import { ReviewComponent } from '../review/review.component';
 import { AddReviewComponent } from '../review/add-review/add-review.component';
 import { AuthService } from '../../../services/auth/auth.service';
 import { ReviewService } from '../../../services/review/review.service';
+import { DialogComponent } from '../../dialog/dialog.component';
 
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [BookComponent, ReviewComponent, AddReviewComponent],
+  imports: [BookComponent, ReviewComponent, AddReviewComponent, DialogComponent],
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss'
 })
@@ -24,6 +25,8 @@ export class DetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   public authService = inject(AuthService);
   private reviewService = inject(ReviewService);
+  public isDialogOpen: boolean = false;
+  public selectedReviewId: number | null = null;
 
   public ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id') as string;
@@ -74,6 +77,20 @@ export class DetailsComponent implements OnInit {
       });
     }
   }
+
+  public openDialog(reviewId: number): void {
+    this.selectedReviewId = reviewId;
+    this.isDialogOpen = true;
+  }
+
+  public handleConfirmDelete(confirmed: boolean): void {
+    this.isDialogOpen = false; 
+    if (confirmed && this.selectedReviewId !== null) {
+      this.deleteReview(this.selectedReviewId); 
+    }
+    this.selectedReviewId = null; 
+  }
+
 
   public deleteReview(id: number): void {
     if (!this.authService.isAdmin) {
