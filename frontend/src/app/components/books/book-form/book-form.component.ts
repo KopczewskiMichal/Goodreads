@@ -4,6 +4,8 @@ import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angula
 import { BookService } from './../../../services/book/book.service';
 import { Book } from './../../../services/models/book.model';
 import { DatePipe } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
+import { pastDateValidator } from '../../../validators/past-date.validator';
 
 @Component({
   selector: 'app-book-form',
@@ -35,12 +37,23 @@ export class BookFormComponent implements OnInit {
     const selectedBook = this.bookService.getSelectedBook();
     this.isEditMode = !!selectedBook;
 
+    this.initializeForm(selectedBook);
+  }
+
+  // eslint-disable-next-line complexity
+  private initializeForm(selectedBook: Book | null): void {
     this.bookForm = this.fb.group({
       isbn: [selectedBook?.isbn || this.defaultValues.isbn, Validators.required],
       title: [selectedBook?.title || this.defaultValues.title, Validators.required],
       author: [selectedBook?.author || this.defaultValues.author, Validators.required],
-      releaseDate: [this.datePipe.transform(selectedBook?.releaseDate || this.defaultValues.releaseDate, 'yyyy-MM-dd'), Validators.required],
-      description: [selectedBook?.description || this.defaultValues.description, Validators.required],
+      releaseDate: [
+        this.datePipe.transform(selectedBook?.releaseDate || this.defaultValues.releaseDate, 'yyyy-MM-dd'),
+        [Validators.required, pastDateValidator()]
+      ],
+      description: [
+        selectedBook?.description || this.defaultValues.description,
+        [Validators.maxLength(255)]
+      ],
       pucharseLink: [selectedBook?.pucharseLink || this.defaultValues.pucharseLink]
     });
   }
@@ -49,24 +62,24 @@ export class BookFormComponent implements OnInit {
     if (this.bookForm.valid) {
       const releaseDate = new Date(this.bookForm.value.releaseDate);
       const formattedReleaseDate = releaseDate.toISOString().replace("Z", "+0000");
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const bookData: Book = {
         bookId: this.isEditMode ? this.bookService.getSelectedBook()!.bookId : 0,
         ...this.bookForm.value,
         releaseDate: formattedReleaseDate
       };
-  
+
       if (this.isEditMode) {
         this.bookService.updateBook(bookData).subscribe({
-          next: () => console.log('Książka zaktualizowana pomyślnie'),
-          error: (err) => console.error('Błąd podczas aktualizacji książki:', err)
+          next: () => console.log('Book updated successfully'),
+          error: (err: HttpErrorResponse) => console.error('Error updating book:', err)
         });
       } else {
         this.bookService.addBook(bookData).subscribe({
-          next: () => console.log('Książka dodana pomyślnie'),
-          error: (err) => console.error('Błąd podczas dodawania książki:', err)
+          next: () => console.log('Book added successfully'),
+          error: (err: HttpErrorResponse) => console.error('Error adding book:', err)
         });
       }
     }
   }
-  
 }
