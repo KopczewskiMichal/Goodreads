@@ -4,6 +4,12 @@
     <h2>Description</h2>
     <p>{{book.description}}</p>
   }
+
+
+  @if (this.authService.isAdmin) {
+    <button (click)="goToEditBook()">Edit Book</button>
+    <!-- <button (click)="deleteBook(book.bookId)">Delete Book</button> -->
+  }
   
   @if(authService.isLoggedIn){
     <app-add-review (reviewAdded)="loadReviews(book.bookId)">{{book.bookId}}</app-add-review>

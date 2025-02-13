@@ -21,7 +21,7 @@ export class BookService {
     return this.http.get<Book>(this.apiUrl + "/books/public/get-as-dto/" + id);
   }
 
-  public setSelectedBook(book: Book): void {
+  public setSelectedBook(book: Book | null): void {
     this.selectedBook = book;
   }
 

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Book } from '../../../services/models/book.model';
 import { BookService } from '../../../services/book/book.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -38,6 +38,7 @@ export class DetailsComponent implements OnInit {
     this.bookService.getSingleBook(id).subscribe({
       next: (book: Book) => {
         this.book = book;
+        this.bookService.setSelectedBook(book);
         this.loadReviews(id);
       },
       error: () => this.router.navigate(['not-found'])
@@ -51,5 +52,13 @@ export class DetailsComponent implements OnInit {
       },
       error: () => this.router.navigate(['not-found'])
     });
+  }
+
+  public goToEditBook(): void {
+    if (!this.authService.isAdmin) {
+      this.router.navigate(['login']);
+    } else {
+      this.router.navigate(['book', 'form']);
+    }
   }
 }

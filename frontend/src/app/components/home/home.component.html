@@ -1,3 +1,7 @@
+@if (this.authService.isAdmin) {
+  <h2>Logged as Admin</h2>
+  <button (click)="goToAddBook()">Add Book</button>
+}
 <div class="book-list">
   @for (book of books; track book) {
     <app-book [book]="book" (click)="this.goToDetails(book)"></app-book>

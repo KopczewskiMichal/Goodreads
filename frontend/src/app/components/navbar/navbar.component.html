@@ -8,8 +8,4 @@
       <li> <button (click)="navigateToLogin()">Login</button></li>
     }
   </ul>
-  @if (this.authService.isAdmin) {
-    <h2>Logged as Admin</h2>
-    <button (click)="goToAddBook()">AddBook</button>
-  }
 </nav>
