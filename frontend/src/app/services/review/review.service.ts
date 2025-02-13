@@ -38,5 +38,8 @@ export class ReviewService {
     
     return forkJoin(reviewObservables);
   }
-  
+
+  public deleteReview(reviewId: number): Observable<string> {
+    return this.http.delete(`${this.apiUrl}/review/delete/${reviewId}`, { withCredentials: true});
+  }
 }

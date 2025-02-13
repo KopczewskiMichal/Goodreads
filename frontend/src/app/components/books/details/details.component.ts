@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Book } from '../../../services/models/book.model';
 import { BookService } from '../../../services/book/book.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -71,6 +71,19 @@ export class DetailsComponent implements OnInit {
           this.router.navigate(['home']);
         },
         error: () => this.router.navigate(['not-found'])
+      });
+    }
+  }
+
+  public deleteReview(id: number): void {
+    if (!this.authService.isAdmin) {
+      this.router.navigate(['login']);
+    } else {
+      this.reviewService.deleteReview(id).subscribe({
+        next: () => {
+          this.loadReviews(this.book!.bookId);
+        },
+        error: () => console.error("Review doesn't exitsts"),
       });
     }
   }

@@ -63,7 +63,11 @@ private final JwtUtil jwtUtil;
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteReviewApi(@PathVariable("id") long reviewId) {
+        try {
         reviewService.deleteReview(reviewId);
         return ResponseEntity.ok().body("Review deleted");
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
