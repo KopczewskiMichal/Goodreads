@@ -114,7 +114,6 @@ public class LoginApiController {
         cookie.setMaxAge(0);
 
         response.addCookie(cookie);
-//        response.sendRedirect("/");
         return ResponseEntity.ok("Logged out successfully");
     }
 

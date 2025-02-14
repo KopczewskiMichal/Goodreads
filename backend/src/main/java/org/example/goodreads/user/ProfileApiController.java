@@ -1,6 +1,8 @@
 package org.example.goodreads.user;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.example.goodreads.shelf.ShelfService;
 import org.example.util.JwtUtil;
@@ -32,6 +34,7 @@ public class ProfileApiController {
 
     @GetMapping("download-profile") // używane do wczytania backupu profilu
     public ResponseEntity<InputStreamResource> downloadProfile(HttpServletRequest request) {
+        try {
         long userId = jwtUtil.getUserIdFromRequest(request);
         byte[] contentBytes = userService.getSerializedUserData(userId).getBytes();
 
@@ -41,6 +44,9 @@ public class ProfileApiController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=myGoodreadsProfile.json")
                 .contentType(org.springframework.http.MediaType.TEXT_PLAIN)
                 .body(new InputStreamResource(byteArrayInputStream));
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping()
@@ -59,10 +65,17 @@ public class ProfileApiController {
     }
 
     @DeleteMapping()
-    public ResponseEntity<String> deleteProfile(HttpServletRequest request) {
+    public ResponseEntity<String> deleteProfile(HttpServletRequest request, HttpServletResponse response) {
         long userId = jwtUtil.getUserIdFromRequest(request);
         try {
             userService.deleteUser(userId);
+            Cookie cookie = new Cookie("JWT", null);
+            cookie.setHttpOnly(true);
+            cookie.setSecure(false);
+            cookie.setPath("/");
+            cookie.setMaxAge(0);
+
+            response.addCookie(cookie);
             return ResponseEntity.ok("Profile deleted successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
