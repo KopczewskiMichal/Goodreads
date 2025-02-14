@@ -16,8 +16,7 @@ import java.util.Optional;
 public class BookService {
     @Autowired
     private BookRepository bookRepository;
-
-    @Autowired
+    @Autowired  
     private ShelfRepository shelfRepository;
 
 
